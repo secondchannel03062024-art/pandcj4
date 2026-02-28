@@ -42,10 +42,10 @@ export default function Layout() {
   const totalCartItems = cartItems.reduce((sum, item) => sum + item.cartQuantity, 0);
 
   return (
-    <div ref={appRef} className="flex min-h-screen bg-white">
+    <div ref={appRef} className="min-h-screen bg-white">
       <Sidebar />
       
-      <div className="flex-1 flex flex-col w-full">
+      <div className="w-full">
         <Navbar
           onCartClick={() => setIsCartOpen(true)}
           onWishlistClick={() => navigate('/wishlist')}
@@ -53,7 +53,7 @@ export default function Layout() {
           wishlistCount={wishlist.length}
         />
         
-        <main className="flex-1">
+        <main>
           <Outlet />
         </main>
         

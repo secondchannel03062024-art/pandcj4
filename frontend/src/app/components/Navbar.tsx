@@ -140,16 +140,6 @@ export function Navbar({ onCartClick, onWishlistClick, cartCount, wishlistCount 
             My Profile
           </Link>
 
-          <SignedOut>
-            <Link 
-              to="/sign-in" 
-              className="block py-2 font-semibold hover:opacity-70 transition-opacity text-primary border-t pt-4"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Sign In / Sign Up
-            </Link>
-          </SignedOut>
-          
           <div className="border-t pt-4">
             <p className="text-sm font-bold opacity-70 mb-3">Categories</p>
             {CATEGORIES.map((category) => (

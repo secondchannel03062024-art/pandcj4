@@ -23,6 +23,8 @@ export function Sidebar() {
         pointerEvents: 'auto',
         duration: 0.3
       });
+      // Prevent body scroll
+      document.body.style.overflow = 'hidden';
     } else {
       // Animate sidebar closing
       gsap.to(sidebarRef.current, {
@@ -35,7 +37,13 @@ export function Sidebar() {
         pointerEvents: 'none',
         duration: 0.3
       });
+      // Re-enable body scroll
+      document.body.style.overflow = 'unset';
     }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [isOpen]);
 
   const handleCloseSidebar = () => {
@@ -43,7 +51,7 @@ export function Sidebar() {
   };
 
   const menuItems = [
-    { icon: <Plus size={20} />, label: 'New Chat', href: '/' },
+    { icon: <Plus size={20} />, label: 'Home', href: '/' },
     { icon: <MessageSquare size={20} />, label: 'Browse Fabrics', href: '/shop' },
     { icon: <MessageSquare size={20} />, label: 'My Orders', href: '/orders' },
     { icon: <MessageSquare size={20} />, label: 'Wishlist', href: '/wishlist' },
@@ -52,10 +60,10 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Toggle Button - Fixed position in top left */}
+      {/* Toggle Button - Fixed position in top left, stays above sidebar */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-4 left-4 z-40 p-2 hover:bg-gray-100 rounded-lg transition-colors md:hidden"
+        className="fixed top-5 left-4 z-40 p-2 hover:bg-gray-100 rounded-lg transition-colors"
         aria-label="Toggle sidebar"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -65,16 +73,16 @@ export function Sidebar() {
       <div
         ref={overlayRef}
         onClick={handleCloseSidebar}
-        className="fixed inset-0 bg-black/50 z-30 opacity-0 pointer-events-none md:hidden"
+        className="fixed inset-0 bg-black/50 z-30 opacity-0 pointer-events-none"
       />
 
-      {/* Sidebar */}
+      {/* Sidebar - Slides in from left */}
       <div
         ref={sidebarRef}
-        className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 z-35 flex flex-col transform -translate-x-full md:translate-x-0 md:w-64 md:relative md:z-0"
+        className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 z-35 flex flex-col transform -translate-x-full overflow-y-auto"
       >
         {/* Header */}
-        <div className="p-4 border-b border-gray-200">
+        <div className="p-4 border-b border-gray-200 pt-16">
           <h1 className="text-xl font-bold text-center">Auraclothings</h1>
         </div>
 
@@ -118,15 +126,6 @@ export function Sidebar() {
           </button>
         </div>
       </div>
-
-      {/* Content Wrapper - shifts when sidebar is open on desktop */}
-      <style>{`
-        @media (min-width: 768px) {
-          body {
-            display: flex;
-          }
-        }
-      `}</style>
     </>
   );
 }
