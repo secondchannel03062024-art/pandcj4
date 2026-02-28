@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: fabric-store
+    env: node
+    plan: starter
+    buildCommand: pnpm install && pnpm build
+    startCommand: pnpm start
+    
+    # Environment variables - set these in the Render dashboard
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+    
+    # Auto-deploy when main branch is updated
+    autoDeploy: true
+    
+    # Health check
+    healthCheckPath: /api/health
+    
+    # Build configuration
+    buildCache: enabled
