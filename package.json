@@ -4,12 +4,12 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "pnpm --filter=frontend build && pnpm --filter=backend build",
-    "dev:frontend": "pnpm --filter=frontend dev",
-    "dev:backend": "pnpm --filter=backend dev",
+    "build": "cd frontend && pnpm install && pnpm build && cd ../backend && pnpm install",
+    "dev:frontend": "cd frontend && pnpm dev",
+    "dev:backend": "cd backend && pnpm dev",
     "dev": "pnpm -r dev",
-    "start": "pnpm --filter=backend start",
-    "seed": "pnpm --filter=backend seed"
+    "start": "cd backend && pnpm start",
+    "seed": "cd backend && pnpm seed"
   },
   "dependencies": {},
   "devDependencies": {},

@@ -3,10 +3,11 @@ services:
     name: fabric-store
     runtime: node
     plan: starter
+    rootDir: .
     buildCommand: pnpm install && pnpm build
     startCommand: pnpm start
     
-    # Environment variables - set these in the Render dashboard
+    # Environment variables
     envVars:
       - key: NODE_ENV
         value: production
