@@ -1,6 +1,7 @@
 import { Outlet, useNavigate } from 'react-router';
 import { useState, useEffect, useRef } from 'react';
 import { Navbar } from './components/Navbar';
+import { Sidebar } from './components/Sidebar';
 import { Footer } from './components/Footer';
 import { ShoppingCart } from './components/ShoppingCart';
 import { useApp } from './context/AppContext';
@@ -41,19 +42,23 @@ export default function Layout() {
   const totalCartItems = cartItems.reduce((sum, item) => sum + item.cartQuantity, 0);
 
   return (
-    <div ref={appRef} className="min-h-screen bg-white">
-      <Navbar
-        onCartClick={() => setIsCartOpen(true)}
-        onWishlistClick={() => navigate('/wishlist')}
-        cartCount={totalCartItems}
-        wishlistCount={wishlist.length}
-      />
+    <div ref={appRef} className="flex min-h-screen bg-white">
+      <Sidebar />
       
-      <main>
-        <Outlet />
-      </main>
-      
-      <Footer />
+      <div className="flex-1 flex flex-col w-full">
+        <Navbar
+          onCartClick={() => setIsCartOpen(true)}
+          onWishlistClick={() => navigate('/wishlist')}
+          cartCount={totalCartItems}
+          wishlistCount={wishlist.length}
+        />
+        
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        
+        <Footer />
+      </div>
       
       <ShoppingCart
         isOpen={isCartOpen}

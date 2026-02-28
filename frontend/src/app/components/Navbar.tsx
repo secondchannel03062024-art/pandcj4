@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, ChevronRight, User } from 'lucide-react';
+import { Menu, X, ChevronRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { gsap } from 'gsap';
 import { CATEGORIES } from '../types';
-import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
 
 interface NavbarProps {
   onCartClick: () => void;
@@ -76,7 +75,7 @@ export function Navbar({ onCartClick, onWishlistClick, cartCount, wishlistCount 
           
           {/* Center: Logo */}
           <Link to="/" className="absolute left-1/2 -translate-x-1/2 text-lg md:text-xl lg:text-2xl font-extrabold whitespace-nowrap" style={{ fontFamily: "'Century Gothic', 'CenturyGothic', 'Apple Gothic', sans-serif" }}>
-            FABRIC STORE
+            AURACLOTHINGS
           </Link>
 
           {/* Right: Icons (Wishlist & Cart & Auth) */}
@@ -110,25 +109,6 @@ export function Navbar({ onCartClick, onWishlistClick, cartCount, wishlistCount 
                 </span>
               )}
             </button>
-
-            <div className="ml-1 border-l pl-3 md:pl-4 border-[rgba(0,0,0,0.1)] h-6 flex items-center">
-              <SignedOut>
-                <Link to="/sign-in" className="hover:opacity-70 transition-opacity flex items-center" aria-label="Sign In">
-                  <User size={22} className="text-gray-700" />
-                  <span className="hidden md:ml-2 md:inline text-sm font-semibold tracking-tight">Login</span>
-                </Link>
-              </SignedOut>
-              <SignedIn>
-                <UserButton 
-                  afterSignOutUrl="/" 
-                  appearance={{
-                    elements: {
-                      avatarBox: "w-8 h-8 md:w-9 md:h-9"
-                    }
-                  }}
-                />
-              </SignedIn>
-            </div>
           </div>
         </div>
       </div>
