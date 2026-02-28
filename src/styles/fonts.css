@@ -1,0 +1,31 @@
+/* Century Gothic and Helvetica Font Setup */
+
+/* Century Gothic is typically a system font, but we'll include a web-safe fallback stack */
+@font-face {
+  font-family: 'Century Gothic';
+  src: local('Century Gothic'), local('CenturyGothic');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Century Gothic';
+  src: local('Century Gothic Bold'), local('CenturyGothic-Bold');
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Helvetica is also typically a system font */
+@font-face {
+  font-family: 'Helvetica';
+  src: local('Helvetica Neue'), local('Helvetica');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Helvetica';
+  src: local('Helvetica Neue Bold'), local('Helvetica-Bold');
+  font-weight: bold;
+  font-style: normal;
+}
