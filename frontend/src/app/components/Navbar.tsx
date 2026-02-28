@@ -109,6 +109,12 @@ export function Navbar({ onCartClick, onWishlistClick, cartCount, wishlistCount 
                 </span>
               )}
             </button>
+
+            <div className="hidden md:flex ml-1 border-l pl-3 md:pl-4 border-[rgba(0,0,0,0.1)] h-6">
+              <Link to="/sign-in" className="hover:opacity-70 transition-opacity flex items-center" aria-label="Sign In">
+                <span className="text-sm font-semibold tracking-tight">Login</span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -177,6 +183,14 @@ export function Navbar({ onCartClick, onWishlistClick, cartCount, wishlistCount 
               </div>
             ))}
           </div>
+
+          <Link 
+            to="/sign-in" 
+            className="block py-3 mt-4 font-semibold hover:opacity-70 transition-opacity border-t pt-4 text-center bg-black text-white rounded-lg"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Sign In / Sign Up
+          </Link>
         </div>
       )}
     </>

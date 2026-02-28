@@ -116,14 +116,27 @@ export function Sidebar() {
 
         {/* Footer */}
         <div className="border-t border-gray-200 p-3 space-y-1">
-          <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+          <Link
+            to="/"
+            onClick={handleCloseSidebar}
+            className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+          >
             <Settings size={18} />
             <span className="text-sm font-medium">Settings</span>
-          </button>
+          </Link>
           <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
             <LogOut size={18} />
             <span className="text-sm font-medium">Logout</span>
           </button>
+          <div className="border-t pt-2 mt-2">
+            <Link
+              to="/sign-in"
+              onClick={handleCloseSidebar}
+              className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors font-medium text-sm"
+            >
+              Sign In / Sign Up
+            </Link>
+          </div>
         </div>
       </div>
     </>
