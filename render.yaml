@@ -1,7 +1,7 @@
 services:
   - type: web
     name: fabric-store
-    env: node
+    runtime: node
     plan: starter
     buildCommand: pnpm install && pnpm build
     startCommand: pnpm start
@@ -18,6 +18,3 @@ services:
     
     # Health check
     healthCheckPath: /api/health
-    
-    # Build configuration
-    buildCache: enabled
