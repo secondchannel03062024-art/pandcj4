@@ -1,7 +1,19 @@
 import { SignUp } from "@clerk/clerk-react";
-import { Link } from "react-router";
+import { useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router";
 
 export default function SignUpPage() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  // Handle redirect after successful authentication
+  useEffect(() => {
+    const redirectUrl = searchParams.get("redirect_url");
+    if (redirectUrl) {
+      navigate(redirectUrl);
+    }
+  }, [searchParams, navigate]);
+
   const clerkAppearance = {
     baseTheme: undefined,
     variables: {
@@ -68,24 +80,16 @@ export default function SignUpPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4 py-8">
       <div className="max-w-md w-full">
-        
-        {/* Clerk SignUp Component */}
         <SignUp 
           appearance={clerkAppearance}
           routing="path"
           path="/sign-up"
           signInUrl="/sign-in"
+          forceRedirectUrl="/"
+          fallbackRedirectUrl="/"
+          afterSignUpUrl="/"
+          afterSignInUrl="/"
         />
-        
-        {/* Custom Footer */}
-        <div className="text-center mt-8">
-          <p className="text-sm text-gray-600">
-            Already have an account?{' '}
-            <Link to="/sign-in" className="text-[#030213] font-bold hover:underline">
-              Sign in
-            </Link>
-          </p>
-        </div>
       </div>
     </div>
   );

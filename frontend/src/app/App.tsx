@@ -12,7 +12,13 @@ if (!PUBLISHABLE_KEY) {
 
 export default function App() {
   return (
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY || ""}>
+    <ClerkProvider 
+      publishableKey={PUBLISHABLE_KEY || ""}
+      afterSignInUrl="/"
+      afterSignUpUrl="/"
+      signInFallbackRedirectUrl="/"
+      signUpFallbackRedirectUrl="/"
+    >
       <AppProvider>
         <RouterProvider router={router} />
       </AppProvider>
