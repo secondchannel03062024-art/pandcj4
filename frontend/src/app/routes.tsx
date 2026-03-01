@@ -52,6 +52,7 @@ export const router = createBrowserRouter([
           { path: "order/:orderId", Component: OrderDetailPage },
           { path: "profile", Component: ProfilePage },
           { path: "sign-in", Component: SignInPage },
+          { path: "sign-in/sso-callback", Component: SignInPage },
           { path: "sign-up", Component: SignUpPage },
           { path: "faq", Component: FAQPage },
           { path: "contact", Component: ContactPage },
