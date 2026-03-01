@@ -15,60 +15,60 @@ export function Footer() {
   };
 
   return (
-    <footer className="w-full bg-[#0a0a0a] text-white mt-20">
+    <footer className="w-full bg-[#0a0a0a] text-white mt-20 overflow-x-hidden">
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-[60px] py-16 md:py-24">
+      <div className="w-full px-4 md:px-8 lg:px-[60px] py-16 md:py-24">
         {/* Newsletter Section */}
-        <div className="mb-16 pb-16 border-b border-white/10">
-          <div className="max-w-2xl">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">
+        <div className="mb-16 pb-16 border-b border-white/10 flex justify-center">
+          <div className="w-full max-w-2xl text-center">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight mb-3">
               Subscribe to Our Newsletter
             </h2>
-            <p className="text-lg text-gray-300 mb-8">
+            <p className="text-sm md:text-base lg:text-lg text-gray-300 mb-8">
               Get exclusive updates on new fabric collections, special offers, and premium design inspiration delivered to your inbox.
             </p>
-            <form onSubmit={handleSubmit} className="flex gap-3">
+            <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-2 md:gap-3 justify-center">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email address"
-                className="flex-1 px-6 py-4 rounded-lg border-2 border-white/20 bg-white/5 text-base text-white placeholder:text-white/50 focus:outline-none focus:border-white/50 transition-colors"
+                className="flex-1 px-4 md:px-6 py-3 md:py-4 rounded-lg border-2 border-white/20 bg-white/5 text-sm md:text-base text-white placeholder:text-white/50 focus:outline-none focus:border-white/50 transition-colors"
                 required
               />
               <button
                 type="submit"
-                className="bg-white text-black px-8 py-4 rounded-lg text-base font-bold hover:bg-gray-200 transition-colors whitespace-nowrap"
+                className="bg-white text-black px-6 md:px-8 py-3 md:py-4 rounded-lg text-sm md:text-base font-bold hover:bg-gray-200 transition-colors whitespace-nowrap"
               >
                 Subscribe
               </button>
             </form>
             {subscribed && (
-              <p className="text-green-400 text-sm mt-3">✓ Thank you for subscribing!</p>
+              <p className="text-green-400 text-xs md:text-sm mt-3">✓ Thank you for subscribing!</p>
             )}
           </div>
         </div>
 
         {/* Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mb-16">
           {/* About */}
           <div>
-            <h3 className="text-lg font-bold tracking-wide mb-6">FABRIC STORE</h3>
-            <p className="text-gray-400 text-base leading-relaxed mb-6">
+            <h3 className="text-lg font-bold tracking-wide mb-6">AURACLOTHINGS</h3>
+            <p className="text-gray-400 text-sm md:text-base leading-relaxed mb-6">
               Premium quality fabrics for your most creative projects. From dyeable silks to embroidered collections.
             </p>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <MapPin size={20} className="text-gray-500 flex-shrink-0" />
-                <span className="text-gray-300 text-base">P&C Texfab, India</span>
+                <span className="text-gray-300 text-sm md:text-base">India</span>
               </div>
               <div className="flex items-center gap-3">
                 <Phone size={20} className="text-gray-500 flex-shrink-0" />
-                <span className="text-gray-300 text-base">+91 (555) 123-4567</span>
+                <span className="text-gray-300 text-sm md:text-base">+91 (555) 123-4567</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail size={20} className="text-gray-500 flex-shrink-0" />
-                <span className="text-gray-300 text-base">support@fabricstore.com</span>
+                <span className="text-gray-300 text-sm md:text-base">support@fabricstore.com</span>
               </div>
             </div>
           </div>
@@ -77,12 +77,11 @@ export function Footer() {
           <div>
             <h4 className="text-base font-bold tracking-wider mb-6 uppercase">Shop</h4>
             <ul className="space-y-3">
-              <li><a href="#shop" className="text-gray-400 text-base hover:text-white transition-colors">All Fabrics</a></li>
-              <li><a href="#dyeable" className="text-gray-400 text-base hover:text-white transition-colors">Dyeable Fabrics</a></li>
-              <li><a href="#printed" className="text-gray-400 text-base hover:text-white transition-colors">Printed Fabrics</a></li>
-              <li><a href="#embroidered" className="text-gray-400 text-base hover:text-white transition-colors">Embroidered Collections</a></li>
-              <li><a href="#lining" className="text-gray-400 text-base hover:text-white transition-colors">Lining Fabrics</a></li>
-              <li><a href="#new" className="text-gray-400 text-base hover:text-white transition-colors">New Arrivals</a></li>
+              <li><a href="/shop" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">All Fabrics</a></li>
+              <li><a href="/shop/dyeable-fabrics" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">Dyeable Fabrics</a></li>
+              <li><a href="/shop/printed-fabrics" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">Printed Fabrics</a></li>
+              <li><a href="/shop/embroidered-fabrics" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">Embroidered Collections</a></li>
+              <li><a href="/shop/lining-fabrics" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">Lining Fabrics</a></li>
             </ul>
           </div>
 
@@ -90,12 +89,10 @@ export function Footer() {
           <div>
             <h4 className="text-base font-bold tracking-wider mb-6 uppercase">Support</h4>
             <ul className="space-y-3">
-              <li><a href="#faq" className="text-gray-400 text-base hover:text-white transition-colors">FAQ</a></li>
-              <li><a href="#track" className="text-gray-400 text-base hover:text-white transition-colors">Track Orders</a></li>
-              <li><a href="#shipping" className="text-gray-400 text-base hover:text-white transition-colors">Shipping Info</a></li>
-              <li><a href="#returns" className="text-gray-400 text-base hover:text-white transition-colors">Returns & Exchanges</a></li>
-              <li><a href="#contact" className="text-gray-400 text-base hover:text-white transition-colors">Contact Us</a></li>
-              <li><a href="#blog" className="text-gray-400 text-base hover:text-white transition-colors">Blog</a></li>
+              <li><a href="/faq" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">FAQ</a></li>
+              <li><a href="/shipping" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">Shipping Info</a></li>
+              <li><a href="/returns" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">Returns & Exchanges</a></li>
+              <li><a href="/contact" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">Contact Us</a></li>
             </ul>
           </div>
 
@@ -103,11 +100,11 @@ export function Footer() {
           <div>
             <h4 className="text-base font-bold tracking-wider mb-6 uppercase">Legal</h4>
             <ul className="space-y-3">
-              <li><a href="#terms" className="text-gray-400 text-base hover:text-white transition-colors">Terms of Service</a></li>
-              <li><a href="#privacy" className="text-gray-400 text-base hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#cookies" className="text-gray-400 text-base hover:text-white transition-colors">Cookie Settings</a></li>
-              <li><a href="#sitemap" className="text-gray-400 text-base hover:text-white transition-colors">Sitemap</a></li>
-              <li><a href="#about" className="text-gray-400 text-base hover:text-white transition-colors">About Us</a></li>
+              <li><a href="/terms" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">Terms of Service</a></li>
+              <li><a href="/privacy" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">Privacy Policy</a></li>
+              <li><a href="/cookies" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">Cookie Settings</a></li>
+              <li><a href="/sitemap" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">Sitemap</a></li>
+              <li><a href="/about" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">About Us</a></li>
             </ul>
           </div>
         </div>
@@ -131,15 +128,15 @@ export function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-white/10 bg-black/50">
-        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-[60px] py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-400 text-base">
-            © 2024 P&C Texfab. All rights reserved.
+        <div className="w-full px-4 md:px-8 lg:px-[60px] py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-gray-400 text-sm md:text-base">
+            © 2024 AuraClothings. All rights reserved.
           </p>
           <div className="flex gap-6">
-            <a href="#security" className="text-gray-400 text-base hover:text-white transition-colors">
+            <a href="#security" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">
               Security
             </a>
-            <a href="#accessibility" className="text-gray-400 text-base hover:text-white transition-colors">
+            <a href="#accessibility" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">
               Accessibility
             </a>
           </div>

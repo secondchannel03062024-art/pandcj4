@@ -20,6 +20,15 @@ import BannersPage from "./pages/admin/BannersPage";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import FAQPage from "./pages/FAQPage";
+import ContactPage from "./pages/ContactPage";
+import AboutPage from "./pages/AboutPage";
+import ShippingInfoPage from "./pages/ShippingInfoPage";
+import ReturnsPage from "./pages/ReturnsPage";
+import TermsPage from "./pages/TermsPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import SitemapPage from "./pages/SitemapPage";
+import CookieSettingsPage from "./pages/CookieSettingsPage";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +53,15 @@ export const router = createBrowserRouter([
           { path: "profile", Component: ProfilePage },
           { path: "sign-in", Component: SignInPage },
           { path: "sign-up", Component: SignUpPage },
+          { path: "faq", Component: FAQPage },
+          { path: "contact", Component: ContactPage },
+          { path: "about", Component: AboutPage },
+          { path: "shipping", Component: ShippingInfoPage },
+          { path: "returns", Component: ReturnsPage },
+          { path: "terms", Component: TermsPage },
+          { path: "privacy", Component: PrivacyPage },
+          { path: "sitemap", Component: SitemapPage },
+          { path: "cookies", Component: CookieSettingsPage },
           {
             path: "admin",
             Component: AdminDashboard,

@@ -1,43 +1,94 @@
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, Plus, MessageSquare, Settings, LogOut } from 'lucide-react';
+import { X, ChevronDown, Home, ShoppingBag, ShoppingCart, Heart, User, Mail, Phone, MapPin, Search } from 'lucide-react';
 import { gsap } from 'gsap';
 import { Link } from 'react-router';
 
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
-  const sidebarRef = useRef<HTMLDivElement>(null);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Initialize modal position on mount
+  useEffect(() => {
+    if (modalRef.current && overlayRef.current) {
+      gsap.set(modalRef.current, { opacity: 0, scale: 0.9, y: '-50%', x: '-50%' });
+      gsap.set(overlayRef.current, { opacity: 0, pointerEvents: 'none' });
+    }
+  }, []);
 
   useEffect(() => {
-    if (!sidebarRef.current || !overlayRef.current) return;
+    if (!modalRef.current || !overlayRef.current) return;
 
     if (isOpen) {
-      // Animate sidebar opening
-      gsap.to(sidebarRef.current, {
-        x: 0,
-        duration: 0.3,
-        ease: 'power2.out'
-      });
+      // Animate backdrop fade in
       gsap.to(overlayRef.current, {
         opacity: 1,
         pointerEvents: 'auto',
-        duration: 0.3
+        duration: 0.3,
+        ease: 'power2.out'
       });
-      // Prevent body scroll
+      
+      // Animate modal scale and fade in from center
+      gsap.to(modalRef.current, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.3,
+        ease: 'back.out(1.7)'
+      });
+
+      // Blur the main content wrapper
+      const mainContent = document.querySelector('#root');
+      if (mainContent && mainContent !== modalRef.current) {
+        gsap.to(mainContent, {
+          filter: 'blur(6px)',
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+      }
+
+      // Animate menu items in sequence
+      if (contentRef.current) {
+        const items = Array.from(contentRef.current.querySelectorAll('.menu-item')) as Element[];
+        gsap.from(items, {
+          opacity: 0,
+          y: 10,
+          duration: 0.3,
+          stagger: 0.05,
+          ease: 'power2.out',
+          delay: 0.15
+        });
+      }
+
       document.body.style.overflow = 'hidden';
     } else {
-      // Animate sidebar closing
-      gsap.to(sidebarRef.current, {
-        x: '-100%',
+      // Animate modal scale and fade out
+      gsap.to(modalRef.current, {
+        opacity: 0,
+        scale: 0.9,
         duration: 0.3,
         ease: 'power2.in'
       });
+
+      // Remove blur from main content
+      const mainContent = document.querySelector('#root');
+      if (mainContent && mainContent !== modalRef.current) {
+        gsap.to(mainContent, {
+          filter: 'blur(0px)',
+          duration: 0.3,
+          ease: 'power2.in'
+        });
+      }
+
+      // Animate backdrop fade out
       gsap.to(overlayRef.current, {
         opacity: 0,
         pointerEvents: 'none',
-        duration: 0.3
+        duration: 0.2,
+        ease: 'power2.in'
       });
-      // Re-enable body scroll
+
       document.body.style.overflow = 'unset';
     }
 
@@ -50,93 +101,201 @@ export function Sidebar() {
     setIsOpen(false);
   };
 
-  const menuItems = [
-    { icon: <Plus size={20} />, label: 'Home', href: '/' },
-    { icon: <MessageSquare size={20} />, label: 'Browse Fabrics', href: '/shop' },
-    { icon: <MessageSquare size={20} />, label: 'My Orders', href: '/orders' },
-    { icon: <MessageSquare size={20} />, label: 'Wishlist', href: '/wishlist' },
-    { icon: <MessageSquare size={20} />, label: 'Profile', href: '/profile' },
+  const toggleCategory = (categoryId: string) => {
+    setExpandedCategory(expandedCategory === categoryId ? null : categoryId);
+  };
+
+  const categories = [
+    {
+      id: 'dyeable',
+      name: 'Dyeable Fabrics',
+      href: '/shop/dyeable-fabrics',
+      subCategories: [
+        { name: 'Silk', href: '/shop/dyeable-fabrics#silk' },
+        { name: 'Linen', href: '/shop/dyeable-fabrics#linen' },
+        { name: 'Cotton', href: '/shop/dyeable-fabrics#cotton' },
+        { name: 'Viscose', href: '/shop/dyeable-fabrics#viscose' },
+        { name: 'Modal', href: '/shop/dyeable-fabrics#modal' }
+      ]
+    },
+    {
+      id: 'printed',
+      name: 'Printed Fabrics',
+      href: '/shop/printed-fabrics'
+    },
+    {
+      id: 'embroidered',
+      name: 'Embroidered Collections',
+      href: '/shop/embroidered-fabrics'
+    },
+    {
+      id: 'lining',
+      name: 'Lining Fabrics',
+      href: '/shop/lining-fabrics'
+    }
+  ];
+
+  const quickLinks = [
+    { icon: Home, label: 'Home', href: '/' },
+    { icon: ShoppingBag, label: 'Shop All', href: '/shop' },
+    { icon: ShoppingCart, label: 'Cart', href: '/cart' },
+    { icon: Heart, label: 'Wishlist', href: '/wishlist' },
+    { icon: User, label: 'Profile', href: '/profile' },
   ];
 
   return (
     <>
-      {/* Toggle Button - Fixed position in top left, stays above sidebar */}
+      {/* Toggle Button - Hidden, use keyboard shortcut or click elsewhere */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-5 left-4 z-40 p-2 hover:bg-gray-100 rounded-lg transition-colors"
-        aria-label="Toggle sidebar"
+        className="fixed top-6 left-4 z-50 p-2 hover:bg-gray-100 rounded-lg transition-colors duration-300 hidden md:block"
+        aria-label="Toggle menu"
       >
-        {isOpen ? <X size={24} /> : <Menu size={24} />}
+        <Search size={28} className="text-black" />
       </button>
 
-      {/* Overlay */}
+      {/* Keyboard shortcut for mobile */}
+      <div className="md:hidden fixed top-6 left-4 z-50">
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+        >
+          <Search size={24} className="text-black" />
+        </button>
+      </div>
+
+      {/* Dark Overlay Backdrop */}
       <div
         ref={overlayRef}
         onClick={handleCloseSidebar}
-        className="fixed inset-0 bg-black/50 z-30 opacity-0 pointer-events-none"
+        className="fixed inset-0 bg-black/50 z-40 backdrop-blur-sm"
       />
 
-      {/* Sidebar - Slides in from left */}
+      {/* Centered Modal */}
       <div
-        ref={sidebarRef}
-        className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 z-35 flex flex-col transform -translate-x-full overflow-y-auto"
+        ref={modalRef}
+        className="fixed top-1/2 left-1/2 z-50 w-full max-w-2xl max-h-[80vh] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col"
+        style={{ transform: 'translate(-50%, -50%)' }}
       >
-        {/* Header */}
-        <div className="p-4 border-b border-gray-200 pt-16">
-          <h1 className="text-xl font-bold text-center">Auraclothings</h1>
-        </div>
-
-        {/* New Chat Button */}
-        <div className="p-4">
-          <Link
-            to="/"
-            onClick={handleCloseSidebar}
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors"
-          >
-            <Plus size={18} />
-            <span className="text-sm font-medium">New</span>
-          </Link>
-        </div>
-
-        {/* Menu Items */}
-        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-          <p className="px-3 py-2 text-xs text-gray-500 uppercase font-semibold tracking-wider">Menu</p>
-          {menuItems.map((item, index) => (
-            <Link
-              key={index}
-              to={item.href}
+        {/* Header with Search */}
+        <div className="sticky top-0 bg-gradient-to-r from-magenta-50 to-golden-50 px-6 py-6 border-b border-gray-100">
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-2xl font-black tracking-tight">AURACLOTHINGS</h1>
+            <button
               onClick={handleCloseSidebar}
-              className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+              className="p-1 hover:bg-gray-200 rounded-lg transition-colors"
             >
-              <span className="text-gray-600">{item.icon}</span>
-              <span className="text-sm font-medium truncate">{item.label}</span>
-            </Link>
-          ))}
-        </nav>
+              <X size={24} />
+            </button>
+          </div>
+          <div className="relative">
+            <Search size={18} className="absolute left-3 top-3 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search products, categories..."
+              className="w-full pl-10 pr-4 py-2 bg-white/50 border border-gray-200 rounded-lg focus:outline-none focus:border-magenta-600 focus:ring-1 focus:ring-magenta-600 text-sm"
+            />
+          </div>
+        </div>
+
+        {/* Content */}
+        <div ref={contentRef} className="flex-1 overflow-y-auto">
+          {/* Quick Navigation */}
+          <nav className="px-6 py-6 border-b border-gray-100">
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Quick Links</p>
+            <div className="space-y-2">
+              {quickLinks.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={index}
+                    to={item.href}
+                    onClick={handleCloseSidebar}
+                    className="menu-item flex items-center gap-3 px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                  >
+                    <Icon size={18} className="text-magenta-600 flex-shrink-0" />
+                    <span className="text-sm font-medium">{item.label}</span>
+                  </Link>
+                );
+              })}
+            </div>
+          </nav>
+
+          {/* Shop Categories */}
+          <nav className="px-6 py-6 border-b border-gray-100">
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Shop by Category</p>
+            <div className="space-y-2">
+              {categories.map((category) => (
+                <div key={category.id} className="menu-item">
+                  <button
+                    onClick={() => toggleCategory(category.id)}
+                    className="w-full flex items-center justify-between px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                  >
+                    <Link
+                      to={category.href}
+                      onClick={handleCloseSidebar}
+                      className="flex-1 text-left text-sm font-medium"
+                    >
+                      {category.name}
+                    </Link>
+                    {category.subCategories && (
+                      <ChevronDown
+                        size={16}
+                        className={`text-gray-400 transition-transform ${
+                          expandedCategory === category.id ? 'rotate-180' : ''
+                        }`}
+                      />
+                    )}
+                  </button>
+                  
+                  {/* Subcategories */}
+                  {expandedCategory === category.id && category.subCategories && (
+                    <div className="pl-4 mt-2 space-y-1 border-l border-gray-200">
+                      {category.subCategories.map((sub, i) => (
+                        <Link
+                          key={i}
+                          to={sub.href}
+                          onClick={handleCloseSidebar}
+                          className="menu-item block px-4 py-1.5 text-xs text-gray-600 hover:text-magenta-600 hover:bg-gray-50 rounded transition-colors"
+                        >
+                          {sub.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </nav>
+
+          {/* Support Links */}
+          <nav className="px-6 py-6">
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Support</p>
+            <div className="space-y-1">
+              <Link to="/faq" onClick={handleCloseSidebar} className="menu-item block px-4 py-1.5 text-xs text-gray-700 hover:text-magenta-600 rounded transition-colors">FAQ</Link>
+              <Link to="/shipping" onClick={handleCloseSidebar} className="menu-item block px-4 py-1.5 text-xs text-gray-700 hover:text-magenta-600 rounded transition-colors">Shipping Info</Link>
+              <Link to="/returns" onClick={handleCloseSidebar} className="menu-item block px-4 py-1.5 text-xs text-gray-700 hover:text-magenta-600 rounded transition-colors">Returns & Exchanges</Link>
+              <Link to="/contact" onClick={handleCloseSidebar} className="menu-item block px-4 py-1.5 text-xs text-gray-700 hover:text-magenta-600 rounded transition-colors">Contact Us</Link>
+            </div>
+          </nav>
+        </div>
 
         {/* Footer */}
-        <div className="border-t border-gray-200 p-3 space-y-1">
+        <div className="border-t border-gray-100 px-6 py-4 space-y-3 bg-gray-50">
           <Link
-            to="/"
+            to="/sign-in"
             onClick={handleCloseSidebar}
-            className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+            className="w-full flex items-center justify-center px-4 py-2 rounded-lg bg-magenta-600 text-white hover:bg-magenta-700 transition-colors font-medium text-sm"
           >
-            <Settings size={18} />
-            <span className="text-sm font-medium">Settings</span>
+            Sign In
           </Link>
-          <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
-            <LogOut size={18} />
-            <span className="text-sm font-medium">Logout</span>
-          </button>
-          <div className="border-t pt-2 mt-2">
-            <Link
-              to="/sign-in"
-              onClick={handleCloseSidebar}
-              className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-800 transition-colors font-medium text-sm"
-            >
-              Sign In / Sign Up
-            </Link>
-          </div>
+          <Link
+            to="/sign-up"
+            onClick={handleCloseSidebar}
+            className="w-full flex items-center justify-center px-4 py-2 rounded-lg border border-magenta-600 text-magenta-600 hover:bg-magenta-50 transition-colors font-medium text-sm"
+          >
+            Sign Up
+          </Link>
         </div>
       </div>
     </>

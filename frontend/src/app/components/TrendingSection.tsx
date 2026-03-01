@@ -44,7 +44,7 @@ export function TrendingSection({ onAddToCart, wishlist, onToggleWishlist }: Tre
 
       // Grid animation on scroll
       if (gridRef.current) {
-        const cards = gridRef.current.children;
+        const cards = Array.from(gridRef.current.children) as Element[];
         gsap.from(cards, {
           scrollTrigger: {
             trigger: gridRef.current,
@@ -67,7 +67,8 @@ export function TrendingSection({ onAddToCart, wishlist, onToggleWishlist }: Tre
   useEffect(() => {
     // Animate products when category changes
     if (gridRef.current) {
-      gsap.fromTo(gridRef.current.children,
+      const cards = Array.from(gridRef.current.children) as Element[];
+      gsap.fromTo(cards,
         { opacity: 0, scale: 0.9, y: 30 },
         { opacity: 1, scale: 1, y: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out' }
       );

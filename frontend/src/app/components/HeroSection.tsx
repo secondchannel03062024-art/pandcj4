@@ -103,45 +103,47 @@ export function HeroSection() {
   ];
 
   return (
-    <div ref={heroRef} className="w-full px-4 md:px-8 lg:px-[60px] py-8 md:py-12">
+    <div ref={heroRef} className="w-full py-8 md:py-12">
       {/* Main Hero */}
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr,1fr] gap-4 mb-4">
-        <div ref={mainHeroRef} className="relative h-[500px] md:h-[600px] lg:h-[770px] rounded-3xl overflow-hidden bg-gradient-to-br from-[#8ba888] to-[#b8c4b5]">
+      <div className="px-4 md:px-8 lg:px-14 flex flex-col lg:flex-row justify-start items-stretch gap-2.5 w-full">
+        <div ref={mainHeroRef} className="relative w-full lg:w-[958px] h-[300px] sm:h-[400px] md:h-[600px] lg:h-[770px] rounded-[40px] overflow-hidden bg-zinc-300 flex-shrink-0">
           <img 
             src={heroMainBanner?.image || defaultHeroMain.image} 
             alt="Summer Outfit" 
-            className="absolute inset-0 w-full h-full object-cover mix-blend-multiply"
+            className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
-          <div ref={titleRef} className="absolute top-8 left-8 md:top-12 md:left-12 lg:top-[60px] lg:left-[60px] max-w-[280px] md:max-w-[350px]">
-            <h2 className="text-white text-4xl md:text-6xl lg:text-[90px] leading-tight lg:leading-[75px] tracking-[-3px] lg:tracking-[-5px] mb-4 md:mb-6">
-              {(heroMainBanner?.title || defaultHeroMain.title).split('\\n').map((line, i) => (
-                <span key={i}>
-                  {line}
-                  {i < (heroMainBanner?.title || defaultHeroMain.title).split('\\n').length - 1 && <br />}
-                </span>
-              ))}
-            </h2>
-            <p className="text-white text-sm md:text-base lg:text-lg opacity-80 mb-6 md:mb-8">
-              {heroMainBanner?.subtitle || defaultHeroMain.subtitle}
-            </p>
-            <Link to={heroMainBanner?.link || defaultHeroMain.link}>
-              <button className="bg-[#121212] text-white px-8 py-3 md:px-10 md:py-4 rounded-full text-xs md:text-sm font-medium tracking-wider hover:bg-black/80 transition-colors hover:scale-105 active:scale-95">
+          <div ref={titleRef} className="absolute top-[20px] md:top-[40px] lg:top-[60px] left-[20px] md:left-[40px] lg:left-[60px] w-64 md:w-80 inline-flex flex-col justify-start items-start gap-5 lg:gap-7">
+            <div className="self-stretch flex flex-col justify-start items-start gap-3 lg:gap-5">
+              <h2 className="text-white text-3xl md:text-5xl lg:text-8xl font-normal leading-tight lg:leading-[75px]">
+                {(heroMainBanner?.title || defaultHeroMain.title).split('\\n').map((line, i) => (
+                  <span key={i}>
+                    {line}
+                    {i < (heroMainBanner?.title || defaultHeroMain.title).split('\\n').length - 1 && <br />}
+                  </span>
+                ))}
+              </h2>
+              <p className="self-stretch opacity-80 text-white text-xs md:text-base lg:text-lg font-normal leading-5 lg:leading-6">
+                {heroMainBanner?.subtitle || defaultHeroMain.subtitle}
+              </p>
+            </div>
+            <Link to={heroMainBanner?.link || defaultHeroMain.link} className="w-48 md:w-72 h-10 lg:h-12 bg-neutral-900 rounded-[200px] inline-flex justify-center items-center hover:bg-black/80 transition-colors">
+              <span className="text-center text-white text-xs lg:text-sm font-medium leading-6 tracking-wide">
                 {heroMainBanner?.buttonText || defaultHeroMain.buttonText}
-              </button>
+              </span>
             </Link>
           </div>
         </div>
 
-        <div ref={sideCardsRef} className="grid grid-rows-2 gap-4">
+        <div ref={sideCardsRef} className="w-full lg:w-[420px] inline-flex flex-row lg:flex-col justify-start items-start gap-2.5 flex-shrink-0">
           {(heroSideBanners.length > 0 ? heroSideBanners : defaultHeroSide).slice(0, 2).map((banner, index) => {
             const isDefault = heroSideBanners.length === 0;
             const data = isDefault ? banner : heroSideBanners[index];
             return (
-              <Link key={index} to={data.link} className="hero-card relative h-[240px] md:h-[300px] lg:h-[380px] rounded-3xl overflow-hidden">
-                <img src={data.image} alt={data.title.replace(/\\n/g, ' ')} className="w-full h-full object-cover transition-transform duration-700 hover:scale-110" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <h3 className="absolute bottom-6 left-6 text-white text-3xl md:text-4xl leading-tight tracking-[-2px]">
+              <Link key={index} to={data.link} className="hero-card flex-1 lg:flex-none lg:w-full h-[240px] md:h-[300px] lg:h-96 relative overflow-hidden rounded-[40px] group">
+                <div className="h-full w-full left-0 top-0 absolute bg-zinc-300" />
+                <img src={data.image} alt={data.title.replace(/\\n/g, ' ')} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <h3 className="absolute top-[15px] md:top-[25px] lg:top-[30px] left-[15px] md:left-[25px] lg:left-[30px] justify-start text-neutral-900 text-xl md:text-3xl lg:text-4xl font-normal leading-8 lg:leading-10">
                   {data.title.split('\\n').map((line, i) => (
                     <span key={i}>
                       {line}
@@ -156,29 +158,29 @@ export function HeroSection() {
       </div>
 
       {/* Casual Inspirations */}
-      <div ref={inspirationRef} className="grid grid-cols-1 lg:grid-cols-[auto,1fr] gap-4 md:gap-6">
-        <div className="bg-white rounded-3xl p-8 md:p-12 lg:p-[60px] flex flex-col justify-center max-w-full lg:max-w-[411px]">
-          <h2 className="text-4xl md:text-5xl lg:text-[65px] leading-tight lg:leading-[65px] tracking-[-2px] lg:tracking-[-4px] mb-4 md:mb-6">
+      <div ref={inspirationRef} className="px-4 md:px-8 lg:px-14 flex flex-col lg:flex-row justify-start items-stretch gap-2.5 w-full mt-6 md:mt-10 lg:mt-12">
+        <div className="w-full lg:w-[411px] h-auto lg:h-[500px] bg-white rounded-[40px] p-[20px] md:p-[45px] lg:p-[60px] flex flex-col justify-center flex-shrink-0">
+          <h2 className="text-[28px] md:text-[50px] lg:text-[65px] leading-[32px] md:leading-[55px] lg:leading-[65px] tracking-[-1px] md:tracking-[-2px] lg:tracking-[-4px] mb-3 md:mb-6 font-normal">
             Casual<br />Inspirations
           </h2>
-          <p className="text-base md:text-lg opacity-80 mb-6 md:mb-8 lg:mb-12">
+          <p className="text-xs md:text-sm lg:text-base opacity-80 mb-4 md:mb-12 leading-5 lg:leading-6">
             Our favorite combinations for casual outfit that can inspire you to apply on your daily activity.
           </p>
-          <button className="border-2 border-black px-8 py-3 md:px-10 md:py-4 rounded-full text-xs md:text-sm font-medium tracking-wider hover:bg-black hover:text-white transition-all self-start hover:scale-105 active:scale-95">
+          <button className="border-2 border-black px-6 md:px-8 py-2 md:py-3 rounded-full text-xs lg:text-sm font-medium tracking-wider hover:bg-black hover:text-white transition-all self-start">
             BROWSE INSPIRATIONS
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="w-full lg:flex-1 flex flex-col sm:flex-row justify-start items-stretch gap-2.5">
           {(casualBanners.length > 0 ? casualBanners : defaultCasual).slice(0, 2).map((banner, index) => {
             const isDefault = casualBanners.length === 0;
             const data = isDefault ? banner : casualBanners[index];
             return (
-              <Link key={index} to={data.link} className="relative h-[300px] md:h-[380px] rounded-3xl overflow-hidden group">
-                <img src={data.image} alt={data.title.replace(/\\n/g, ' ')} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between">
-                  <h3 className="text-white text-3xl md:text-4xl leading-tight tracking-[-2px]">
+              <Link key={index} to={data.link} className="flex-1 h-[200px] sm:h-[240px] md:h-[300px] lg:h-96 relative overflow-hidden rounded-[40px] group">
+                <div className="h-full w-full left-0 top-0 absolute bg-zinc-300" />
+                <img src={data.image} alt={data.title.replace(/\\n/g, ' ')} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <div className="absolute bottom-4 md:bottom-5 lg:bottom-6 left-4 md:left-5 lg:left-6 right-4 md:right-5 lg:right-6 bg-white/30 backdrop-blur-md rounded-full px-4 md:px-5 lg:px-6 py-2 md:py-2.5 lg:py-3 inline-flex items-center justify-center">
+                  <h3 className="text-neutral-900 text-sm md:text-base lg:text-lg font-semibold leading-5 lg:leading-6 text-center">
                     {data.title.split('\\n').map((line, i) => (
                       <span key={i}>
                         {line}
@@ -186,11 +188,6 @@ export function HeroSection() {
                       </span>
                     ))}
                   </h3>
-                  <button className="w-12 h-12 bg-white rounded-full flex items-center justify-center hover:scale-110 transition-transform">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M5 12h14M12 5l7 7-7 7" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
                 </div>
               </Link>
             );

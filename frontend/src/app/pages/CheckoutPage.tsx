@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useApp } from '../context/AppContext';
 import { config } from '../config/env';
-import { initiateRazorpayPayment, formatCurrency } from '../services/razorpay';
+import { initiateBackendRazorpayPayment, formatCurrency } from '../services/razorpay';
+import { calculateShippingCharge, validatePincodeFormat } from '../services/shiprocket';
 import { Loader2 } from 'lucide-react';
 import { useUser } from '@clerk/clerk-react';
 
@@ -14,6 +15,12 @@ export default function CheckoutPage() {
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discount: number } | null>(null);
   const [couponError, setCouponError] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  
+  // Shipping states
+  const [shippingCost, setShippingCost] = useState<number>(config.shipping.standardCost);
+  const [shippingMessage, setShippingMessage] = useState<string>('');
+  const [isCalculatingShipping, setIsCalculatingShipping] = useState(false);
+  const [shippingAvailable, setShippingAvailable] = useState(true);
   
   const [formData, setFormData] = useState({
     firstName: '',
@@ -39,8 +46,55 @@ export default function CheckoutPage() {
     }
   }, [isUserLoaded, user]);
 
+  // Calculate shipping when zipCode changes
+  useEffect(() => {
+    const calculateShipping = async () => {
+      const zipCode = formData.zipCode?.trim();
+      
+      // Skip if zipCode is empty or invalid format
+      if (!zipCode || !validatePincodeFormat(zipCode)) {
+        // Reset to default shipping
+        setShippingCost(config.shipping.standardCost);
+        setShippingMessage('');
+        setShippingAvailable(true);
+        return;
+      }
+
+      setIsCalculatingShipping(true);
+      try {
+        // Calculate weight (rough estimate: 500g per item for clothing)
+        const totalItems = cartItems.reduce((sum, item) => sum + item.cartQuantity, 0);
+        const estimatedWeight = Math.max(0.5, totalItems * 0.5); // At least 0.5kg
+
+        const result = await calculateShippingCharge(zipCode, estimatedWeight, subtotal);
+
+        if (result.available) {
+          setShippingCost(result.cost);
+          setShippingMessage(result.message);
+          setShippingAvailable(true);
+        } else {
+          // Use fallback shipping cost if not available
+          setShippingCost(config.shipping.standardCost);
+          setShippingMessage(result.message || 'Using standard shipping rate');
+          setShippingAvailable(false);
+        }
+      } catch (error) {
+        console.error('Shipping calculation error:', error);
+        setShippingCost(config.shipping.standardCost);
+        setShippingMessage('');
+        setShippingAvailable(true);
+      } finally {
+        setIsCalculatingShipping(false);
+      }
+    };
+
+    const debounceTimer = setTimeout(calculateShipping, 1000); // Debounce by 1 second
+    return () => clearTimeout(debounceTimer);
+  }, [formData.zipCode, cartItems, subtotal]);
+
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.cartQuantity, 0);
-  const shipping = subtotal >= config.shipping.freeThreshold ? 0 : config.shipping.standardCost;
+  // Use dynamic shipping cost from state  
+  const shipping = subtotal >= config.shipping.freeThreshold ? 0 : shippingCost;
   const discount = appliedCoupon ? appliedCoupon.discount : 0;
   const tax = (subtotal - discount) * config.tax.rate;
   const total = subtotal - discount + shipping + tax;
@@ -73,48 +127,34 @@ export default function CheckoutPage() {
     setIsProcessing(true);
 
     try {
-      // Initiate Razorpay payment
-      await initiateRazorpayPayment({
-        amount: total,
+      // Initiate backend Razorpay payment
+      await initiateBackendRazorpayPayment({
         customerName: `${formData.firstName} ${formData.lastName}`,
         customerEmail: formData.email,
         customerPhone: formData.phone,
-        orderDetails: `Payment for ${cartItems.length} items`,
-        notes: {
-          customerName: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-          phone: formData.phone,
+        items: cartItems.map(item => ({
+          productId: item._id,
+          productName: item.name,
+          sku: item.sku,
+          quantity: item.cartQuantity,
+          price: item.price,
+          image: item.images[0]
+        })),
+        shippingAddress: {
+          street: formData.address,
+          city: formData.city,
+          state: formData.state,
+          zipCode: formData.zipCode,
+          country: formData.country
         },
-        onSuccess: (paymentId, response) => {
-          // Payment successful - Create order in database
-          const order = createOrder({
-            customerName: `${formData.firstName} ${formData.lastName}`,
-            customerEmail: formData.email,
-            customerPhone: formData.phone,
-            shippingAddress: {
-              street: formData.address,
-              city: formData.city,
-              state: formData.state,
-              zipCode: formData.zipCode,
-              country: formData.country
-            },
-            items: cartItems.map(item => ({
-              productId: item._id,
-              productName: item.name,
-              sku: item.sku,
-              quantity: item.cartQuantity,
-              price: item.price,
-              image: item.images[0]
-            })),
-            subtotal,
-            discount,
-            shipping,
-            total,
-            couponCode: appliedCoupon?.code,
-            status: 'processing', // Set to processing since payment is done
-            paymentStatus: 'completed' // Payment is completed
-          });
-
+        subtotal,
+        discount,
+        shipping,
+        tax,
+        total,
+        couponCode: appliedCoupon?.code,
+        onSuccess: (orderId: string) => {
+          // Payment successful - Order already created on backend
           // Save customer email for order tracking
           localStorage.setItem('customerEmail', formData.email);
 
@@ -122,7 +162,7 @@ export default function CheckoutPage() {
           clearCart();
 
           // Navigate to order confirmation
-          navigate(`/order-confirmation/${order._id}?payment=${paymentId}`);
+          navigate(`/order-confirmation/${orderId}?payment=success`);
           
           setIsProcessing(false);
         },
@@ -141,8 +181,8 @@ export default function CheckoutPage() {
             );
             
             if (shouldContinue) {
-              // Demo mode - create order without payment
-              const order = createOrder({
+              // Demo mode - create order without payment via backend
+              const demoOrder = createOrder({
                 customerName: `${formData.firstName} ${formData.lastName}`,
                 customerEmail: formData.email,
                 customerPhone: formData.phone,
@@ -174,10 +214,10 @@ export default function CheckoutPage() {
               localStorage.setItem('customerEmail', formData.email);
 
               clearCart();
-              navigate(`/order-confirmation/${order._id}?demo=true`);
+              navigate(`/order-confirmation/${demoOrder._id}?demo=true`);
             }
           } else {
-            alert(`Payment failed: ${error.description || error.message || 'Please try again'}`);
+            alert(`Payment failed: ${error.message || error.description || 'Please try again'}`);
           }
           
           setIsProcessing(false);
@@ -327,8 +367,27 @@ export default function CheckoutPage() {
                       required
                       value={formData.zipCode}
                       onChange={handleChange}
+                      placeholder="6-digit pincode"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                     />
+                    {/* Shipping Status */}
+                    <div className="mt-3 text-sm">
+                      {isCalculatingShipping ? (
+                        <div className="flex items-center gap-2 text-blue-600">
+                          <Loader2 size={14} className="animate-spin" />
+                          <span>Calculating shipping charges...</span>
+                        </div>
+                      ) : formData.zipCode && validatePincodeFormat(formData.zipCode) ? (
+                        <div className={shippingAvailable ? 'text-green-600' : 'text-orange-600'}>
+                          {shippingMessage && <p>{shippingMessage}</p>}
+                          {subtotal >= config.shipping.freeThreshold ? (
+                            <p className="font-medium text-green-600">✓ Free Shipping Eligible</p>
+                          ) : (
+                            <p className="font-medium">Shipping Cost: ₹{shippingCost.toFixed(0)}</p>
+                          )}
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">Country *</label>
