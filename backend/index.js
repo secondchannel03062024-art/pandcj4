@@ -57,25 +57,40 @@ app.get('*', (req, res) => {
 });
 
 // MongoDB Connection with proper error handling
+let isDBConnected = false;
+
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      connectTimeoutMS: 10000,
-      serverSelectionTimeoutMS: 10000,
+      connectTimeoutMS: 15000,
+      serverSelectionTimeoutMS: 15000,
     });
+    isDBConnected = true;
     console.log('✓ MongoDB connected successfully');
-    
-    // Start server only after DB connection is successful
-    app.listen(PORT, () => {
-      console.log(`✓ Server is running on port ${PORT}`);
-    });
   } catch (err) {
+    isDBConnected = false;
     console.error('✗ MongoDB connection error:', err.message);
     console.log('Retrying connection in 5 seconds...');
     setTimeout(connectDB, 5000);
   }
 };
 
+// Start MongoDB connection in background (don't wait for it)
 connectDB();
+
+// Start server immediately for Render health checks
+const server = app.listen(PORT, '0.0.0.0', () => {
+  console.log(`✓ Server is running on port ${PORT}`);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully...');
+  server.close(() => {
+    console.log('Server closed');
+    mongoose.connection.close();
+    process.exit(0);
+  });
+});

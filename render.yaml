@@ -17,5 +17,8 @@ services:
     # Auto-deploy when main branch is updated
     autoDeploy: true
     
-    # Health check
+    # Health check - improved for reliability
     healthCheckPath: /api/health
+    healthCheckInterval: 10
+    healthCheckTimeout: 5
+    healthCheckInitialDelay: 30
