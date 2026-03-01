@@ -91,16 +91,16 @@ export default function Layout() {
   ];
 
   return (
-    <div ref={appRef} className="min-h-screen bg-white">
-      <div className="w-full pb-24 md:pb-28">
+    <div ref={appRef} className="min-h-screen bg-white flex flex-col">
+      <div className="w-full pb-24 md:pb-28 flex-1">
         <Navbar />
         
         <main>
           <Outlet />
         </main>
-        
-        <Footer />
       </div>
+
+      <Footer />
 
       {/* Floating Dock */}
       <FloatingDock 

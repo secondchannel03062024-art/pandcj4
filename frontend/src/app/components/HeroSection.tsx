@@ -105,17 +105,17 @@ export function HeroSection() {
   return (
     <div ref={heroRef} className="w-full py-8 md:py-12">
       {/* Main Hero */}
-      <div className="px-4 md:px-8 lg:px-14 flex flex-col lg:flex-row justify-start items-stretch gap-2.5 w-full">
-        <div ref={mainHeroRef} className="relative w-full lg:w-[958px] h-[300px] sm:h-[400px] md:h-[600px] lg:h-[770px] rounded-[40px] overflow-hidden bg-zinc-300 flex-shrink-0">
+      <div className="px-4 md:px-8 lg:px-14 xl:px-24 2xl:px-32 flex flex-col lg:flex-row justify-start items-stretch gap-2.5 w-full max-w-[2000px] mx-auto">
+        <div ref={mainHeroRef} className="relative w-full lg:w-1/2 xl:w-3/5 h-[300px] sm:h-[400px] md:h-[600px] lg:h-[650px] xl:h-[770px] rounded-[40px] overflow-hidden bg-zinc-300 flex-shrink-0">
           <img 
             src={heroMainBanner?.image || defaultHeroMain.image} 
             alt="Summer Outfit" 
             className="absolute inset-0 w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent" />
-          <div ref={titleRef} className="absolute top-[20px] md:top-[40px] lg:top-[60px] left-[20px] md:left-[40px] lg:left-[60px] w-64 md:w-80 inline-flex flex-col justify-start items-start gap-5 lg:gap-7">
-            <div className="self-stretch flex flex-col justify-start items-start gap-3 lg:gap-5">
-              <h2 className="text-white text-3xl md:text-5xl lg:text-8xl font-normal leading-tight lg:leading-[75px]">
+          <div ref={titleRef} className="absolute top-[20px] md:top-[40px] lg:top-[50px] xl:top-[60px] left-[20px] md:left-[40px] lg:left-[40px] xl:left-[60px] w-64 md:w-80 lg:w-72 xl:w-80 inline-flex flex-col justify-start items-start gap-5 lg:gap-6 xl:gap-7">
+            <div className="self-stretch flex flex-col justify-start items-start gap-3 lg:gap-4 xl:gap-5">
+              <h2 className="text-white text-3xl md:text-5xl lg:text-6xl xl:text-8xl font-normal leading-tight lg:leading-[65px] xl:leading-[75px]">
                 {(heroMainBanner?.title || defaultHeroMain.title).split('\\n').map((line, i) => (
                   <span key={i}>
                     {line}
@@ -123,27 +123,27 @@ export function HeroSection() {
                   </span>
                 ))}
               </h2>
-              <p className="self-stretch opacity-80 text-white text-xs md:text-base lg:text-lg font-normal leading-5 lg:leading-6">
+              <p className="self-stretch opacity-80 text-white text-xs md:text-sm lg:text-base xl:text-lg font-normal leading-5 lg:leading-5 xl:leading-6">
                 {heroMainBanner?.subtitle || defaultHeroMain.subtitle}
               </p>
             </div>
-            <Link to={heroMainBanner?.link || defaultHeroMain.link} className="w-48 md:w-72 h-10 lg:h-12 bg-neutral-900 rounded-[200px] inline-flex justify-center items-center hover:bg-black/80 transition-colors">
-              <span className="text-center text-white text-xs lg:text-sm font-medium leading-6 tracking-wide">
+            <Link to={heroMainBanner?.link || defaultHeroMain.link} className="w-48 md:w-64 lg:w-60 xl:w-72 h-10 lg:h-11 xl:h-12 bg-neutral-900 rounded-[200px] inline-flex justify-center items-center hover:bg-black/80 transition-colors">
+              <span className="text-center text-white text-xs lg:text-xs xl:text-sm font-medium leading-6 tracking-wide">
                 {heroMainBanner?.buttonText || defaultHeroMain.buttonText}
               </span>
             </Link>
           </div>
         </div>
 
-        <div ref={sideCardsRef} className="w-full lg:w-[420px] inline-flex flex-row lg:flex-col justify-start items-start gap-2.5 flex-shrink-0">
+        <div ref={sideCardsRef} className="w-full lg:w-1/2 xl:w-2/5 inline-flex flex-row lg:flex-col justify-start items-start gap-2.5 flex-shrink-0">
           {(heroSideBanners.length > 0 ? heroSideBanners : defaultHeroSide).slice(0, 2).map((banner, index) => {
             const isDefault = heroSideBanners.length === 0;
             const data = isDefault ? banner : heroSideBanners[index];
             return (
-              <Link key={index} to={data.link} className="hero-card flex-1 lg:flex-none lg:w-full h-[240px] md:h-[300px] lg:h-96 relative overflow-hidden rounded-[40px] group">
+              <Link key={index} to={data.link} className="hero-card flex-1 lg:flex-none lg:w-full h-[240px] md:h-[300px] lg:h-[318px] xl:h-96 relative overflow-hidden rounded-[40px] group">
                 <div className="h-full w-full left-0 top-0 absolute bg-zinc-300" />
                 <img src={data.image} alt={data.title.replace(/\\n/g, ' ')} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                <h3 className="absolute top-[15px] md:top-[25px] lg:top-[30px] left-[15px] md:left-[25px] lg:left-[30px] justify-start text-neutral-900 text-xl md:text-3xl lg:text-4xl font-normal leading-8 lg:leading-10">
+                <h3 className="absolute top-[15px] md:top-[25px] lg:top-[25px] xl:top-[30px] left-[15px] md:left-[25px] lg:left-[25px] xl:left-[30px] justify-start text-neutral-900 text-xl md:text-3xl lg:text-2xl xl:text-4xl font-normal leading-8 lg:leading-8 xl:leading-10">
                   {data.title.split('\\n').map((line, i) => (
                     <span key={i}>
                       {line}
@@ -158,15 +158,15 @@ export function HeroSection() {
       </div>
 
       {/* Casual Inspirations */}
-      <div ref={inspirationRef} className="px-4 md:px-8 lg:px-14 flex flex-col lg:flex-row justify-start items-stretch gap-2.5 w-full mt-6 md:mt-10 lg:mt-12">
-        <div className="w-full lg:w-[411px] h-auto lg:h-[500px] bg-white rounded-[40px] p-[20px] md:p-[45px] lg:p-[60px] flex flex-col justify-center flex-shrink-0">
-          <h2 className="text-[28px] md:text-[50px] lg:text-[65px] leading-[32px] md:leading-[55px] lg:leading-[65px] tracking-[-1px] md:tracking-[-2px] lg:tracking-[-4px] mb-3 md:mb-6 font-normal">
+      <div ref={inspirationRef} className="px-4 md:px-8 lg:px-14 xl:px-24 2xl:px-32 flex flex-col lg:flex-row justify-start items-stretch gap-2.5 w-full mt-6 md:mt-10 lg:mt-12 max-w-[2000px] mx-auto">
+        <div className="w-full lg:w-[35%] h-auto lg:h-[450px] xl:h-[500px] bg-white rounded-[40px] p-[20px] md:p-[40px] lg:p-[50px] xl:p-[60px] flex flex-col justify-center flex-shrink-0">
+          <h2 className="text-[28px] md:text-[45px] lg:text-[55px] xl:text-[65px] leading-[32px] md:leading-[50px] lg:leading-[60px] xl:leading-[65px] tracking-[-1px] md:tracking-[-2px] lg:tracking-[-3px] xl:tracking-[-4px] mb-3 md:mb-5 lg:mb-6 font-normal">
             Casual<br />Inspirations
           </h2>
-          <p className="text-xs md:text-sm lg:text-base opacity-80 mb-4 md:mb-12 leading-5 lg:leading-6">
+          <p className="text-xs md:text-sm lg:text-sm xl:text-base opacity-80 mb-4 md:mb-8 lg:mb-10 xl:mb-12 leading-5 lg:leading-5 xl:leading-6">
             Our favorite combinations for casual outfit that can inspire you to apply on your daily activity.
           </p>
-          <button className="border-2 border-black px-6 md:px-8 py-2 md:py-3 rounded-full text-xs lg:text-sm font-medium tracking-wider hover:bg-black hover:text-white transition-all self-start">
+          <button className="border-2 border-black px-6 md:px-7 lg:px-6 xl:px-8 py-2 md:py-2.5 lg:py-2.5 xl:py-3 rounded-full text-xs lg:text-xs xl:text-sm font-medium tracking-wider hover:bg-black hover:text-white transition-all self-start">
             BROWSE INSPIRATIONS
           </button>
         </div>
@@ -176,11 +176,11 @@ export function HeroSection() {
             const isDefault = casualBanners.length === 0;
             const data = isDefault ? banner : casualBanners[index];
             return (
-              <Link key={index} to={data.link} className="flex-1 h-[200px] sm:h-[240px] md:h-[300px] lg:h-96 relative overflow-hidden rounded-[40px] group">
+              <Link key={index} to={data.link} className="flex-1 h-[200px] sm:h-[240px] md:h-[300px] lg:h-[318px] xl:h-96 relative overflow-hidden rounded-[40px] group">
                 <div className="h-full w-full left-0 top-0 absolute bg-zinc-300" />
                 <img src={data.image} alt={data.title.replace(/\\n/g, ' ')} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className="absolute bottom-4 md:bottom-5 lg:bottom-6 left-4 md:left-5 lg:left-6 right-4 md:right-5 lg:right-6 bg-white/30 backdrop-blur-md rounded-full px-4 md:px-5 lg:px-6 py-2 md:py-2.5 lg:py-3 inline-flex items-center justify-center">
-                  <h3 className="text-neutral-900 text-sm md:text-base lg:text-lg font-semibold leading-5 lg:leading-6 text-center">
+                <div className="absolute bottom-4 md:bottom-5 lg:bottom-5 xl:bottom-6 left-4 md:left-5 lg:left-5 xl:left-6 right-4 md:right-5 lg:right-5 xl:right-6 bg-white/30 backdrop-blur-md rounded-full px-4 md:px-5 lg:px-5 xl:px-6 py-2 md:py-2.5 lg:py-2.5 xl:py-3 inline-flex items-center justify-center">
+                  <h3 className="text-neutral-900 text-sm md:text-base lg:text-base xl:text-lg font-semibold leading-5 lg:leading-5 xl:leading-6 text-center">
                     {data.title.split('\\n').map((line, i) => (
                       <span key={i}>
                         {line}
