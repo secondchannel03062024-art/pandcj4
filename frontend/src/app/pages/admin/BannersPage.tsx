@@ -4,7 +4,7 @@ import { Banner, db } from '../../services/database';
 import { useApp } from '../../context/AppContext';
 
 export default function BannersPage() {
-  const { banners } = useApp();
+  const { banners, refreshBanners } = useApp();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBanner, setEditingBanner] = useState<Banner | null>(null);
   const [formData, setFormData] = useState<Partial<Banner>>({
@@ -18,11 +18,13 @@ export default function BannersPage() {
     order: 0,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (editingBanner) {
-      db.update('banners', editingBanner._id, formData);
+      await db.update('banners', editingBanner._id, formData);
+      // Refresh banners after update
+      refreshBanners();
     }
     
     closeModal();
@@ -194,19 +196,19 @@ export default function BannersPage() {
                 </label>
               </div>
 
-              <div className="flex gap-3 pt-4">
-                <button
-                  type="submit"
-                  className="flex-1 bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition-colors"
-                >
-                  {editingBanner ? 'Update Banner' : 'Create Banner'}
-                </button>
+              <div className="flex gap-4 pt-6 border-t">
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="flex-1 border border-gray-300 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex-1 border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition-colors font-medium"
                 >
                   Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 bg-black text-white py-3 rounded-lg hover:bg-gray-800 transition-colors font-medium"
+                >
+                  {editingBanner ? 'Update Banner' : 'Create Banner'}
                 </button>
               </div>
             </form>
