@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useApp } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import { config } from '../config/env';
 import { initiateBackendRazorpayPayment, formatCurrency } from '../services/razorpay';
 import { calculateShippingCharge, validatePincodeFormat } from '../services/shiprocket';
 import { Loader2 } from 'lucide-react';
-import { useUser } from '@clerk/clerk-react';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
-  const { user, isLoaded: isUserLoaded } = useUser();
+  const { user, isAuthenticated } = useAuth();
   const { cartItems, clearCart, createOrder, validateCoupon } = useApp();
   const [couponCode, setCouponCode] = useState('');
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discount: number } | null>(null);
@@ -35,16 +35,16 @@ export default function CheckoutPage() {
   });
 
   useEffect(() => {
-    if (isUserLoaded && user) {
+    if (isAuthenticated && user) {
+      const [firstName = '', lastName = ''] = user.name?.split(' ') || ['', ''];
       setFormData(prev => ({
         ...prev,
-        firstName: user.firstName || '',
-        lastName: user.lastName || '',
-        email: user.primaryEmailAddress?.emailAddress || '',
-        phone: user.primaryPhoneNumber?.phoneNumber || prev.phone
+        firstName,
+        lastName,
+        email: user.email || '',
       }));
     }
-  }, [isUserLoaded, user]);
+  }, [isAuthenticated, user]);
 
   // Calculate shipping when zipCode changes
   useEffect(() => {
@@ -253,7 +253,7 @@ export default function CheckoutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr,400px] gap-8">
           {/* Checkout Form */}
           <div className="space-y-8">
-            {!user && (
+            {!isAuthenticated && (
               <div className="bg-black text-white rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div>
                   <h3 className="text-2xl font-bold mb-2">Have an account?</h3>

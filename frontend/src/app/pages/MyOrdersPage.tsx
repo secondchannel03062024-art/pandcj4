@@ -2,15 +2,15 @@ import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { Package, Truck, CheckCircle, Clock, XCircle, ChevronRight } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import { Order } from '../services/database';
-import { useUser } from '@clerk/clerk-react';
 
 export default function MyOrdersPage() {
   const navigate = useNavigate();
-  const { user, isLoaded } = useUser();
+  const { user, isAuthenticated } = useAuth();
   const { orders } = useApp();
 
-  const userEmail = user?.primaryEmailAddress?.emailAddress;
+  const userEmail = user?.email || '';
 
   // Use useMemo to filter and sort orders without causing re-renders
   const myOrders = useMemo(() => {

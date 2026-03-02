@@ -3,12 +3,11 @@ import { useNavigate } from 'react-router';
 import { Edit2, MapPin, Phone, Mail, LogOut, ChevronRight, Package, Heart, Settings } from 'lucide-react';
 import { gsap } from 'gsap';
 import { useApp } from '../context/AppContext';
-import { useUser, useClerk } from '@clerk/clerk-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const { user, isLoaded } = useUser();
-  const { signOut } = useClerk();
+  const { user, isAuthenticated, logout } = useAuth();
   const { orders, wishlist } = useApp();
   const profileRef = useRef<HTMLDivElement>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -27,15 +26,16 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    if (isLoaded && user) {
-      setUserData(prev => ({
-        ...prev,
-        name: user.fullName || '',
-        email: user.primaryEmailAddress?.emailAddress || '',
-        phone: user.primaryPhoneNumber?.phoneNumber || prev.phone,
-        joinedDate: new Date(user.createdAt!).toLocaleDateString()
-      }));
+    if (!isAuthenticated || !user) {
+      navigate('/sign-in');
+      return;
     }
+
+    setUserData(prev => ({
+      ...prev,
+      name: user.name || '',
+      email: user.email || '',
+    }));
 
     // Animate on mount
     const ctx = gsap.context(() => {
@@ -55,8 +55,8 @@ export default function ProfilePage() {
     order => order.customerEmail.toLowerCase() === (userEmail?.toLowerCase() || '')
   );
 
-  const handleLogout = async () => {
-    await signOut();
+  const handleLogout = () => {
+    logout();
     navigate('/');
   };
 

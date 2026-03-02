@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { gsap } from 'gsap';
-import { SignedIn, SignedOut, UserButton } from '@clerk/clerk-react';
-import { Menu, X, Home, ShoppingBag, Heart, User, ShoppingCart } from 'lucide-react';
+import { Menu, X, Home, ShoppingBag, Heart, User, ShoppingCart, LogOut } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { useAuth } from '../context/AuthContext';
 import { CATEGORIES } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -14,8 +14,10 @@ interface NavbarProps {
 
 export function Navbar({ }: NavbarProps) {
   const navRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { cartItems, wishlist } = useApp();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const totalCartItems = cartItems.reduce((sum, item) => sum + item.cartQuantity, 0);
 
@@ -36,58 +38,78 @@ export function Navbar({ }: NavbarProps) {
   return (
     <>
       <div ref={navRef} className="border-b border-golden-200 px-4 md:px-8 lg:px-[60px] py-4 md:py-5 sticky top-0 bg-white z-40 w-full overflow-x-hidden">
-        <div className="flex items-center justify-between gap-4 w-full md:justify-start">
+        <div className="flex items-center justify-between relative w-full">
           {/* Mobile Menu Button - Left */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden text-gray-700 hover:text-gray-900 flex-shrink-0"
+            className="md:hidden text-gray-700 hover:text-gray-900 flex-shrink-0 z-10"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
-          {/* Logo - Center on mobile, Left on desktop */}
-          <Link to="/" className="text-lg md:text-xl lg:text-2xl font-extrabold whitespace-nowrap flex-1 text-center md:text-left md:flex-none" style={{ fontFamily: "'Century Gothic', 'CenturyGothic', 'Apple Gothic', sans-serif" }}>
+          {/* Logo - Centered absolutely */}
+          <Link 
+            to="/" 
+            className="absolute left-1/2 -translate-x-1/2 text-lg md:text-xl lg:text-2xl font-extrabold whitespace-nowrap" 
+            style={{ fontFamily: "'Century Gothic', 'CenturyGothic', 'Apple Gothic', sans-serif" }}
+          >
             AURACLOTHINGS
           </Link>
 
-          {/* Right: Menu + Auth */}
-          <div className="flex items-center gap-4 flex-shrink-0">
+          {/* Right: Auth - Pushed far right */}
+          <div className="ml-auto flex items-center gap-4 flex-shrink-0">
             {/* Desktop Auth */}
             <div className="hidden md:flex items-center gap-4">
-              <SignedOut>
+              {isAuthenticated && user ? (
+                <>
+                  <Link to="/profile" className="hover:opacity-70 transition-opacity flex items-center">
+                    <span className="text-xs md:text-sm font-semibold tracking-tight text-magenta-600 hover:text-magenta-700">{user.name}</span>
+                  </Link>
+                  <button
+                    onClick={() => {
+                      logout();
+                      navigate('/');
+                    }}
+                    className="hover:opacity-70 transition-opacity flex items-center gap-2"
+                  >
+                    <LogOut size={18} className="text-gray-700" />
+                  </button>
+                </>
+              ) : (
                 <Link to="/sign-in" className="hover:opacity-70 transition-opacity flex items-center">
                   <span className="text-xs md:text-sm font-semibold tracking-tight text-magenta-600 hover:text-magenta-700">Login</span>
                 </Link>
-              </SignedOut>
-              <SignedIn>
-                <UserButton 
-                  afterSignOutUrl="/" 
-                  appearance={{
-                    elements: {
-                      avatarBox: "w-8 h-8"
-                    }
-                  }}
-                />
-              </SignedIn>
+              )}
             </div>
 
             {/* Mobile Auth */}
-            <div className="md:hidden flex items-center gap-4">
-              <SignedOut>
+            <div className="md:hidden flex items-center gap-3">
+              {isAuthenticated && user ? (
+                <>
+                  <Link to="/profile" className="hover:opacity-70 transition-opacity flex items-center">
+                    <User size={20} className="text-gray-700" />
+                  </Link>
+                  <button
+                    onClick={() => {
+                      logout();
+                      navigate('/');
+                    }}
+                    className="hover:opacity-70 transition-opacity flex items-center"
+                  >
+                    <LogOut size={18} className="text-gray-700" />
+                  </button>
+                </>
+              ) : (
                 <Link to="/sign-in" className="hover:opacity-70 transition-opacity flex items-center">
                   <span className="text-xs font-semibold tracking-tight text-magenta-600 hover:text-magenta-700">Login</span>
                 </Link>
-              </SignedOut>
-              <SignedIn>
-                <UserButton 
-                  afterSignOutUrl="/" 
-                  appearance={{
-                    elements: {
-                      avatarBox: "w-7 h-7"
-                    }
-                  }}
-                />
-              </SignedIn>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+                </Link>
+              )}
             </div>
           </div>
         </div>
