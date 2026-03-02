@@ -255,22 +255,6 @@ export default function CheckoutPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr,400px] gap-8">
           {/* Checkout Form */}
           <div className="space-y-8">
-            {isLoaded && !user && (
-              <div className="bg-black text-white rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-                <div>
-                  <h3 className="text-2xl font-bold mb-2">Have an account?</h3>
-                  <p className="opacity-70">Sign in for a faster checkout experience and to track your orders.</p>
-                </div>
-                <button 
-                  type="button"
-                  onClick={() => navigate('/sign-in?redirect_url=/checkout')}
-                  className="whitespace-nowrap px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-gray-100 transition-all"
-                >
-                  Sign In
-                </button>
-              </div>
-            )}
-            
             <form onSubmit={handleSubmit} className="space-y-8">
               {/* Contact Information */}
               <div className="bg-white rounded-3xl p-8">
