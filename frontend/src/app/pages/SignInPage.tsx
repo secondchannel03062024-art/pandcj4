@@ -87,8 +87,6 @@ export default function SignInPage() {
           signUpUrl="/sign-up"
           forceRedirectUrl="/"
           fallbackRedirectUrl="/"
-          afterSignUpUrl="/"
-          afterSignInUrl="/"
         />
       </div>
     </div>
