@@ -9,10 +9,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
+    lowercase: true,
   },
   password: {
     type: String,
-    required: true,
+    required: false, // Not required for OAuth users
+  },
+  profileImage: {
+    type: String,
+    default: null,
   },
   role: {
     type: String,
@@ -27,6 +32,32 @@ const userSchema = new mongoose.Schema({
     zipCode: String,
     country: String,
   },
+  
+  // OAuth fields
+  googleId: {
+    type: String,
+    default: null,
+  },
+  facebookId: {
+    type: String,
+    default: null,
+  },
+  authProvider: {
+    type: String,
+    enum: ['local', 'google', 'facebook'],
+    default: 'local',
+  },
+  
+  // Account status
+  isActive: {
+    type: Boolean,
+    default: true,
+  },
+  emailVerified: {
+    type: Boolean,
+    default: false,
+  },
+  lastLogin: Date,
 }, {
   timestamps: true,
 });

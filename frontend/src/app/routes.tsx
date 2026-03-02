@@ -17,9 +17,7 @@ import AdminProducts from "./pages/admin/AdminProducts";
 import AdminCoupons from "./pages/admin/AdminCoupons";
 import AdminCategories from "./pages/admin/AdminCategories";
 import BannersPage from "./pages/admin/BannersPage";
-import SignInPage from "./pages/SignInPage";
-import SignUpPage from "./pages/SignUpPage";
-import SSOCallbackPage from "./pages/SSOCallbackPage";
+import AuthPage from "./pages/AuthPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import FAQPage from "./pages/FAQPage";
 import ContactPage from "./pages/ContactPage";
@@ -52,9 +50,8 @@ export const router = createBrowserRouter([
           { path: "orders", Component: MyOrdersPage },
           { path: "order/:orderId", Component: OrderDetailPage },
           { path: "profile", Component: ProfilePage },
-          { path: "sign-in", Component: SignInPage },
-          { path: "sign-in/sso-callback", Component: SSOCallbackPage },
-          { path: "sign-up", Component: SignUpPage },
+          { path: "sign-in", Component: AuthPage },
+          { path: "sign-up", Component: AuthPage },
           { path: "faq", Component: FAQPage },
           { path: "contact", Component: ContactPage },
           { path: "about", Component: AboutPage },
