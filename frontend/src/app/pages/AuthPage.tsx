@@ -139,15 +139,15 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-800 via-gray-700 to-yellow-900 flex items-center justify-center px-4 py-8">
       <div className="max-w-6xl w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Left Side - Image/GIF */}
           <div className="hidden lg:flex items-center justify-center">
             <div className="relative">
               {/* Decorative elements */}
-              <div className="absolute -top-8 -left-8 w-32 h-32 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+              <div className="absolute -top-8 -left-8 w-32 h-32 bg-yellow-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-yellow-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
               
               {/* Auth Image */}
               <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl">
@@ -156,10 +156,10 @@ export default function AuthPage() {
                   alt="Fashion Authentication"
                   className="w-full h-[500px] object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-purple-900/60 via-transparent to-transparent flex items-end p-8">
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent flex items-end p-8">
                   <div className="text-white">
                     <h3 className="text-3xl font-bold mb-2">Welcome to AURACLOTHINGS</h3>
-                    <p className="text-purple-100 text-lg">Premium fabrics for your creativity</p>
+                    <p className="text-yellow-100 text-lg">Premium fabrics for your creativity</p>
                   </div>
                 </div>
               </div>
@@ -168,13 +168,13 @@ export default function AuthPage() {
 
           {/* Right Side - Auth Form */}
           <div className="w-full max-w-md mx-auto">
-            <div className="bg-white/10 backdrop-blur-md rounded-3xl p-8 shadow-2xl border border-white/20">
+            <div className="bg-white/5 backdrop-blur-md rounded-3xl p-8 shadow-2xl border border-yellow-400/30">
               {/* Header */}
               <div className="mb-8">
                 <h1 className="text-4xl font-bold text-white mb-2">
                   {isSignUp ? 'Create Account' : 'Welcome Back'}
                 </h1>
-                <p className="text-purple-200 text-sm">
+                <p className="text-yellow-100 text-sm">
                   {isSignUp 
                     ? 'Join our community of fashion enthusiasts'
                     : 'Sign in to continue to AURACLOTHINGS'
@@ -184,9 +184,9 @@ export default function AuthPage() {
 
               {/* Error message */}
               {(error || authError) && (
-                <div className="mb-6 p-4 rounded-xl bg-red-500/20 border border-red-500/50 flex items-start gap-3">
-                  <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-                  <p className="text-red-200 text-sm">{error || authError}</p>
+                <div className="mb-6 p-4 rounded-xl bg-red-500/30 border border-red-400/50 flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-red-300 flex-shrink-0 mt-0.5" />
+                  <p className="text-red-100 text-sm">{error || authError}</p>
                 </div>
               )}
 
@@ -214,9 +214,9 @@ export default function AuthPage() {
                 {/* Name field (Sign Up only) */}
                 {isSignUp && (
                   <div>
-                    <label className="block text-white/80 text-sm font-medium mb-2">Full Name</label>
+                    <label className="block text-gray-100 text-sm font-medium mb-2">Full Name</label>
                     <div className="relative">
-                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400" />
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-yellow-400" />
                       <input
                         type="text"
                         name="name"
@@ -224,7 +224,7 @@ export default function AuthPage() {
                         onChange={handleInputChange}
                         placeholder="John Doe"
                         disabled={loading || authLoading}
-                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-purple-500/50 focus:bg-white/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/5 border border-yellow-400/30 text-gray-100 placeholder:text-gray-400 focus:outline-none focus:border-yellow-400 focus:bg-white/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                       />
                     </div>
                   </div>
@@ -232,9 +232,9 @@ export default function AuthPage() {
 
                 {/* Email field */}
                 <div>
-                  <label className="block text-white/80 text-sm font-medium mb-2">Email Address</label>
+                  <label className="block text-gray-100 text-sm font-medium mb-2">Email Address</label>
                   <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400" />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-yellow-400" />
                     <input
                       type="email"
                       name="email"
@@ -242,16 +242,16 @@ export default function AuthPage() {
                       onChange={handleInputChange}
                       placeholder="you@example.com"
                       disabled={loading || authLoading}
-                      className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-purple-500/50 focus:bg-white/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/5 border border-yellow-400/30 text-gray-100 placeholder:text-gray-400 focus:outline-none focus:border-yellow-400 focus:bg-white/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
 
                 {/* Password field */}
                 <div>
-                  <label className="block text-white/80 text-sm font-medium mb-2">Password</label>
+                  <label className="block text-gray-100 text-sm font-medium mb-2">Password</label>
                   <div className="relative">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400" />
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-yellow-400" />
                     <input
                       type={showPassword ? 'text' : 'password'}
                       name="password"
@@ -259,13 +259,13 @@ export default function AuthPage() {
                       onChange={handleInputChange}
                       placeholder="••••••••"
                       disabled={loading || authLoading}
-                      className="w-full pl-12 pr-12 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-purple-500/50 focus:bg-white/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full pl-12 pr-12 py-3 rounded-xl bg-white/5 border border-yellow-400/30 text-gray-100 placeholder:text-gray-400 focus:outline-none focus:border-yellow-400 focus:bg-white/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       disabled={loading || authLoading}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-purple-400 hover:text-purple-300 disabled:opacity-50"
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-yellow-400 hover:text-yellow-300 disabled:opacity-50"
                     >
                       {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                     </button>
@@ -275,9 +275,9 @@ export default function AuthPage() {
                 {/* Confirm Password field (Sign Up only) */}
                 {isSignUp && (
                   <div>
-                    <label className="block text-white/80 text-sm font-medium mb-2">Confirm Password</label>
+                    <label className="block text-gray-100 text-sm font-medium mb-2">Confirm Password</label>
                     <div className="relative">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-purple-400" />
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-yellow-400" />
                       <input
                         type={showConfirmPassword ? 'text' : 'password'}
                         name="confirmPassword"
@@ -285,13 +285,13 @@ export default function AuthPage() {
                         onChange={handleInputChange}
                         placeholder="••••••••"
                         disabled={loading || authLoading}
-                        className="w-full pl-12 pr-12 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-purple-500/50 focus:bg-white/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full pl-12 pr-12 py-3 rounded-xl bg-white/5 border border-yellow-400/30 text-gray-100 placeholder:text-gray-400 focus:outline-none focus:border-yellow-400 focus:bg-white/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                       />
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                         disabled={loading || authLoading}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-purple-400 hover:text-purple-300 disabled:opacity-50"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-yellow-400 hover:text-yellow-300 disabled:opacity-50"
                       >
                         {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                       </button>
@@ -303,7 +303,7 @@ export default function AuthPage() {
                 <button
                   type="submit"
                   disabled={loading || authLoading}
-                  className="w-full mt-6 py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-gray-600 disabled:to-gray-600 text-white font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 disabled:cursor-not-allowed"
+                  className="w-full mt-6 py-3 px-4 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 disabled:from-gray-600 disabled:to-gray-600 text-gray-900 font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2 disabled:cursor-not-allowed"
                 >
                   {loading || authLoading ? (
                     <>
@@ -319,7 +319,7 @@ export default function AuthPage() {
               </form>
 
               {/* Toggle Sign Up / Sign In */}
-              <p className="text-center text-white/70 text-sm mt-6">
+              <p className="text-center text-gray-300 text-sm mt-6">
                 {isSignUp ? "Already have an account? " : "Don't have an account? "}
                 <button
                   type="button"
@@ -328,7 +328,7 @@ export default function AuthPage() {
                     setFormData({ name: '', email: '', password: '', confirmPassword: '' });
                     setError('');
                   }}
-                  className="text-purple-400 hover:text-purple-300 font-semibold transition-colors"
+                  className="text-yellow-400 hover:text-yellow-300 font-semibold transition-colors"
                 >
                   {isSignUp ? 'Sign In' : 'Sign Up'}
                 </button>
@@ -336,7 +336,7 @@ export default function AuthPage() {
             </div>
 
             {/* Terms */}
-            <p className="text-center text-white/50 text-xs mt-6">
+            <p className="text-center text-gray-400 text-xs mt-6">
               By continuing, you agree to our Terms of Service and Privacy Policy
             </p>
           </div>
