@@ -23,6 +23,15 @@ declare global {
 
 export function GoogleLoginButton({ onSuccess, disabled = false }) {
   const googleButtonRef = useRef<HTMLDivElement>(null);
+  const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+
+  if (!GOOGLE_CLIENT_ID) {
+    return (
+      <div className="w-full py-3 px-4 rounded-xl bg-gray-600 text-white font-semibold text-center disabled:cursor-not-allowed">
+        Google login not configured
+      </div>
+    );
+  }
 
   useEffect(() => {
     // Load Google API script
@@ -35,7 +44,7 @@ export function GoogleLoginButton({ onSuccess, disabled = false }) {
     script.onload = () => {
       if (window.google) {
         window.google.accounts.id.initialize({
-          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+          client_id: GOOGLE_CLIENT_ID,
           callback: onSuccess,
         });
 
@@ -51,9 +60,11 @@ export function GoogleLoginButton({ onSuccess, disabled = false }) {
     };
 
     return () => {
-      document.head.removeChild(script);
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
     };
-  }, [onSuccess]);
+  }, [onSuccess, GOOGLE_CLIENT_ID]);
 
   return (
     <div ref={googleButtonRef} className="w-full flex justify-center"></div>
@@ -62,13 +73,26 @@ export function GoogleLoginButton({ onSuccess, disabled = false }) {
 
 export function FacebookLoginButton({ onSuccess, disabled = false }) {
   const facebookButtonRef = useRef<HTMLDivElement>(null);
+  const FACEBOOK_APP_ID = import.meta.env.VITE_FACEBOOK_APP_ID;
+
+  if (!FACEBOOK_APP_ID) {
+    return (
+      <button
+        type="button"
+        disabled={true}
+        className="w-full py-3 px-4 rounded-xl bg-gray-600 text-white font-semibold flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        Facebook login not configured
+      </button>
+    );
+  }
 
   useEffect(() => {
     // Load Facebook SDK
     window.fbAsyncInit = () => {
       if (window.FB) {
         window.FB.init({
-          appId: import.meta.env.VITE_FACEBOOK_APP_ID,
+          appId: FACEBOOK_APP_ID,
           xfbml: true,
           version: 'v18.0',
         });
@@ -77,7 +101,7 @@ export function FacebookLoginButton({ onSuccess, disabled = false }) {
 
     const script = document.createElement('script');
     script.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0&appId=' + 
-      import.meta.env.VITE_FACEBOOK_APP_ID + '&autoLogAppEvents=1';
+      FACEBOOK_APP_ID + '&autoLogAppEvents=1';
     script.async = true;
     script.defer = true;
     script.crossOrigin = 'anonymous';
@@ -88,7 +112,7 @@ export function FacebookLoginButton({ onSuccess, disabled = false }) {
         document.body.removeChild(script);
       }
     };
-  }, []);
+  }, [FACEBOOK_APP_ID]);
 
   const handleFacebookLogin = () => {
     if (window.FB) {

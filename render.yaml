@@ -4,8 +4,8 @@ services:
     runtime: node
     plan: starter
     rootDir: .
-    buildCommand: pnpm install && pnpm build
-    startCommand: pnpm start
+    buildCommand: cd frontend && pnpm install && pnpm build && cd ../backend && pnpm install
+    startCommand: cd backend && pnpm start
     
     # Environment variables
     envVars:

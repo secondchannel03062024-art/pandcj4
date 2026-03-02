@@ -22,8 +22,12 @@ export const AuthProvider = ({ children }) => {
 
   const verifyToken = async (authToken) => {
     try {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      if (!apiUrl) {
+        throw new Error('API URL not configured');
+      }
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/me`,
+        `${apiUrl}/auth/me`,
         {
           headers: {
             Authorization: `Bearer ${authToken}`,
@@ -53,8 +57,12 @@ export const AuthProvider = ({ children }) => {
   const register = async (name, email, password, confirmPassword) => {
     try {
       setError(null);
+      const apiUrl = import.meta.env.VITE_API_URL;
+      if (!apiUrl) {
+        throw new Error('API URL not configured');
+      }
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/register`,
+        `${apiUrl}/auth/register`,
         {
           method: 'POST',
           headers: {
@@ -84,8 +92,12 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       setError(null);
+      const apiUrl = import.meta.env.VITE_API_URL;
+      if (!apiUrl) {
+        throw new Error('API URL not configured');
+      }
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/login`,
+        `${apiUrl}/auth/login`,
         {
           method: 'POST',
           headers: {
@@ -115,8 +127,12 @@ export const AuthProvider = ({ children }) => {
   const loginWithGoogle = async (googleId, name, email, profileImage) => {
     try {
       setError(null);
+      const apiUrl = import.meta.env.VITE_API_URL;
+      if (!apiUrl) {
+        throw new Error('API URL not configured');
+      }
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/google`,
+        `${apiUrl}/auth/google`,
         {
           method: 'POST',
           headers: {
@@ -146,8 +162,12 @@ export const AuthProvider = ({ children }) => {
   const loginWithFacebook = async (facebookId, name, email, profileImage) => {
     try {
       setError(null);
+      const apiUrl = import.meta.env.VITE_API_URL;
+      if (!apiUrl) {
+        throw new Error('API URL not configured');
+      }
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/auth/facebook`,
+        `${apiUrl}/auth/facebook`,
         {
           method: 'POST',
           headers: {
