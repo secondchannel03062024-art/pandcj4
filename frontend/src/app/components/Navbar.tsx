@@ -108,12 +108,6 @@ export function Navbar({ }: NavbarProps) {
           </div>
         </div>
       </div>
-                </Link>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Mobile Sidebar Menu */}
       <AnimatePresence>
