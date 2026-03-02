@@ -242,6 +242,40 @@ export default function CheckoutPage() {
     }));
   };
 
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Loader2 className="animate-spin" size={40} />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="bg-white rounded-3xl p-12 max-w-md text-center space-y-6">
+          <h1 className="text-3xl font-bold">Sign In Required</h1>
+          <p className="text-gray-600">You need to be logged in to place an order.</p>
+          <button
+            onClick={() => navigate('/sign-in')}
+            className="w-full bg-black text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-gray-800 transition-all"
+          >
+            Sign In
+          </button>
+          <p className="text-sm text-gray-500">
+            Don't have an account?{' '}
+            <button
+              onClick={() => navigate('/sign-up')}
+              className="font-semibold text-black hover:underline"
+            >
+              Sign Up
+            </button>
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   if (cartItems.length === 0) {
     navigate('/cart');
     return null;

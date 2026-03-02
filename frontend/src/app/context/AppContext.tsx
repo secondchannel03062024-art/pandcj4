@@ -30,6 +30,7 @@ interface AppContextType {
   refreshOrders: () => void;
   refreshCoupons: () => void;
   refreshBanners: () => void;
+  refreshCategories: () => void;
   
   // Order Management
   createOrder: (orderData: Omit<Order, '_id' | 'orderNumber' | 'createdAt' | 'updatedAt'>) => Promise<Order>;
@@ -65,7 +66,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [banners, setBanners] = useState<Banner[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
-  // Initialize database and seed data
+  // Initialize database and seed data (load only on page load, not real-time)
   useEffect(() => {
     seedDatabase();
     
@@ -85,35 +86,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     };
 
     loadData();
-    
-    // Subscribe to real-time updates
-    const unsubProducts = db.subscribe('products', (data) => {
-      setProducts(data.map((p: DBProduct) => ({ ...p, id: p._id })));
-    });
-    
-    const unsubOrders = db.subscribe('orders', (data) => {
-      setOrders(data);
-    });
-    
-    const unsubCoupons = db.subscribe('coupons', (data) => {
-      setCoupons(data);
-    });
-    
-    const unsubBanners = db.subscribe('banners', (data) => {
-      setBanners(data);
-    });
-    
-    const unsubCategories = db.subscribe('categories', (data) => {
-      setCategories(data);
-    });
-    
-    return () => {
-      unsubProducts();
-      unsubOrders();
-      unsubCoupons();
-      unsubBanners();
-      unsubCategories();
-    };
+    // Note: No real-time subscriptions - data updates on page reload
   }, []);
 
   // Cart Management
@@ -179,6 +152,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const refreshBanners = async () => {
     const data = await db.getAll<Banner>('banners');
     setBanners(data);
+  };
+
+  const refreshCategories = async () => {
+    const data = await db.getAll<Category>('categories');
+    setCategories(data);
   };
 
   // Order Management
@@ -302,6 +280,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         refreshOrders,
         refreshCoupons,
         refreshBanners,
+        refreshCategories,
         createOrder,
         updateOrderStatus,
         createProduct,
@@ -344,6 +323,7 @@ export function useApp() {
       refreshOrders: () => {},
       refreshCoupons: () => {},
       refreshBanners: () => {},
+      refreshCategories: () => {},
       createOrder: async () => ({ _id: '', orderNumber: '', customerName: '', customerEmail: '', customerPhone: '', shippingAddress: { street: '', city: '', state: '', zipCode: '', country: '' }, items: [], subtotal: 0, discount: 0, shipping: 0, total: 0, status: 'pending', paymentStatus: 'pending', createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }),
       updateOrderStatus: async () => {},
       createProduct: async () => ({ _id: '', id: '', sku: '', name: '', price: 0, offerPercentage: 0, quantity: 0, category: '', subCategory: '', fabricType: '', careInstructions: '', description: '', images: [], colors: [], features: [], createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }),
