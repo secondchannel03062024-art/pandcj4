@@ -294,7 +294,7 @@ export default function AdminCoupons() {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                     />
                   </div>
-          </>
+                )}
 
                 <div>
                   <label className="block text-sm font-medium mb-2">Valid From *</label>
