@@ -215,8 +215,8 @@ export default function AdminCoupons() {
       {/* Coupon Modal */}
       {isModalOpen && (
         <>
-          <div className="fixed inset-0 bg-black/50 z-40" onClick={closeModal} />
-          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-3xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto z-50">
+          <div className="fixed inset-0 bg-black/50 z-[990]" onClick={closeModal} />
+          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-3xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto z-[999]">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold">
                 {editingCoupon ? 'Edit Coupon' : 'Add New Coupon'}
@@ -294,7 +294,7 @@ export default function AdminCoupons() {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                     />
                   </div>
-                )}
+          </>
 
                 <div>
                   <label className="block text-sm font-medium mb-2">Valid From *</label>
