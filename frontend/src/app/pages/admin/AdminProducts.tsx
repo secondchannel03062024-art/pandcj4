@@ -453,9 +453,7 @@ export default function AdminProducts() {
                         </div>
                       ))}
                     </div>
-          </>
-
-                  {/* Manual URL Input */}
+                  )}
                   <div>
                     <label className="block text-xs font-medium mb-2 opacity-70">
                       Or add image URLs manually (comma-separated)
