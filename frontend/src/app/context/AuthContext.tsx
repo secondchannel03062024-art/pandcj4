@@ -1,6 +1,19 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const AuthContext = createContext();
+type AuthContextType = {
+  user: any | null;
+  token: string | null;
+  loading: boolean;
+  error: string | null;
+  isAuthenticated: boolean;
+  register: (name: string, email: string, password: string, confirmPassword: string) => Promise<any>;
+  login: (email: string, password: string) => Promise<any>;
+  loginWithGoogle: (googleId: string, name: string, email: string, profileImage: string) => Promise<any>;
+  loginWithFacebook: (facebookId: string, name: string, email: string, profileImage: string) => Promise<any>;
+  logout: () => void;
+};
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -226,5 +239,5 @@ export const useAuth = () => {
   if (!context) {
     throw new Error('useAuth must be used within AuthProvider');
   }
-  return context;
+  return context as AuthContextType;
 };

@@ -14,6 +14,7 @@ declare global {
     FB?: {
       init: (config: any) => void;
       login: (callback: (response: any) => void, config: any) => void;
+      api: (path: string, options: any, callback: (response: any) => void) => void;
       AppEvents?: {
         logEvent?: (event: string) => void;
       };
