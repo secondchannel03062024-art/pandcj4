@@ -125,7 +125,38 @@ export default function CheckoutPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (isProcessing) return;
+    if (isProcessing || cartItems.length === 0) return;
+    
+    // Validate form data
+    const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'address', 'city', 'state', 'zipCode'];
+    for (const field of requiredFields) {
+      const value = formData[field as keyof typeof formData];
+      if (!value || (typeof value === 'string' && value.trim() === '')) {
+        alert(`${field} is required`);
+        return;
+      }
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      alert('Please enter a valid email address');
+      return;
+    }
+    
+    // Validate phone format (basic check for 10 digits)
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(formData.phone.replace(/\D/g, ''))) {
+      alert('Please enter a valid 10-digit phone number');
+      return;
+    }
+    
+    // Validate zipcode format
+    if (!/^\d{6}$/.test(formData.zipCode)) {
+      alert('Please enter a valid 6-digit zipcode');
+      return;
+    }
+    
     setIsProcessing(true);
 
     try {

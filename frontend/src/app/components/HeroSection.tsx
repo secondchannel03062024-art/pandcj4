@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import { useApp } from '../context/AppContext';
+import { convertGoogleDriveLink } from '../../lib/googleDriveUtils';
 import imgImage3 from "../../assets/3071b1fc729091cd0452fb9d0b89106ceec16368.png";
 import imgImage5 from "../../assets/17aa3a2f29a85f64d93c41afa6b64d31b3a88038.png";
 import imgImage7 from "../../assets/837e11f00233936f837e7b69d6a545511b1ba132.png";
@@ -108,7 +109,7 @@ export function HeroSection() {
       <div className="px-4 md:px-8 lg:px-14 xl:px-24 2xl:px-32 flex flex-col lg:flex-row justify-start items-stretch gap-2.5 w-full max-w-[2000px] mx-auto">
         <div ref={mainHeroRef} className="relative w-full lg:w-1/2 xl:w-3/5 h-[300px] sm:h-[400px] md:h-[600px] lg:h-[650px] xl:h-[770px] rounded-[40px] overflow-hidden bg-zinc-300 flex-shrink-0">
           <img 
-            src={heroMainBanner?.image || defaultHeroMain.image} 
+            src={convertGoogleDriveLink(heroMainBanner?.image || defaultHeroMain.image)} 
             alt="Summer Outfit" 
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -142,7 +143,7 @@ export function HeroSection() {
             return (
               <Link key={index} to={data.link} className="hero-card flex-1 lg:flex-none lg:w-full h-[240px] md:h-[300px] lg:h-[318px] xl:h-96 relative overflow-hidden rounded-[40px] group">
                 <div className="h-full w-full left-0 top-0 absolute bg-zinc-300" />
-                <img src={data.image} alt={data.title.replace(/\\n/g, ' ')} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                <img src={convertGoogleDriveLink(data.image)} alt={data.title.replace(/\\n/g, ' ')} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 <h3 className="absolute top-[15px] md:top-[25px] lg:top-[25px] xl:top-[30px] left-[15px] md:left-[25px] lg:left-[25px] xl:left-[30px] justify-start text-neutral-900 text-xl md:text-3xl lg:text-2xl xl:text-4xl font-normal leading-8 lg:leading-8 xl:leading-10">
                   {data.title.split('\\n').map((line, i) => (
                     <span key={i}>

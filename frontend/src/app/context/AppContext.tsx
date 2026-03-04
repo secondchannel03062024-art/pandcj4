@@ -99,27 +99,27 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setCartItems((prev) => {
       const existingItem = prev.find((item) => item.id === product.id);
       if (existingItem) {
+        // Add 1 meter to existing item
         return prev.map((item) =>
           item.id === product.id
-            ? { ...item, cartQuantity: item.cartQuantity + 1 }
+            ? { ...item, cartQuantity: Math.min(item.cartQuantity + 1, 100) } // Max 100 meters
             : item
         );
       }
-      return [...prev, { ...product, cartQuantity: 5 }]; // Start with minimum 5 meters
+      // Start with minimum 1 meter (not 5)
+      return [...prev, { ...product, cartQuantity: 1 }];
     });
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
-    // Enforce minimum of 5 meters
-    if (quantity < 5) {
-      setCartItems((prev) => prev.filter((item) => item.id !== productId));
-    } else {
-      setCartItems((prev) =>
-        prev.map((item) =>
-          item.id === productId ? { ...item, cartQuantity: quantity } : item
-        )
-      );
-    }
+    // Enforce minimum of 1 meter, maximum of 100 meters
+    const validatedQuantity = Math.max(1, Math.min(parseInt(String(quantity), 10) || 1, 100));
+    
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === productId ? { ...item, cartQuantity: validatedQuantity } : item
+      )
+    );
   };
 
   const removeFromCart = (productId: string) => {

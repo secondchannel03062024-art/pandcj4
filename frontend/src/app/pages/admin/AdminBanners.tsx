@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Plus, Edit, Trash2, X, Eye, EyeOff, ChevronUp, ChevronDown } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { Banner } from '../../services/database';
+import { convertGoogleDriveLink } from '../../../lib/googleDriveUtils';
 
 export default function AdminBanners() {
   const { banners, createBanner, updateBanner, deleteBanner: deleteBannerDB } = useApp();
@@ -133,7 +134,7 @@ export default function AdminBanners() {
               {/* Banner Image */}
               <div className="md:w-1/3 aspect-[16/9] md:aspect-auto bg-gray-100 relative">
                 <img 
-                  src={banner.image} 
+                  src={convertGoogleDriveLink(banner.image)} 
                   alt={banner.title} 
                   className="w-full h-full object-cover"
                 />

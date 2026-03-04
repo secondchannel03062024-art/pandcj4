@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Plus, Search, Edit, Trash2, X, Upload, Image as ImageIcon } from 'lucide-react';
 import { CATEGORIES } from '../../types';
 import { useApp } from '../../context/AppContext';
+import { convertGoogleDriveLink } from '../../../lib/googleDriveUtils';
 
 export default function AdminProducts() {
   const { products, createProduct, updateProduct, deleteProduct: deleteProductDB } = useApp();
@@ -246,7 +247,7 @@ export default function AdminProducts() {
           return (
             <div key={product._id} className="bg-white rounded-2xl overflow-hidden">
               <div className="aspect-square bg-gray-100">
-                <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+                <img src={convertGoogleDriveLink(product.images[0])} alt={product.name} className="w-full h-full object-cover" />
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-1">{product.name}</h3>

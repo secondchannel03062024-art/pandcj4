@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Pencil, X } from 'lucide-react';
 import { Banner } from '../../services/database';
 import { useApp } from '../../context/AppContext';
+import { convertGoogleDriveLink } from '../../../lib/googleDriveUtils';
 
 export default function BannersPage() {
   const { banners, updateBanner } = useApp();
@@ -239,7 +240,7 @@ function BannerCard({
     <div className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
       <div className="relative h-40">
         <img
-          src={banner.image}
+          src={convertGoogleDriveLink(banner.image)}
           alt={banner.title}
           className="w-full h-full object-cover"
         />

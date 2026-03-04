@@ -23,6 +23,9 @@ app.use((req, res, next) => {
   next();
 });
 
+// Import middleware
+const { adminAuth, adminPermission } = require('./middleware/adminAuth');
+
 // Routes
 const productRoutes = require('./routes/products');
 const orderRoutes = require('./routes/orders');
@@ -32,7 +35,9 @@ const categoryRoutes = require('./routes/categories');
 const userRoutes = require('./routes/users');
 const paymentRoutes = require('./routes/payments');
 const shippingRoutes = require('./routes/shipping');
+const adminAuthRoutes = require('./routes/adminAuth');
 
+// Public routes
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/coupons', couponRoutes);
@@ -41,6 +46,17 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/shipping', shippingRoutes);
+
+// Admin Authentication Routes (public for login, verify, logout)
+app.use('/api/admin/auth', adminAuthRoutes);
+
+// Protected Admin Routes (require authentication)
+app.use('/api/admin/products', adminAuth, productRoutes);
+app.use('/api/admin/orders', adminAuth, orderRoutes);
+app.use('/api/admin/coupons', adminAuth, couponRoutes);
+app.use('/api/admin/banners', adminAuth, bannerRoutes);
+app.use('/api/admin/categories', adminAuth, categoryRoutes);
+app.use('/api/admin/users', adminAuth, userRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

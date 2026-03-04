@@ -1,5 +1,6 @@
 import { Outlet, useNavigate, useLocation } from 'react-router';
-import { LayoutDashboard, Package, ShoppingCart, Tag, Image, LogOut, FolderTree } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingCart, Tag, Image, LogOut, FolderTree, User } from 'lucide-react';
+import { useAdmin } from '../../context/AdminContext';
 
 const menuItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/admin' },
@@ -13,6 +14,11 @@ const menuItems = [
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { admin, logout } = useAdmin();
+
+  const handleLogout = async () => {
+    await logout();
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -45,13 +51,29 @@ export default function AdminDashboard() {
             </ul>
           </nav>
 
-          <div className="p-4 border-t border-gray-800">
+          {/* Admin Info and Logout */}
+          <div className="p-4 border-t border-gray-800 space-y-4">
+            {admin && (
+              <div className="bg-gray-900 rounded-lg p-3 text-sm">
+                <div className="flex items-center gap-2 mb-2">
+                  <User size={16} />
+                  <span className="font-medium">Admin</span>
+                </div>
+                <p className="text-gray-300 text-xs truncate">{admin.email}</p>
+              </div>
+            )}
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-600 transition-all text-red-400 hover:text-white"
+            >
+              <LogOut size={20} />
+              <span className="font-medium">Logout</span>
+            </button>
             <button
               onClick={() => navigate('/')}
               className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-gray-800 transition-all"
             >
-              <LogOut size={20} />
-              <span className="font-medium">Back to Store</span>
+              <span className="text-sm font-medium">Back to Store</span>
             </button>
           </div>
         </aside>

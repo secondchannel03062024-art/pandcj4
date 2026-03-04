@@ -64,7 +64,14 @@ export default function CartPage() {
               {cartItems.map((item) => (
                 <div key={item.id} className="cart-item flex gap-6 p-6 border border-gray-200 rounded-3xl">
                   <div className="w-32 h-32 flex-shrink-0 rounded-xl overflow-hidden bg-gray-100">
-                    <img src={item.images[0]} alt={item.name} className="w-full h-full object-cover" />
+                    <img 
+                      src={item.images?.[0] || ''} 
+                      alt={item.name} 
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Crect fill="%23ccc" width="200" height="200"/%3E%3Ctext x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="%23999" font-size="16"%3EImage Not Found%3C/text%3E%3C/svg%3E';
+                      }}
+                    />
                   </div>
                   <div className="flex-1">
                     <h3 className="text-xl font-medium mb-1">{item.name}</h3>
@@ -72,7 +79,7 @@ export default function CartPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <button
-                          onClick={() => updateQuantity(item.id, Math.max(5, item.cartQuantity - 1))}
+                          onClick={() => updateQuantity(item.id, Math.max(1, item.cartQuantity - 1))}
                           className="w-8 h-8 border-2 border-black rounded-lg hover:bg-black hover:text-white transition-all"
                         >
                           -
@@ -85,7 +92,7 @@ export default function CartPage() {
                           +
                         </button>
                       </div>
-                      <p className="text-xl font-bold">${(item.price * item.cartQuantity).toFixed(2)}</p>
+                      <p className="text-xl font-bold">₹{(item.price * item.cartQuantity).toFixed(2)}</p>
                     </div>
                   </div>
                   <button
@@ -110,15 +117,15 @@ export default function CartPage() {
                   </div>
                   <div className="flex justify-between">
                     <span className="opacity-70">Shipping</span>
-                    <span className="font-medium">${shipping.toFixed(2)}</span>
+                    <span className=\"font-medium\">₹{shipping.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="opacity-70">Tax</span>
-                    <span className="font-medium">${tax.toFixed(2)}</span>
+                    <span className=\"font-medium\">₹{tax.toFixed(2)}</span>
                   </div>
                   <div className="border-t pt-3 flex justify-between text-xl font-bold">
                     <span>Total</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>₹{total.toFixed(2)}</span>
                   </div>
                 </div>
 

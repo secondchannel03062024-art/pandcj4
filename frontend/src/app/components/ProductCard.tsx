@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
 import { gsap } from 'gsap';
 import { Product } from '../context/AppContext';
+import { convertGoogleDriveLink } from '../../lib/googleDriveUtils';
 
 interface ProductCardProps {
   product: Product;
@@ -53,9 +54,12 @@ export function ProductCard({ product, onAddToCart, onToggleWishlist, isInWishli
         onClick={() => navigate(`/product/${product.id}`)}
       >
         <img 
-          src={product.images[0]} 
+          src={convertGoogleDriveLink(product.images?.[0] || '')} 
           alt={product.name}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"%3E%3Crect fill="%23e5e7eb" width="300" height="300"/%3E%3Ctext x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="%23999" font-size="16"%3EImage Not Found%3C/text%3E%3C/svg%3E';
+          }}
         />
         <button
           onClick={(e) => {

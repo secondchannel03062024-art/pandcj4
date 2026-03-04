@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
 import { Heart, ShoppingCart, Check } from 'lucide-react';
 import { gsap } from 'gsap';
+import { convertGoogleDriveLink } from '../../lib/googleDriveUtils';
 
 export default function ProductDetailPage() {
   const { id } = useParams();
@@ -100,20 +101,23 @@ export default function ProductDetailPage() {
             >
               {/* Original image - hide on zoom */}
               <img
-                src={product.images[selectedImage]}
+                src={convertGoogleDriveLink(product.images?.[selectedImage] || '')}
                 alt={product.name}
                 className={`w-full h-full object-cover rounded-3xl transition-opacity duration-200 ${
                   showZoom ? 'lg:opacity-0' : 'opacity-100'
                 }`}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"%3E%3Crect fill="%23e5e7eb" width="400" height="400"/%3E%3Ctext x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="%23999" font-size="20"%3EImage Not Found%3C/text%3E%3C/svg%3E';
+                }}
               />
               
               {/* Zoomed preview - shows on hover, desktop only */}
-              {showZoom && (
+              {showZoom && product.images?.[selectedImage] && (
                 <div className="hidden lg:block absolute inset-0 z-10">
                   <div
                     className="w-full h-full rounded-3xl"
                     style={{
-                      backgroundImage: `url(${product.images[selectedImage]})`,
+                      backgroundImage: `url(${convertGoogleDriveLink(product.images[selectedImage])})`,
                       backgroundSize: '250%',
                       backgroundPosition: `${zoomPosition.x}% ${zoomPosition.y}%`,
                       backgroundRepeat: 'no-repeat',
@@ -124,7 +128,7 @@ export default function ProductDetailPage() {
             </div>
             
             <div className="grid grid-cols-3 gap-4 max-w-[500px] mx-auto">
-              {product.images.map((img, index) => (
+              {product.images?.map((img, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
@@ -132,7 +136,7 @@ export default function ProductDetailPage() {
                     selectedImage === index ? 'border-black' : 'border-transparent'
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <img \n                    src={convertGoogleDriveLink(img)} \n                    alt=\"\" \n                    className=\"w-full h-full object-cover\"\n                    onError={(e) => {\n                      (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect fill=%22%23e5e7eb%22 width=%22100%22 height=%22100%22/%3E%3C/svg%3E';\n                    }}\n                  />
                 </button>
               ))}
             </div>

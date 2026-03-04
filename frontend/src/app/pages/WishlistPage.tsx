@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router';
 import { useApp } from '../context/AppContext';
+import { convertGoogleDriveLink } from '../../lib/googleDriveUtils';
 import { Trash2, Heart } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
@@ -59,7 +60,14 @@ export default function WishlistPage() {
             {wishlistProducts.map((product) => (
               <div key={product.id} className="wishlist-item group relative border border-gray-200 rounded-3xl overflow-hidden hover:shadow-lg transition-shadow">
                 <div className="aspect-square bg-gray-100 cursor-pointer" onClick={() => navigate(`/product/${product.id}`)}>
-                  <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+                  <img 
+                    src={convertGoogleDriveLink(product.images?.[0] || '')} 
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"%3E%3Crect fill="%23e5e7eb" width="300" height="300"/%3E%3Ctext x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="%23999" font-size="16"%3EImage Not Found%3C/text%3E%3C/svg%3E';
+                    }}
+                  />
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-medium mb-2">{product.name}</h3>

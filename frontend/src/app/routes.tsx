@@ -17,6 +17,7 @@ import AdminProducts from "./pages/admin/AdminProducts";
 import AdminCoupons from "./pages/admin/AdminCoupons";
 import AdminCategories from "./pages/admin/AdminCategories";
 import BannersPage from "./pages/admin/BannersPage";
+import AdminLoginPage from "./pages/AdminLoginPage";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import SSOCallbackPage from "./pages/SSOCallbackPage";
@@ -30,6 +31,7 @@ import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import SitemapPage from "./pages/SitemapPage";
 import CookieSettingsPage from "./pages/CookieSettingsPage";
+import { ProtectedAdminRoute } from "./components/ProtectedAdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -65,10 +67,14 @@ export const router = createBrowserRouter([
           { path: "privacy", Component: PrivacyPage },
           { path: "sitemap", Component: SitemapPage },
           { path: "cookies", Component: CookieSettingsPage },
-          { path: "*", Component: NotFoundPage },
+          { path: "admin/login", Component: AdminLoginPage },
           {
             path: "admin",
-            Component: AdminDashboard,
+            Component: (props) => (
+              <ProtectedAdminRoute>
+                <AdminDashboard {...props} />
+              </ProtectedAdminRoute>
+            ),
             children: [
               { index: true, Component: AdminOrders },
               { path: "orders", Component: AdminOrders },
@@ -77,7 +83,8 @@ export const router = createBrowserRouter([
               { path: "coupons", Component: AdminCoupons },
               { path: "banners", Component: BannersPage }
             ]
-          }
+          },
+          { path: "*", Component: NotFoundPage },
         ]
       }
     ]

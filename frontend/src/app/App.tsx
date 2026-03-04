@@ -2,6 +2,7 @@ import { RouterProvider } from "react-router";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { router } from "./routes";
 import { AppProvider } from "./context/AppContext";
+import { AdminProvider } from "./context/AdminContext";
 
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
@@ -17,9 +18,11 @@ export default function App() {
       signUpFallbackRedirectUrl="https://auraclothings.qzz.io/"
       afterSignOutUrl="https://auraclothings.qzz.io/"
     >
-      <AppProvider>
-        <RouterProvider router={router} />
-      </AppProvider>
+      <AdminProvider>
+        <AppProvider>
+          <RouterProvider router={router} />
+        </AppProvider>
+      </AdminProvider>
     </ClerkProvider>
   );
 }
