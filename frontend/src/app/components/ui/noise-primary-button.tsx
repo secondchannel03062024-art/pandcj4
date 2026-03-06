@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 interface NoisePrimaryButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   containerClassName?: string;
-  gradientColors?: Array<[number, number, number]>;
+  gradientColors?: string[];
 }
 
 export const NoisePrimaryButton = ({
@@ -13,9 +13,9 @@ export const NoisePrimaryButton = ({
   className,
   containerClassName,
   gradientColors = [
-    [236, 72, 153],  // Pink
-    [59, 130, 246],  // Blue
-    [249, 115, 22]   // Orange
+    'rgb(236, 72, 153)',   // Pink
+    'rgb(59, 130, 246)',   // Blue
+    'rgb(249, 115, 22)'    // Orange
   ],
   ...props
 }: NoisePrimaryButtonProps) => {
