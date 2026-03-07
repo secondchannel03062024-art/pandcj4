@@ -49,6 +49,13 @@ export default function CheckoutPage() {
     }
   }, [isLoaded, user]);
 
+  // Calculate totals and costs (must be before useEffect that uses them)
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.cartQuantity, 0);
+  const shipping = subtotal >= config.shipping.freeThreshold ? 0 : shippingCost;
+  const discount = appliedCoupon ? appliedCoupon.discount : 0;
+  const tax = (subtotal - discount) * config.tax.rate;
+  const total = subtotal - discount + shipping + tax;
+
   // Calculate shipping when zipCode changes
   useEffect(() => {
     const calculateShipping = async () => {
@@ -94,13 +101,6 @@ export default function CheckoutPage() {
     const debounceTimer = setTimeout(calculateShipping, 1000); // Debounce by 1 second
     return () => clearTimeout(debounceTimer);
   }, [formData.zipCode, cartItems, subtotal]);
-
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.cartQuantity, 0);
-  // Use dynamic shipping cost from state  
-  const shipping = subtotal >= config.shipping.freeThreshold ? 0 : shippingCost;
-  const discount = appliedCoupon ? appliedCoupon.discount : 0;
-  const tax = (subtotal - discount) * config.tax.rate;
-  const total = subtotal - discount + shipping + tax;
 
   const handleApplyCoupon = () => {
     setCouponError('');
