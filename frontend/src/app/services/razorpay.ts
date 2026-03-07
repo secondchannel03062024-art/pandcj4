@@ -203,7 +203,7 @@ export const initiateBackendRazorpayPayment = async (
   try {
     // Step 1: Create order on backend
     console.log('Creating order on backend...');
-    const createOrderResponse = await fetch(`${API_BASE_URL}/api/payments/create-order`, {
+    const createOrderResponse = await fetch(`${API_BASE_URL}/payments/create-order`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -314,7 +314,7 @@ export const verifyPaymentOnBackend = async (
 
     console.log('Verifying payment on backend...');
 
-    const verifyResponse = await fetch(`${API_BASE_URL}/api/payments/verify`, {
+    const verifyResponse = await fetch(`${API_BASE_URL}/payments/verify`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
