@@ -66,6 +66,13 @@ const checkServiceability = async (pincode) => {
     };
   } catch (error) {
     console.error('[Shipping] Serviceability check error:', error.message);
+    console.error('[Shipping] Error details:', {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      message: error.message,
+      code: error.code,
+    });
     
     // Fallback to success if API is unavailable
     return {
@@ -147,6 +154,20 @@ const calculateShippingCharges = async (pincode, weight = 0.5, amount = 0) => {
     };
   } catch (error) {
     console.error('[Shipping] Calculate error:', error.message);
+    console.error('[Shipping] Error details:', {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      message: error.message,
+      code: error.code,
+    });
+
+    // Log if API token is set
+    if (!SHIPROCKET_API_KEY) {
+      console.error('[Shipping] ❌ SHIPROCKET_API_KEY environment variable not set!');
+    } else {
+      console.warn('[Shipping] ℹ️ SHIPROCKET_API_KEY is set, but API call failed');
+    }
 
     // Return fallback cost on error
     const fallbackCost = getFallbackShippingCost(pincode);
