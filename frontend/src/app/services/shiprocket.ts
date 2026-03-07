@@ -96,16 +96,6 @@ export const calculateShippingCharge = async (
       };
     }
 
-    // Check if already retrieved recently (cache for 5 minutes)
-    const cacheKey = `shipping_${destinationPincode}_${weight}`;
-    const cached = sessionStorage.getItem(cacheKey);
-    if (cached) {
-      const cachedData = JSON.parse(cached);
-      if (Date.now() - cachedData.timestamp < 5 * 60 * 1000) {
-        return cachedData.data;
-      }
-    }
-
     // Call backend shipping API
     const response = await fetch(`${API_BASE_URL}/shipping/calculate`, {
       method: 'POST',
@@ -113,6 +103,7 @@ export const calculateShippingCharge = async (
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        fromPincode: '712103', // Warehouse pincode
         destinationPincode,
         weight,
         amount: subtotal,
@@ -134,15 +125,6 @@ export const calculateShippingCharge = async (
         deliveryDays: result.data.deliveryDays,
         message: result.data.message || `Shipping: ₹${result.data.shippingCost}`,
       };
-
-      // Cache the result
-      sessionStorage.setItem(
-        cacheKey,
-        JSON.stringify({
-          data: shippingData,
-          timestamp: Date.now(),
-        })
-      );
 
       return shippingData;
     } else {

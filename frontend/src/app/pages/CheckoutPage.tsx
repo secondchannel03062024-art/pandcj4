@@ -61,12 +61,19 @@ export default function CheckoutPage() {
     const calculateShipping = async () => {
       const zipCode = formData.zipCode?.trim();
       
-      // Skip if zipCode is empty or invalid format
-      if (!zipCode || !validatePincodeFormat(zipCode)) {
-        // Reset to default shipping
-        setShippingCost(config.shipping.standardCost);
-        setShippingMessage('');
-        setShippingAvailable(true);
+      // If no zipCode, clear shipping
+      if (!zipCode) {
+        setShippingCost(0);
+        setShippingMessage('Enter pincode to calculate shipping');
+        setShippingAvailable(false);
+        return;
+      }
+
+      // If invalid format, show error
+      if (!validatePincodeFormat(zipCode)) {
+        setShippingCost(0);
+        setShippingMessage('Invalid pincode format (6 digits required)');
+        setShippingAvailable(false);
         return;
       }
 
@@ -83,16 +90,16 @@ export default function CheckoutPage() {
           setShippingMessage(result.message);
           setShippingAvailable(true);
         } else {
-          // Use fallback shipping cost if not available
-          setShippingCost(config.shipping.standardCost);
-          setShippingMessage(result.message || 'Using standard shipping rate');
+          // Location not serviceable
+          setShippingCost(0);
+          setShippingMessage(result.message || 'Shipping not available in this area');
           setShippingAvailable(false);
         }
       } catch (error) {
         console.error('Shipping calculation error:', error);
-        setShippingCost(config.shipping.standardCost);
-        setShippingMessage('');
-        setShippingAvailable(true);
+        setShippingCost(0);
+        setShippingMessage('Unable to calculate shipping. Please try again.');
+        setShippingAvailable(false);
       } finally {
         setIsCalculatingShipping(false);
       }
@@ -429,16 +436,26 @@ export default function CheckoutPage() {
                           <Loader2 size={14} className="animate-spin" />
                           <span>Calculating shipping charges...</span>
                         </div>
-                      ) : formData.zipCode && validatePincodeFormat(formData.zipCode) ? (
-                        <div className={shippingAvailable ? 'text-green-600' : 'text-orange-600'}>
-                          {shippingMessage && <p>{shippingMessage}</p>}
-                          {subtotal >= config.shipping.freeThreshold ? (
-                            <p className="font-medium text-green-600">✓ Free Shipping Eligible</p>
-                          ) : (
-                            <p className="font-medium">Shipping Cost: ₹{shippingCost.toFixed(0)}</p>
+                      ) : (
+                        <>
+                          {!formData.zipCode && (
+                            <p className="text-gray-500">{shippingMessage}</p>
                           )}
-                        </div>
-                      ) : null}
+                          {formData.zipCode && !validatePincodeFormat(formData.zipCode) && (
+                            <p className="text-red-600">{shippingMessage}</p>
+                          )}
+                          {formData.zipCode && validatePincodeFormat(formData.zipCode) && (
+                            <div className={shippingAvailable ? 'text-green-600' : 'text-orange-600'}>
+                              {shippingMessage && <p>{shippingMessage}</p>}
+                              {subtotal >= config.shipping.freeThreshold ? (
+                                <p className="font-medium text-green-600">✓ Free Shipping Eligible</p>
+                              ) : (
+                                <p className="font-medium">Shipping Cost: ₹{shippingCost.toFixed(0)}</p>
+                              )}
+                            </div>
+                          )}
+                        </>
+                      )}
                     </div>
                   </div>
                   <div>
