@@ -84,11 +84,8 @@ const connectDB = async () => {
       serverSelectionTimeoutMS: 15000,
     });
     isDBConnected = true;
-    console.log('✓ MongoDB connected successfully');
   } catch (err) {
     isDBConnected = false;
-    console.error('✗ MongoDB connection error:', err.message);
-    console.log('Retrying connection in 5 seconds...');
     setTimeout(connectDB, 5000);
   }
 };
@@ -98,14 +95,12 @@ connectDB();
 
 // Start server immediately for Render health checks
 const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(`✓ Server is running on port ${PORT}`);
+  // Server started silently
 });
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
-  console.log('SIGTERM received, shutting down gracefully...');
   server.close(() => {
-    console.log('Server closed');
     mongoose.connection.close();
     process.exit(0);
   });
