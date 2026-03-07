@@ -189,11 +189,11 @@ export const API_BASE_URL = (() => {
   
   // For localhost development
   if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-    return 'http://localhost:5000';
+    return 'http://localhost:5000/api';
   }
   
   // Default to production HTTPS
-  return 'https://auraclothings.qzz.io';
+  return 'https://auraclothings.qzz.io/api';
 })();
 
 // Create order via backend and open Razorpay checkout
