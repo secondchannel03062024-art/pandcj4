@@ -15,7 +15,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="w-full bg-gradient-to-b from-magenta-950 to-magenta-900 text-white mt-20 overflow-x-hidden">
+    <footer className="w-full bg-black text-white mt-20 overflow-x-hidden">
       {/* Main Footer Content */}
       <div className="w-full px-4 md:px-8 lg:px-[60px] py-16 md:py-24">
         {/* Logo Section */}
@@ -132,7 +132,7 @@ export function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-white/10 bg-magenta-950/80">
+      <div className="border-t border-white/10 bg-black/80">
         <div className="w-full px-4 md:px-8 lg:px-[60px] py-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-400 text-sm md:text-base">
             © 2024 Aura Clothings. All rights reserved.

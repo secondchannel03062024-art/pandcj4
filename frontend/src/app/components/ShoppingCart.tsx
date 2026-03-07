@@ -1,4 +1,4 @@
-import { X } from 'lucide-react';
+import { X, Trash2 } from 'lucide-react';
 import { Link } from 'react-router';
 import { CartItem } from '../types';
 import { useEffect, useRef } from 'react';
@@ -77,12 +77,12 @@ export function ShoppingCart({ isOpen, onClose, items, onUpdateQuantity, onRemov
                     <p className="text-sm opacity-70 mb-2">₹{item.price}</p>
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={() => onUpdateQuantity(item.id, Math.max(5, item.cartQuantity - 1))}
+                        onClick={() => onUpdateQuantity(item.id, Math.max(1, item.cartQuantity - 1))}
                         className="w-6 h-6 border rounded flex items-center justify-center hover:bg-gray-100 transition-all hover:scale-110 active:scale-95"
                       >
                         -
                       </button>
-                      <span className="w-8 text-center">{item.cartQuantity}m</span>
+                      <span className="w-8 text-center">{item.cartQuantity}</span>
                       <button
                         onClick={() => onUpdateQuantity(item.id, item.cartQuantity + 1)}
                         className="w-6 h-6 border rounded flex items-center justify-center hover:bg-gray-100 transition-all hover:scale-110 active:scale-95"
@@ -91,6 +91,13 @@ export function ShoppingCart({ isOpen, onClose, items, onUpdateQuantity, onRemov
                       </button>
                     </div>
                   </div>
+                  <button
+                    onClick={() => onRemoveItem(item.id)}
+                    className="flex-shrink-0 p-2 text-red-500 hover:bg-red-50 rounded-lg transition-all hover:scale-110 active:scale-95"
+                    title="Remove from cart"
+                  >
+                    <Trash2 size={18} />
+                  </button>
                 </div>
               ))}
             </div>
@@ -101,7 +108,7 @@ export function ShoppingCart({ isOpen, onClose, items, onUpdateQuantity, onRemov
           <div className="border-t p-6 space-y-4">
             <div className="flex items-center justify-between text-xl font-bold">
               <span>Total:</span>
-              <span>${total.toFixed(2)}</span>
+              <span>₹{total.toFixed(2)}</span>
             </div>
             <Link 
               to="/cart" 

@@ -7,7 +7,7 @@ import { FloatingDock } from '@/components/ui/floating-dock';
 import { useApp } from './context/AppContext';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Home, ShoppingBag, Heart, User, ShoppingCart as ShoppingCartIcon } from 'lucide-react';
+import { Home, ShoppingBag, Heart, User, ShoppingCart as ShoppingCartIcon, Package } from 'lucide-react';
 import { CATEGORIES } from './types';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -60,7 +60,7 @@ export default function Layout() {
         <div className="relative">
           <ShoppingCartIcon className="h-full w-full text-gray-700" />
           {totalCartItems > 0 && (
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-magenta-950 text-white text-xs rounded-full flex items-center justify-center font-bold">
+            <span className="absolute -top-1 -right-1 w-4 h-4 bg-black text-white text-xs rounded-full flex items-center justify-center font-bold">
               {totalCartItems}
             </span>
           )}
@@ -75,13 +75,18 @@ export default function Layout() {
         <div className="relative">
           <Heart className="h-full w-full text-gray-700" />
           {wishlist.length > 0 && (
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-magenta-950 text-white text-xs rounded-full flex items-center justify-center font-bold">
+            <span className="absolute -top-1 -right-1 w-4 h-4 bg-black text-white text-xs rounded-full flex items-center justify-center font-bold">
               {wishlist.length}
             </span>
           )}
         </div>
       ),
       href: '/wishlist',
+    },
+    {
+      title: 'Orders',
+      icon: <Package className="h-full w-full text-gray-700" />,
+      href: '/orders',
     },
     {
       title: 'Profile',
