@@ -3,11 +3,13 @@ import { Plus, Edit, Trash2, X, Eye, EyeOff, ChevronUp, ChevronDown } from 'luci
 import { useApp } from '../../context/AppContext';
 import { Banner } from '../../services/database';
 import { convertGoogleDriveLink } from '../../../lib/googleDriveUtils';
+import { GoogleDrivePicker } from '../../components/GoogleDrivePicker';
 
 export default function AdminBanners() {
   const { banners, createBanner, updateBanner, deleteBanner: deleteBannerDB } = useApp();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBanner, setEditingBanner] = useState<Banner | null>(null);
+  const [showGoogleDrivePicker, setShowGoogleDrivePicker] = useState(false);
   
   const [formData, setFormData] = useState({
     type: 'hero-main' as Banner['type'],
@@ -105,6 +107,16 @@ export default function AdminBanners() {
       updateBanner(swapBanner._id, { order: banner.order });
     }
     updateBanner(banner._id, { order: newOrder });
+  };
+
+  // Handle Google Drive image selection
+  const handleGoogleDriveImage = (urls: string[]) => {
+    if (urls && urls.length > 0) {
+      // Update form data with the first selected image
+      formDataRef.current.image = urls[0];
+      // Reset picker
+      setShowGoogleDrivePicker(false);
+    }
   };
 
   // Sort banners by order
@@ -285,17 +297,43 @@ export default function AdminBanners() {
 
               <div>
                 <label className="block text-sm font-medium mb-2">Image URL *</label>
+                
+                {/* Google Drive Picker Toggle */}
+                <button
+                  type="button"
+                  onClick={() => setShowGoogleDrivePicker(!showGoogleDrivePicker)}
+                  className="w-full mb-3 px-4 py-2 border-2 border-blue-300 border-dashed rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all font-medium text-blue-700 text-sm"
+                >
+                  {showGoogleDrivePicker ? '← Hide Google Drive' : '☁️ Add from Google Drive'}
+                </button>
+
+                {/* Google Drive Picker */}
+                {showGoogleDrivePicker && (
+                  <div className="mb-3">
+                    <GoogleDrivePicker
+                      onSelect={(urls) => {
+                        if (urls && urls.length > 0) {
+                          setFormData(prev => ({ ...prev, image: urls[0] }));
+                          setShowGoogleDrivePicker(false);
+                        }
+                      }}
+                      multiple={false}
+                    />
+                  </div>
+                )}
+
+                {/* Manual URL Input */}
                 <input
-                  type="url"
+                  type="text"
                   required
                   value={formData.image}
                   onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-                  placeholder="https://example.com/banner.jpg"
+                  placeholder="https://example.com/banner.jpg or Google Drive URL"
                 />
                 {formData.image && (
                   <div className="mt-3 aspect-[16/9] bg-gray-100 rounded-lg overflow-hidden">
-                    <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
+                    <img src={convertGoogleDriveLink(formData.image)} alt="Preview" className="w-full h-full object-cover" />
                   </div>
                 )}
               </div>

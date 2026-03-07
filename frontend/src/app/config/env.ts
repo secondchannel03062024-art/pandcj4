@@ -39,6 +39,12 @@ export const config = {
     apiSecret: import.meta.env.VITE_CLOUDINARY_API_SECRET || '',
   },
 
+  // Google Services
+  google: {
+    clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID || '',
+    apiKey: import.meta.env.VITE_GOOGLE_API_KEY || '',
+  },
+
   // Email
   email: {
     serviceApiKey: import.meta.env.VITE_EMAIL_SERVICE_API_KEY || '',

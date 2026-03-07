@@ -3,6 +3,7 @@ import { Plus, Search, Edit, Trash2, X, Upload, Image as ImageIcon } from 'lucid
 import { CATEGORIES } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { convertGoogleDriveLink } from '../../../lib/googleDriveUtils';
+import { GoogleDrivePicker } from '../../components/GoogleDrivePicker';
 
 export default function AdminProducts() {
   const { products, createProduct, updateProduct, deleteProduct: deleteProductDB } = useApp();
@@ -10,6 +11,7 @@ export default function AdminProducts() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<typeof products[0] | null>(null);
   const [uploadingImages, setUploadingImages] = useState(false);
+  const [showGoogleDrivePicker, setShowGoogleDrivePicker] = useState(false);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -128,6 +130,19 @@ export default function AdminProducts() {
     } finally {
       setUploadingImages(false);
     }
+  };
+
+  // Handle Google Drive image selection
+  const handleGoogleDriveImages = (urls: string[]) => {
+    if (!urls || urls.length === 0) return;
+
+    // Add new images to existing ones
+    const currentImages = formData.images ? formData.images.split(',').map(img => img.trim()).filter(Boolean) : [];
+    const allImages = [...currentImages, ...urls];
+    setFormData(prev => ({ ...prev, images: allImages.join(', ') }));
+    
+    // Reset state
+    setShowGoogleDrivePicker(false);
   };
 
   const openModal = (product?: typeof products[0]) => {
@@ -434,12 +449,35 @@ export default function AdminProducts() {
                     </p>
                   </div>
 
+                  {/* Google Drive Picker Button */}
+                  <div className="mb-4">
+                    <button
+                      type="button"
+                      onClick={() => setShowGoogleDrivePicker(!showGoogleDrivePicker)}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-blue-300 border-dashed rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all font-medium text-blue-700"
+                    >
+                      <ImageIcon size={20} />
+                      {showGoogleDrivePicker ? 'Hide Google Drive' : 'Add from Google Drive'}
+                    </button>
+                  </div>
+
+                  {/* Google Drive Picker Component */}
+                  {showGoogleDrivePicker && (
+                    <div className="mb-4">
+                      <GoogleDrivePicker
+                        onSelect={handleGoogleDriveImages}
+                        multiple={true}
+                        disabled={uploadingImages}
+                      />
+                    </div>
+                  )}
+
                   {/* Image Previews */}
                   {getImagePreviews().length > 0 && (
                     <div className="grid grid-cols-3 gap-3 mb-3">
                       {getImagePreviews().map((img, index) => (
                         <div key={index} className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 border-2 border-gray-200">
-                          <img src={img} alt={`Preview ${index + 1}`} className="w-full h-full object-cover" />
+                          <img src={convertGoogleDriveLink(img)} alt={`Preview ${index + 1}`} className="w-full h-full object-cover" />
                           <button
                             type="button"
                             onClick={() => {
@@ -464,7 +502,7 @@ export default function AdminProducts() {
                       value={formData.images}
                       onChange={(e) => setFormData(prev => ({ ...prev, images: e.target.value }))}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black text-sm"
-                      placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
+                      placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg, or Google Drive links"
                     />
                   </div>
                 </div>
