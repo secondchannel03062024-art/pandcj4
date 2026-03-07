@@ -179,12 +179,22 @@ export interface BackendPaymentOptions {
   onDismiss?: () => void;
 }
 
-// Backend API base URL
-export const API_BASE_URL = import.meta.env.VITE_API_URL || (
-  typeof window !== 'undefined' && window.location.hostname === 'localhost'
-    ? 'http://localhost:5000'
-    : 'https://auraclothings.qzz.io'
-);
+// Backend API base URL - prioritize production HTTPS
+export const API_BASE_URL = (() => {
+  // If explicitly set to a custom value and not http:// localhost, use it
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl && !envUrl.includes('localhost') && !envUrl.startsWith('http://')) {
+    return envUrl;
+  }
+  
+  // For localhost development
+  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+    return 'http://localhost:5000';
+  }
+  
+  // Default to production HTTPS
+  return 'https://auraclothings.qzz.io';
+})();
 
 // Create order via backend and open Razorpay checkout
 export const initiateBackendRazorpayPayment = async (

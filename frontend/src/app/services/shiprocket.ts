@@ -3,12 +3,22 @@
 
 import { config } from '../config/env';
 
-// API base URL from environment
-const API_BASE_URL = import.meta.env.VITE_API_URL || (
-  typeof window !== 'undefined' && window.location.hostname === 'localhost'
-    ? 'http://localhost:5000/api'
-    : 'https://auraclothings.qzz.io/api'
-);
+// API base URL from environment - prioritize production HTTPS
+const API_BASE_URL = (() => {
+  // If explicitly set to a custom value and not http:// localhost, use it
+  const envUrl = import.meta.env.VITE_API_URL;
+  if (envUrl && !envUrl.includes('localhost') && !envUrl.startsWith('http://')) {
+    return envUrl;
+  }
+  
+  // For localhost development
+  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+    return 'http://localhost:5000/api';
+  }
+  
+  // Default to production HTTPS
+  return 'https://auraclothings.qzz.io/api';
+})();
 
 /**
  * Validate pincode format (6 digits for India)
