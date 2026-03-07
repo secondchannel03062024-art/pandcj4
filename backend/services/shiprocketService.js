@@ -189,51 +189,87 @@ const validatePincode = (pincode) => {
 /**
  * Get fallback shipping cost based on pincode pattern
  * Used when Shiprocket API is unavailable
- * Warehouse location: Mumbai (400001)
+ * Warehouse location: Kolkata (712103)
  * @param {string} pincode - Destination pincode
  * @returns {number} Shipping cost in rupees
  */
 const getFallbackShippingCost = (pincode) => {
   const pincodeStr = String(pincode).substring(0, 3);
   
-  // Zone 1: Same city - Mumbai metro area
-  const zone1Patterns = ['400', '401', '402', '410'];
+  // ZONE 1: Kolkata & West Bengal local (0-200 km) - CLOSEST
+  const zone1Patterns = ['700', '701', '702', '703', '704', '705', '706', '707', '708', '709', '710', '711', '712', '713', '714', '715', '716', '717', '718', '719'];
   if (zone1Patterns.includes(pincodeStr)) {
-    return 40; // Same city
+    return 40; // Local delivery
   }
 
-  // Zone 2: Adjacent metros & nearby states (short distance)
-  const zone2Patterns = ['411', '412', '413', '414', '415', '416', '421', '440', '470']; // Pune, nearby areas
+  // ZONE 2: North-East India - Assam, Tripura, Manipur (500-1000 km)
+  const zone2Patterns = ['794', '788', '797', '798', '799', '761', '762', '763', '764', '765'];
   if (zone2Patterns.includes(pincodeStr)) {
-    return 50;
+    return 60;
   }
 
-  // Zone 3: Major metros (medium distance from warehouse)
-  const zone3Patterns = ['110', '560', '700', '380', '362', '390']; // Delhi, Bangalore, Kolkata, Ahmedabad, Surat, Vadodara
+  // ZONE 3: Surat & Gujarat coast (1200-1300 km)
+  const zone3Patterns = ['362', '363', '364', '365'];
   if (zone3Patterns.includes(pincodeStr)) {
+    return 70;
+  }
+
+  // ZONE 4: Ahmedabad & Gujarat region (1200-1300 km)
+  const zone4Patterns = ['380', '381', '382', '383', '384', '385', '386', '387', '388', '389'];
+  if (zone4Patterns.includes(pincodeStr)) {
     return 75;
   }
 
-  // Zone 4: Tier-2 cities & states (medium-long distance)
-  const zone4Patterns = ['201', '202', '395', '301', '302', '303', '452']; // Noida, Ghaziabad, Rajkot, Indore, Jaipur, Nashik
-  if (zone4Patterns.includes(pincodeStr)) {
+  // ZONE 5: Vadodara, Rajkot, Bhavnagar (1200-1600 km)
+  const zone5Patterns = ['390', '391', '392', '393', '394', '395', '396', '361'];
+  if (zone5Patterns.includes(pincodeStr)) {
+    return 80;
+  }
+
+  // ZONE 6: Indore, Nashik, Aurangabad (1400-1600 km)
+  const zone6Patterns = ['452', '453', '454', '421', '422', '423', '424', '425', '431', '432', '433', '434', '435'];
+  if (zone6Patterns.includes(pincodeStr)) {
     return 85;
   }
 
-  // Zone 5: North-East India (longest distance, remote areas)
-  const northEastPatterns = ['794', '788', '797', '798', '799', '713', '761'];
-  if (northEastPatterns.includes(pincodeStr)) {
-    return 150;
+  // ZONE 7: Pune, Nagpur, Vikarabad (1600-1800 km)
+  const zone7Patterns = ['410', '411', '412', '413', '414', '415', '416', '417', '418', '419', '440', '441', '442', '443', '444', '445', '446', '447', '448', '449'];
+  if (zone7Patterns.includes(pincodeStr)) {
+    return 90;
   }
 
-  // Zone 6: Remote/hilly areas
-  const remotePatterns = ['176', '177', '178', '175', '174', '171', '170']; // Himachal Pradesh
-  if (remotePatterns.includes(pincodeStr)) {
+  // ZONE 8: Mumbai & Maharashtra coast (1900-2000 km)
+  const zone8Patterns = ['400', '401', '402', '403', '404', '405', '406', '407', '408', '409'];
+  if (zone8Patterns.includes(pincodeStr)) {
+    return 95;
+  }
+
+  // ZONE 9: Delhi, NCR, Noida, Ghaziabad (1400-1500 km)
+  const zone9Patterns = ['110', '111', '112', '113', '114', '115', '116', '117', '118', '119', '120', '121', '122', '123', '124', '125', '126', '127', '128', '129', '201', '202', '203', '204', '205', '206', '207', '208', '209', '210'];
+  if (zone9Patterns.includes(pincodeStr)) {
+    return 100;
+  }
+
+  // ZONE 10: Jaipur & Rajasthan (1500-1700 km)
+  const zone10Patterns = ['300', '301', '302', '303', '304', '305', '306', '307', '308', '309', '310'];
+  if (zone10Patterns.includes(pincodeStr)) {
+    return 105;
+  }
+
+  // ZONE 11: Bangalore & South India (2300-2500 km)
+  const zone11Patterns = ['560', '561', '562', '563', '564', '565', '566', '567', '568', '569', '570'];
+  if (zone11Patterns.includes(pincodeStr)) {
     return 120;
   }
 
-  // Default: All other areas (rest of India)
-  return 80;
+  // ZONE 12: Remote areas - Himachal Pradesh (1900 km)
+  const zone12Patterns = ['170', '171', '172', '173', '174', '175', '176', '177', '178', '179'];
+  if (zone12Patterns.includes(pincodeStr)) {
+    return 130;
+  }
+
+  // DEFAULT: Rest of India (1500-2000 km average)
+  return 90;
 };
 
 module.exports = {
