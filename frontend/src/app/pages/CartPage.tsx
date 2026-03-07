@@ -45,7 +45,7 @@ export default function CartPage() {
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-[60px] py-8 md:py-12">
         {cartItems.length === 0 ? (
-          <div className="text-center py-20">
+          <div className="flex flex-col items-center justify-center text-center py-20 min-h-[400px]">
             <ShoppingBag size={80} className="mx-auto mb-6 opacity-20" />
             <h2 className="text-2xl mb-4">Your cart is empty</h2>
             <p className="text-lg opacity-70 mb-8">
