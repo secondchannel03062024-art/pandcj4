@@ -13,7 +13,7 @@ const DEFAULT_SHIPPING_COSTS = {
 
 // Shiprocket API headers
 const getHeaders = () => ({
-  'Authorization': `Bearer ${SHIPROCKET_API_KEY}`,
+  'Authorization': `${SHIPROCKET_API_KEY}`,
   'Content-Type': 'application/json',
 });
 
