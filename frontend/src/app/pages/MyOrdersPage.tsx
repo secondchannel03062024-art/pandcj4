@@ -81,12 +81,14 @@ export default function MyOrdersPage() {
             <p className="text-lg opacity-70 mb-8">
               You need to sign in to your account to view your order history and track shipments.
             </p>
-            <NoiseButton
-              onClick={() => navigate('/sign-in?redirect_url=/orders')}
-              containerClassName="w-fit"
-            >
-              Sign In Now
-            </NoiseButton>
+            <div className="flex justify-center">
+              <NoiseButton
+                onClick={() => navigate('/sign-in?redirect_url=/orders')}
+                containerClassName="w-fit"
+              >
+                Sign In Now
+              </NoiseButton>
+            </div>
           </div>
         </div>
       </div>
@@ -108,12 +110,14 @@ export default function MyOrdersPage() {
             <p className="text-lg opacity-70 mb-8">
               You haven't placed any orders yet. Start shopping now!
             </p>
-            <NoiseButton
-              onClick={() => navigate('/shop')}
-              containerClassName="w-fit"
-            >
-              Start Shopping
-            </NoiseButton>
+            <div className="flex justify-center">
+              <NoiseButton
+                onClick={() => navigate('/shop')}
+                containerClassName="w-fit"
+              >
+                Start Shopping
+              </NoiseButton>
+            </div>
           </div>
         ) : (
           <div className="space-y-4">
