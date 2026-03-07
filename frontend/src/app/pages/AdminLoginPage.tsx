@@ -4,6 +4,8 @@ import { Eye, EyeOff, Lock, Mail, AlertCircle } from 'lucide-react';
 import { gsap } from 'gsap';
 import { API_BASE_URL } from '../services/razorpay';
 
+// Note: API_BASE_URL is dynamically configured for HTTPS in production (v1.0.1)
+
 export default function AdminLoginPage() {
   const navigate = useNavigate();
   const pageRef = useRef<HTMLDivElement>(null);
