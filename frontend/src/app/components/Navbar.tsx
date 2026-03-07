@@ -51,10 +51,12 @@ export function Navbar({ }: NavbarProps) {
           {/* Logo - Centered absolutely */}
           <Link 
             to="/" 
-            className="absolute left-1/2 -translate-x-1/2 text-lg md:text-xl lg:text-2xl font-extrabold whitespace-nowrap" 
-            style={{ fontFamily: "'Century Gothic', 'CenturyGothic', 'Apple Gothic', sans-serif" }}
+            className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 md:gap-3" 
           >
-            AuraClothings
+            <img src="/logo.png" alt="Aura Clothings" className="h-8 md:h-10 lg:h-12 w-auto" />
+            <span className="text-lg md:text-xl lg:text-2xl font-extrabold whitespace-nowrap" style={{ fontFamily: "'Garamond', serif" }}>
+              Aura Clothings
+            </span>
           </Link>
 
           {/* Right: Auth - Pushed far right */}

@@ -1,31 +1,20 @@
-/* Century Gothic and Helvetica Font Setup */
+/* Garamond Font - For Headings */
+@import url('https://fonts.googleapis.com/css2?family=Garamond:wght@400;500;600;700&display=swap');
 
-/* Century Gothic is typically a system font, but we'll include a web-safe fallback stack */
-@font-face {
-  font-family: 'Century Gothic';
-  src: local('Century Gothic'), local('CenturyGothic');
-  font-weight: normal;
-  font-style: normal;
+/* Montserrat Font - For Body Text */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --font-garamond: 'Garamond', serif;
+  --font-montserrat: 'Montserrat', sans-serif;
 }
 
-@font-face {
-  font-family: 'Century Gothic';
-  src: local('Century Gothic Bold'), local('CenturyGothic-Bold');
-  font-weight: bold;
-  font-style: normal;
+/* Apply Garamond to headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-garamond) !important;
 }
 
-/* Helvetica is also typically a system font */
-@font-face {
-  font-family: 'Helvetica';
-  src: local('Helvetica Neue'), local('Helvetica');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Helvetica';
-  src: local('Helvetica Neue Bold'), local('Helvetica-Bold');
-  font-weight: bold;
-  font-style: normal;
+/* Apply Montserrat to body text */
+body, p, span, a, button {
+  font-family: var(--font-montserrat) !important;
 }

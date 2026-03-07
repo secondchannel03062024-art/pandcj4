@@ -7,49 +7,90 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Magentish-Violet
-        'magenta': {
-          50: '#faf5ff',
-          100: '#f3e8ff',
-          200: '#e9d5ff',
-          300: '#d8b4ff',
-          400: '#c084fc',
-          500: '#a855f7',  // Primary magenta
-          600: '#9333ea',
-          700: '#7e22ce',
-          800: '#6b21a8',
-          900: '#581c87',
+        // Aura Green (Primary - from organic/natural theme)
+        'aura': {
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          200: '#bbf7d0',
+          300: '#86efac',
+          400: '#4ade80',
+          500: '#22c55e',  // Primary Aura Green
+          600: '#16a34a',
+          700: '#15803d',
+          800: '#166534',
+          900: '#145231',
         },
-        // Olive-Green
+        // Earth Brown (Secondary - organic/natural)
+        'earth': {
+          50: '#fafaf9',
+          100: '#f5f5f4',
+          200: '#e7e5e4',
+          300: '#d6d3d1',
+          400: '#a8a29e',
+          500: '#78716c',  // Primary Earth Brown
+          600: '#57534e',
+          700: '#44403c',
+          800: '#292524',
+          900: '#1c1917',
+        },
+        // Cream/Natural (Accent)
+        'cream': {
+          50: '#fffbf0',
+          100: '#fef6e4',
+          200: '#ffecc4',
+          300: '#ffd89b',
+          400: '#ffbeaa',
+          500: '#ff9966',  // Primary Cream/Natural
+          600: '#ff8844',
+          700: '#dd6633',
+          800: '#996633',
+          900: '#664422',
+        },
+        // Backward compatibility aliases
+        'magenta': {
+          50: '#f0fdf4',
+          100: '#dcfce7',
+          200: '#bbf7d0',
+          300: '#86efac',
+          400: '#4ade80',
+          500: '#22c55e',  // Maps to Aura Green
+          600: '#16a34a',
+          700: '#15803d',
+          800: '#166534',
+          900: '#145231',
+        },
+        'golden': {
+          50: '#fffbf0',
+          100: '#fef6e4',
+          200: '#ffecc4',
+          300: '#ffd89b',
+          400: '#ffbeaa',
+          500: '#ff9966',  // Maps to Cream
+          600: '#ff8844',
+          700: '#dd6633',
+          800: '#996633',
+          900: '#664422',
+        },
         'olive': {
           50: '#fafaf9',
-          100: '#f5f5f0',
-          200: '#e7e5e0',
-          300: '#d3cec5',
-          400: '#a19a8f',
-          500: '#7c7c3b',  // Primary olive
-          600: '#6b6b2f',
-          700: '#5a5a28',
-          800: '#4a4a1f',
-          900: '#3a3a15',
-        },
-        // Golden
-        'golden': {
-          50: '#fffbea',
-          100: '#fef3c7',
-          200: '#fde68a',
-          300: '#fcd34d',
-          400: '#fbbf24',
-          500: '#f59e0b',  // Primary golden
-          600: '#d97706',
-          700: '#b45309',
-          800: '#92400e',
-          900: '#78350f',
+          100: '#f5f5f4',
+          200: '#e7e5e4',
+          300: '#d6d3d1',
+          400: '#a8a29e',
+          500: '#78716c',  // Maps to Earth Brown
+          600: '#57534e',
+          700: '#44403c',
+          800: '#292524',
+          900: '#1c1917',
         },
       },
+      fontFamily: {
+        garamond: ["'Garamond', serif"],
+        montserrat: ["'Montserrat', sans-serif"],
+      },
       backgroundImage: {
-        'gradient-auth': 'linear-gradient(135deg, #a855f7 0%, #f59e0b 100%)',
-        'gradient-text': 'linear-gradient(135deg, #a855f7 0%, #7c7c3b 50%, #f59e0b 100%)',
+        'gradient-auth': 'linear-gradient(135deg, #22c55e 0%, #ff9966 100%)',
+        'gradient-text': 'linear-gradient(135deg, #22c55e 0%, #78716c 50%, #ff9966 100%)',
       },
     },
   },

@@ -55,20 +55,20 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-bold tracking-wide mb-6">AuraClothings</h3>
             <p className="text-gray-400 text-sm md:text-base leading-relaxed mb-6">
-              Premium quality fabrics for your most creative projects. From dyeable silks to embroidered collections.
+              Export quality organic clothing designed for conscious consumers. Sustainable fashion with premium craftsmanship.
             </p>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <MapPin size={20} className="text-gray-500 flex-shrink-0" />
-                <span className="text-gray-300 text-sm md:text-base">India</span>
+                <span className="text-gray-300 text-sm md:text-base">Kolkata, West Bengal, India</span>
               </div>
               <div className="flex items-center gap-3">
                 <Phone size={20} className="text-gray-500 flex-shrink-0" />
-                <span className="text-gray-300 text-sm md:text-base">+91 (555) 123-4567</span>
+                <span className="text-gray-300 text-sm md:text-base">+91 7044457914</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail size={20} className="text-gray-500 flex-shrink-0" />
-                <span className="text-gray-300 text-sm md:text-base">support@fabricstore.com</span>
+                <span className="text-gray-300 text-sm md:text-base">info@auraclothings.com</span>
               </div>
             </div>
           </div>
@@ -130,7 +130,7 @@ export function Footer() {
       <div className="border-t border-white/10 bg-black/50">
         <div className="w-full px-4 md:px-8 lg:px-[60px] py-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-400 text-sm md:text-base">
-            © 2024 AuraClothings. All rights reserved.
+            © 2024 Aura Clothings. All rights reserved.
           </p>
           <div className="flex gap-6">
             <a href="#security" className="text-gray-400 text-sm md:text-base hover:text-white transition-colors">
