@@ -64,7 +64,14 @@ export function ShoppingCart({ isOpen, onClose, items, onUpdateQuantity, onRemov
             <div className="space-y-4">
               {items.map((item) => (
                 <div key={item.id} className="flex gap-4 pb-4 border-b">
-                  <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded-lg" />
+                  <img 
+                    src={item.images?.[0] || ''} 
+                    alt={item.name} 
+                    className="w-20 h-20 object-cover rounded-lg bg-gray-100"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect fill="%23ccc" width="100" height="100"/%3E%3Ctext x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="%23999" font-size="10"%3ENo Image%3C/text%3E%3C/svg%3E';
+                    }}
+                  />
                   <div className="flex-1">
                     <h3 className="font-medium mb-1">{item.name}</h3>
                     <p className="text-sm opacity-70 mb-2">${item.price}</p>
