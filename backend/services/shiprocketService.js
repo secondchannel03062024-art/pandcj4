@@ -31,55 +31,21 @@ const checkServiceability = async (pincode) => {
       };
     }
 
-    // Try to use Shiprocket API if token is available
-    if (SHIPROCKET_API_KEY) {
-      const response = await axios.get(
-        `${SHIPROCKET_API_BASE_URL}/courier/serviceability/`,
-        {
-          params: {
-            pickup_postcode: '712103', // Warehouse location
-            delivery_postcode: pincode,
-            weight: 0.5,
-            cod: 0,
-          },
-          headers: getHeaders(),
-          timeout: 5000,
-        }
-      );
-
-      const couriers = response.data?.data?.available_courier_companies || [];
-      return {
-        serviceable: couriers.length > 0,
-        couriers,
-        message: couriers.length > 0 ? 'Location is serviceable' : 'Location is not serviceable',
-      };
-    } else {
-      console.warn('[Shipping] ⚠️ SHIPROCKET_API_KEY not set - skipping API check');
-    }
-
-    // Fallback: Assume all Indian pincodes are serviceable
-    console.log('[Shipping] Using fallback serviceability check for pincode:', pincode);
+    // Use fallback: Assume all Indian pincodes are serviceable
+    console.log('[Shipping] Checking serviceability for pincode:', pincode);
     return {
       serviceable: true,
-      couriers: [{ id: 1, name: 'Default Courier' }],
+      couriers: [{ id: 1, name: 'Standard Courier' }],
       message: 'Location is serviceable',
     };
   } catch (error) {
     console.error('[Shipping] Serviceability check error:', error.message);
-    console.error('[Shipping] Error details:', {
-      status: error.response?.status,
-      statusText: error.response?.statusText,
-      data: error.response?.data,
-      message: error.message,
-      code: error.code,
-    });
     
-    // Fallback to success if API is unavailable
+    // Fallback to success if any error
     return {
       serviceable: true,
       couriers: [],
-      message: 'Serviceability check not available',
-      error: error.message,
+      message: 'Location is serviceable',
     };
   }
 };
@@ -95,88 +61,32 @@ const calculateShippingCharges = async (pincode, weight = 0.5, amount = 0) => {
   try {
     if (!validatePincode(pincode)) {
       return {
-        cost: DEFAULT_SHIPPING_COSTS.nonMetro,
+        cost: 80,
         available: false,
         message: 'Invalid pincode',
       };
     }
 
-    // Try Shiprocket API if available
-    if (SHIPROCKET_API_KEY) {
-      const response = await axios.get(
-        `${SHIPROCKET_API_BASE_URL}/courier/serviceability/`,
-        {
-          params: {
-            pickup_postcode: '712103', // Warehouse location
-            delivery_postcode: pincode,
-            weight,
-            cod: amount > 0 ? 1 : 0,
-          },
-          headers: getHeaders(),
-          timeout: 5000,
-        }
-      );
-
-      const couriers = response.data?.data?.available_courier_companies || [];
-      if (couriers.length > 0) {
-        const cheapestCourier = couriers.reduce((prev, current) =>
-          (prev.rate || Infinity) < (current.rate || Infinity) ? prev : current
-        );
-
-        console.log(`[Shipping] Shiprocket API - Calculated ₹${cheapestCourier.rate} for ${pincode}`);
-        return {
-          cost: Math.ceil(cheapestCourier.rate || DEFAULT_SHIPPING_COSTS.nonMetro),
-          available: true,
-          courier: cheapestCourier.name,
-          deliveryDays: cheapestCourier.estimated_days || '5-7',
-          allOptions: couriers.map(c => ({
-            name: c.name,
-            rate: c.rate,
-            estimatedDays: c.estimated_days,
-          })),
-        };
-      }
-    } else {
-      console.warn('[Shipping] ⚠️ SHIPROCKET_API_KEY not set - using fallback pricing');
-    }
-
-    // Fallback: Use default pricing based on pincode pattern
-    console.log('[Shipping] Using fallback pricing for pincode:', pincode);
+    // Use distance-based zone pricing
     const cost = getFallbackShippingCost(pincode);
+    console.log(`[Shipping] Pincode ${pincode} - Zone cost: ₹${cost}`);
     
     return {
       cost,
       available: true,
       courier: 'Standard Courier',
       deliveryDays: '5-7',
-      fallbackCost: cost,
-      message: `Using distance-based shipping rates (Fallback - ${cost === 40 ? 'Local' : cost === 50 ? 'Regional' : cost === 75 ? 'Metro' : cost === 85 ? 'Tier-2' : cost === 150 ? 'North-East' : cost === 120 ? 'Remote' : 'Standard'})`,
+      message: `Shipping: ₹${cost}`,
     };
   } catch (error) {
     console.error('[Shipping] Calculate error:', error.message);
-    console.error('[Shipping] Error details:', {
-      status: error.response?.status,
-      statusText: error.response?.statusText,
-      data: error.response?.data,
-      message: error.message,
-      code: error.code,
-    });
 
-    // Log if API token is set
-    if (!SHIPROCKET_API_KEY) {
-      console.error('[Shipping] ❌ SHIPROCKET_API_KEY environment variable not set!');
-    } else {
-      console.warn('[Shipping] ℹ️ SHIPROCKET_API_KEY is set, but API call failed');
-    }
-
-    // Return fallback cost on error
-    const fallbackCost = getFallbackShippingCost(pincode);
+    // Return default fallback cost on error
+    const fallbackCost = 80;
     return {
       cost: fallbackCost,
       available: true,
-      fallbackCost,
-      message: 'Shipping calculation error - using backup rates',
-      error: error.message,
+      message: `Shipping: ₹${fallbackCost}`,
     };
   }
 };
