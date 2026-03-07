@@ -397,7 +397,7 @@ export default function AdminGuidelines() {
       </section>
 
       {/* Contact & Legal */}
-      <section className="bg-gray-900 text-white rounded-2xl p-8">
+      <section className="bg-magenta-900 text-white rounded-2xl p-8">
         <h2 className="text-2xl font-bold mb-4">Need Help?</h2>
         <div className="space-y-3">
           <p><strong>Email:</strong> auraclothings@gmail.com</p>

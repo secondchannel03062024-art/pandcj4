@@ -103,7 +103,7 @@ export default function AdminCoupons() {
         </div>
         <button
           onClick={() => openModal()}
-          className="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-all flex items-center gap-2"
+          className="bg-magenta-950 text-white px-6 py-3 rounded-full font-medium hover:bg-magenta-900 transition-all flex items-center gap-2"
         >
           <Plus size={20} />
           Add Coupon
@@ -175,7 +175,7 @@ export default function AdminCoupons() {
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
-                      className="bg-black rounded-full h-2 transition-all"
+                      className="bg-magenta-950 rounded-full h-2 transition-all"
                       style={{ width: `${Math.min(usagePercentage, 100)}%` }}
                     />
                   </div>
@@ -196,7 +196,7 @@ export default function AdminCoupons() {
                 </button>
                 <button
                   onClick={() => openModal(coupon)}
-                  className="w-10 h-10 border-2 border-black rounded-full flex items-center justify-center hover:bg-black hover:text-white transition-all"
+                  className="w-10 h-10 border-2 border-magenta-950 rounded-full flex items-center justify-center hover:bg-magenta-950 hover:text-white transition-all"
                 >
                   <Edit size={16} />
                 </button>
@@ -215,7 +215,7 @@ export default function AdminCoupons() {
       {/* Coupon Modal */}
       {isModalOpen && (
         <>
-          <div className="fixed inset-0 bg-black/50 z-[990]" onClick={closeModal} />
+          <div className="fixed inset-0 bg-magenta-950/50 z-[990]" onClick={closeModal} />
           <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-3xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto z-[999]">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold">
@@ -353,7 +353,7 @@ export default function AdminCoupons() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-all"
+                  className="flex-1 bg-magenta-950 text-white px-6 py-3 rounded-full font-medium hover:bg-magenta-900 transition-all"
                 >
                   {editingCoupon ? 'Update Coupon' : 'Add Coupon'}
                 </button>

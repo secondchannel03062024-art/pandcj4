@@ -112,7 +112,7 @@ export default function ShopPage() {
                       setSelectedColor('');
                       setSearchParams({});
                     }}
-                    className="ml-auto text-gray-500 hover:text-black"
+                    className="ml-auto text-gray-500 hover:text-magenta-950"
                   >
                     ✕
                   </button>
@@ -130,7 +130,7 @@ export default function ShopPage() {
                     setSelectedSubCategory('');
                   }}
                   className={`w-full text-left px-4 py-2 rounded-lg transition-colors ${
-                    !selectedCategory ? 'bg-black text-white' : 'hover:bg-gray-100'
+                    !selectedCategory ? 'bg-magenta-950 text-white' : 'hover:bg-gray-100'
                   }`}
                 >
                   All Fabrics

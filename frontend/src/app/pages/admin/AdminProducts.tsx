@@ -233,7 +233,7 @@ export default function AdminProducts() {
         </div>
         <button
           onClick={() => openModal()}
-          className="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-all flex items-center gap-2"
+          className="bg-magenta-950 text-white px-6 py-3 rounded-full font-medium hover:bg-magenta-900 transition-all flex items-center gap-2"
         >
           <Plus size={20} />
           Add Product
@@ -279,7 +279,7 @@ export default function AdminProducts() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => openModal(product)}
-                    className="flex-1 border-2 border-black px-4 py-2 rounded-full font-medium hover:bg-black hover:text-white transition-all flex items-center justify-center gap-2"
+                    className="flex-1 border-2 border-magenta-950 px-4 py-2 rounded-full font-medium hover:bg-magenta-950 hover:text-white transition-all flex items-center justify-center gap-2"
                   >
                     <Edit size={16} />
                     Edit
@@ -300,7 +300,7 @@ export default function AdminProducts() {
       {/* Product Modal */}
       {isModalOpen && (
         <>
-          <div className="fixed inset-0 bg-black/50 z-[990]" onClick={closeModal} />
+          <div className="fixed inset-0 bg-magenta-950/50 z-[990]" onClick={closeModal} />
           <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-3xl p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto z-[999]">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold">
@@ -431,7 +431,7 @@ export default function AdminProducts() {
                   
                   {/* File Upload Button */}
                   <div className="mb-4">
-                    <label className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-black hover:bg-gray-50 cursor-pointer transition-all">
+                    <label className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-magenta-950 hover:bg-gray-50 cursor-pointer transition-all">
                       <Upload size={20} />
                       <span>{uploadingImages ? 'Processing...' : 'Upload Images'}</span>
                       <input
@@ -557,7 +557,7 @@ export default function AdminProducts() {
                 <button
                   type="submit"
                   disabled={uploadingImages}
-                  className="flex-1 bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 bg-magenta-950 text-white px-6 py-3 rounded-full font-medium hover:bg-magenta-900 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {editingProduct ? 'Update Product' : 'Add Product'}
                 </button>

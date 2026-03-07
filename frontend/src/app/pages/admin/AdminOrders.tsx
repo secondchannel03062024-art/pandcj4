@@ -263,7 +263,7 @@ export default function AdminOrders() {
       {/* Order Details Modal */}
       {selectedOrder && (
         <>
-          <div className="fixed inset-0 bg-black/50 z-[990]" onClick={() => setSelectedOrder(null)} />
+          <div className="fixed inset-0 bg-magenta-950/50 z-[990]" onClick={() => setSelectedOrder(null)} />
           <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-3xl p-8 w-full max-w-3xl max-h-[90vh] overflow-y-auto z-[999]">
             <div className="flex items-start justify-between mb-6">
               <div>

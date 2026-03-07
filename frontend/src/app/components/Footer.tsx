@@ -15,9 +15,14 @@ export function Footer() {
   };
 
   return (
-    <footer className="w-full bg-[#0a0a0a] text-white mt-20 overflow-x-hidden">
+    <footer className="w-full bg-gradient-to-b from-magenta-950 to-magenta-900 text-white mt-20 overflow-x-hidden">
       {/* Main Footer Content */}
       <div className="w-full px-4 md:px-8 lg:px-[60px] py-16 md:py-24">
+        {/* Logo Section */}
+        <div className="mb-12 pb-8 border-b border-white/10 flex justify-center">
+          <img src="/logo.png" alt="Aura Clothings" className="h-16 w-auto rounded-full shadow-lg" />
+        </div>
+
         {/* Newsletter Section */}
         <div className="mb-16 pb-16 border-b border-white/10 flex justify-center">
           <div className="w-full max-w-2xl text-center">
@@ -38,7 +43,7 @@ export function Footer() {
               />
               <button
                 type="submit"
-                className="bg-white text-black px-6 md:px-8 py-3 md:py-4 rounded-lg text-sm md:text-base font-bold hover:bg-gray-200 transition-colors whitespace-nowrap"
+                className="bg-white text-magenta-950 px-6 md:px-8 py-3 md:py-4 rounded-lg text-sm md:text-base font-bold hover:bg-gray-200 transition-colors whitespace-nowrap"
               >
                 Subscribe
               </button>
@@ -127,7 +132,7 @@ export function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-white/10 bg-black/50">
+      <div className="border-t border-white/10 bg-magenta-950/80">
         <div className="w-full px-4 md:px-8 lg:px-[60px] py-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-400 text-sm md:text-base">
             © 2024 Aura Clothings. All rights reserved.

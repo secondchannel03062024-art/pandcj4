@@ -121,7 +121,7 @@ export function Navbar({ }: NavbarProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsMenuOpen(false)}
-              className="fixed inset-0 bg-black/30 md:hidden z-40"
+              className="fixed inset-0 bg-magenta-950/30 md:hidden z-40\"
             />
 
             {/* Sidebar */}
