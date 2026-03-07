@@ -53,8 +53,8 @@ export function Navbar({ }: NavbarProps) {
             to="/" 
             className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 md:gap-3" 
           >
-            <img src="/logo.svg" alt="Aura Clothings" className="h-8 md:h-10 lg:h-12 w-auto" />
-            <span className="text-lg md:text-xl lg:text-2xl font-extrabold whitespace-nowrap font-noto-serif text-aura-green-500">
+            <img src="/logo.png" alt="Aura Clothings" className="h-10 md:h-12 lg:h-14 w-auto rounded-full" />
+            <span className="hidden sm:inline text-sm md:text-base lg:text-lg font-noto-serif font-bold text-gray-800">
               Aura Clothings
             </span>
           </Link>

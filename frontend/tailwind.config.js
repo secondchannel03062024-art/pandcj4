@@ -85,6 +85,7 @@ export default {
         },
       },
       fontFamily: {
+        against: ["'Against', sans-serif"],
         garamond: ["'Garamond', serif"],
         'dm-serif': ["'DM Serif Text', serif"],
         'noto-serif': ["'Noto Serif', serif"],
