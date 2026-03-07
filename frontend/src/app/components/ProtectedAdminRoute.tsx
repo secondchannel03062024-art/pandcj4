@@ -21,12 +21,14 @@ export const ProtectedAdminRoute = ({
       if (isAuthenticated) {
         const verified = await verifyToken();
         setIsVerified(verified);
+      } else {
+        setIsVerified(false);
       }
       setVerificationLoading(false);
     };
 
     verify();
-  }, [isAuthenticated, verifyToken]);
+  }, [isAuthenticated]);
 
   if (isLoading || verificationLoading) {
     return (
