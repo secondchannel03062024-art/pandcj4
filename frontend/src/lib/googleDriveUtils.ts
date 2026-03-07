@@ -1,7 +1,7 @@
 /**
  * Convert Google Drive share links to direct image URLs
  * From: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
- * To: https://drive.google.com/uc?export=view&id=FILE_ID
+ * To: https://lh3.googleusercontent.com/d/FILE_ID or https://drive.google.com/uc?export=view&id=FILE_ID
  */
 export const convertGoogleDriveLink = (url: string): string => {
   if (!url) return url;
@@ -27,8 +27,9 @@ export const convertGoogleDriveLink = (url: string): string => {
   }
 
   // If we found a file ID, convert to direct view URL
+  // Use GoogleUserContent (lh3) for better reliability with shared files
   if (fileId) {
-    return `https://drive.google.com/uc?export=view&id=${fileId}`;
+    return `https://lh3.googleusercontent.com/d/${fileId}`;
   }
 
   return url;

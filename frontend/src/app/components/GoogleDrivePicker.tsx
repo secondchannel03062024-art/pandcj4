@@ -21,11 +21,18 @@ export const GoogleDrivePicker = ({ onSelect, multiple = true, disabled = false 
     }
 
     try {
+      // Validate it's a Google Drive link first
+      if (!inputUrl.includes('drive.google.com')) {
+        setError('Please enter a valid Google Drive link (must be from drive.google.com)');
+        return;
+      }
+
       // Convert the Google Drive URL to direct view URL
       const directUrl = convertGoogleDriveLink(inputUrl);
       
-      if (!directUrl.includes('drive.google.com')) {
-        setError('Please enter a valid Google Drive link');
+      // Verify conversion worked (should contain the file ID in the new format)
+      if (!directUrl || directUrl === inputUrl) {
+        setError('Could not extract file ID from Google Drive link. Make sure the URL is in the correct format.');
         return;
       }
 
@@ -39,7 +46,7 @@ export const GoogleDrivePicker = ({ onSelect, multiple = true, disabled = false 
         setSelectedUrl(null);
       }
     } catch (err) {
-      setError('Failed to process Google Drive link');
+      setError('Failed to process Google Drive link: ' + (err instanceof Error ? err.message : 'Unknown error'));
     }
   };
 
@@ -84,9 +91,10 @@ export const GoogleDrivePicker = ({ onSelect, multiple = true, disabled = false 
 
       {/* Instructions */}
       <div className="text-sm text-blue-800 space-y-1">
-        <p>✓ Right-click the image in Google Drive → Share</p>
-        <p>✓ Get the sharing link and paste it below</p>
-        <p>✓ Make sure "Viewer" access is enabled</p>
+        <p>✓ Open your image in Google Drive</p>
+        <p>✓ Click "Share" button → Copy the sharing link</p>
+        <p>✓ Make sure sharing is set to "Viewer" or "Anyone with the link"</p>
+        <p>✓ Paste the link below and click "Convert Link"</p>
       </div>
 
       {/* URL Input */}
@@ -111,7 +119,7 @@ export const GoogleDrivePicker = ({ onSelect, multiple = true, disabled = false 
               src={selectedUrl} 
               alt="Preview" 
               className="w-full h-full object-cover"
-              onError={() => setError('Failed to load image. Check the sharing link.')}
+              onError={() => setError('Failed to load image. Make sure sharing is enabled and the file ID is correct.')}
             />
           </div>
         )}
