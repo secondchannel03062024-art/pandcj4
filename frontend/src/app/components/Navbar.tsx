@@ -4,7 +4,6 @@ import { gsap } from 'gsap';
 import { Menu, X, Home, ShoppingBag, Heart, User, ShoppingCart, LogOut } from 'lucide-react';
 import { useUser, useClerk } from '@clerk/clerk-react';
 import { useApp } from '../context/AppContext';
-import { CATEGORIES } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface NavbarProps {
@@ -16,7 +15,7 @@ export function Navbar({ }: NavbarProps) {
   const navRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { cartItems, wishlist } = useApp();
+  const { cartItems, wishlist, categories } = useApp();
   const { user, isLoaded } = useUser();
   const { signOut } = useClerk();
 
@@ -164,10 +163,10 @@ export function Navbar({ }: NavbarProps) {
                   <span className="text-sm font-medium">Shop All</span>
                 </Link>
 
-                {CATEGORIES.map((category) => (
+                {categories.filter(cat => cat.isActive).map((category) => (
                   <Link
-                    key={category.id}
-                    to={`/shop/${category.id}`}
+                    key={category._id}
+                    to={`/shop/${category.slug}`}
                     onClick={() => setIsMenuOpen(false)}
                     className="flex items-center gap-3 p-3 pl-8 rounded-lg hover:bg-gray-100 text-gray-600 hover:text-gray-900 transition-colors"
                   >

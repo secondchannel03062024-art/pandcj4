@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Plus, Search, Edit, Trash2, X, Upload, Image as ImageIcon } from 'lucide-react';
-import { CATEGORIES } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { convertGoogleDriveLink } from '../../../lib/googleDriveUtils';
 import { GoogleDrivePicker } from '../../components/GoogleDrivePicker';
 
 export default function AdminProducts() {
-  const { products, createProduct, updateProduct, deleteProduct: deleteProductDB } = useApp();
+  const { products, categories, createProduct, updateProduct, deleteProduct: deleteProductDB } = useApp();
   const [searchTerm, setSearchTerm] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<typeof products[0] | null>(null);
@@ -213,7 +212,7 @@ export default function AdminProducts() {
     p.sku.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const selectedCategory = CATEGORIES.find(c => c.id === formData.category);
+  const selectedCategory = categories.find(c => c._id === formData.category);
 
   // Calculate discounted price
   const calculateDiscountedPrice = (price: number, offerPercentage: number) => {
@@ -381,8 +380,8 @@ export default function AdminProducts() {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                   >
                     <option value="">Select Category</option>
-                    {CATEGORIES.map(cat => (
-                      <option key={cat.id} value={cat.id}>{cat.name}</option>
+                    {categories.filter(cat => cat.isActive).map(cat => (
+                      <option key={cat._id} value={cat._id}>{cat.name}</option>
                     ))}
                   </select>
                 </div>
@@ -398,7 +397,7 @@ export default function AdminProducts() {
                   >
                     <option value="">Select Sub Category</option>
                     {selectedCategory?.subCategories.map(sub => (
-                      <option key={sub.id} value={sub.id}>{sub.name}</option>
+                      <option key={sub.slug} value={sub.slug}>{sub.name}</option>
                     ))}
                   </select>
                 </div>

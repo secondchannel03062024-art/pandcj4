@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { X, ChevronDown, Home, ShoppingBag, ShoppingCart, Heart, User, Mail, Phone, MapPin, Search } from 'lucide-react';
 import { gsap } from 'gsap';
 import { Link } from 'react-router';
+import { useApp } from '../context/AppContext';
 
 export function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,6 +10,7 @@ export function Sidebar() {
   const modalRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const { categories: appCategories } = useApp();
 
   // Initialize modal position on mount
   useEffect(() => {
@@ -105,35 +107,18 @@ export function Sidebar() {
     setExpandedCategory(expandedCategory === categoryId ? null : categoryId);
   };
 
-  const categories = [
-    {
-      id: 'dyeable',
-      name: 'Dyeable Fabrics',
-      href: '/shop/dyeable-fabrics',
-      subCategories: [
-        { name: 'Silk', href: '/shop/dyeable-fabrics#silk' },
-        { name: 'Linen', href: '/shop/dyeable-fabrics#linen' },
-        { name: 'Cotton', href: '/shop/dyeable-fabrics#cotton' },
-        { name: 'Viscose', href: '/shop/dyeable-fabrics#viscose' },
-        { name: 'Modal', href: '/shop/dyeable-fabrics#modal' }
-      ]
-    },
-    {
-      id: 'printed',
-      name: 'Printed Fabrics',
-      href: '/shop/printed-fabrics'
-    },
-    {
-      id: 'embroidered',
-      name: 'Embroidered Collections',
-      href: '/shop/embroidered-fabrics'
-    },
-    {
-      id: 'lining',
-      name: 'Lining Fabrics',
-      href: '/shop/lining-fabrics'
-    }
-  ];
+  // Use categories from AppContext, transform them to match sidebar structure
+  const categories = appCategories.filter(cat => cat.isActive).map(cat => ({
+    id: cat._id,
+    name: cat.name,
+    href: `/shop/${cat.slug}`,
+    slug: cat.slug,
+    subCategories: cat.subCategories?.map(sub => ({
+      name: sub.name,
+      href: `/shop/${cat.slug}#${sub.slug}`,
+      slug: sub.slug
+    })) || []
+  }));
 
   const quickLinks = [
     { icon: Home, label: 'Home', href: '/' },

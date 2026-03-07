@@ -13,14 +13,14 @@ interface TrendingSectionProps {
 }
 
 export function TrendingSection({ onAddToCart, wishlist, onToggleWishlist }: TrendingSectionProps) {
-  const { products } = useApp();
+  const { products, categories } = useApp();
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  // Get unique categories from products
-  const categories = ['ALL', ...Array.from(new Set(products.map(p => p.category)))];
+  // Get categories from context (all active categories plus 'ALL' for showing all products)
+  const categoryOptions = ['ALL', ...categories.filter(cat => cat.isActive).map(cat => cat.name)];
 
   const filteredProducts = selectedCategory === 'ALL' 
     ? products.slice(0, 6) // Show first 6 products for 'ALL'
@@ -81,7 +81,7 @@ export function TrendingSection({ onAddToCart, wishlist, onToggleWishlist }: Tre
         <h2 className="text-2xl md:text-3xl tracking-tight">Trending</h2>
         
         <div className="flex flex-wrap gap-2">
-          {categories.map((cat) => (
+          {categoryOptions.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
