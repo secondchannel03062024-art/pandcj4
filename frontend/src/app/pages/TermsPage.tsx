@@ -80,7 +80,7 @@ export default function TermsPage() {
 
         <section className="bg-magenta-50 p-6 rounded-lg mt-8">
           <p className="text-sm">
-            If you have any questions about these Terms of Service, please contact us at support@AuraClothings.com
+            If you have any questions about these Terms of Service, please contact us at auraclothings@gmail.com
           </p>
         </section>
       </div>

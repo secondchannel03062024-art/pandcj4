@@ -66,7 +66,7 @@ export const config = {
 
   // Business
   business: {
-    email: import.meta.env.VITE_BUSINESS_EMAIL || 'contact@fabricstore.com',
+    email: import.meta.env.VITE_BUSINESS_EMAIL || 'auraclothings@gmail.com',
     phone: import.meta.env.VITE_BUSINESS_PHONE || '+91-9876543210',
     address: import.meta.env.VITE_BUSINESS_ADDRESS || '123 Fabric Street, Mumbai, India',
   },

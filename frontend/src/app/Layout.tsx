@@ -60,7 +60,7 @@ export default function Layout() {
         <div className="relative">
           <ShoppingCartIcon className="h-full w-full text-gray-700" />
           {totalCartItems > 0 && (
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-golden-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
+            <span className="absolute -top-1 -right-1 w-4 h-4 bg-black text-white text-xs rounded-full flex items-center justify-center font-bold">
               {totalCartItems}
             </span>
           )}
@@ -75,7 +75,7 @@ export default function Layout() {
         <div className="relative">
           <Heart className="h-full w-full text-gray-700" />
           {wishlist.length > 0 && (
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-magenta-600 text-white text-xs rounded-full flex items-center justify-center font-bold">
+            <span className="absolute -top-1 -right-1 w-4 h-4 bg-black text-white text-xs rounded-full flex items-center justify-center font-bold">
               {wishlist.length}
             </span>
           )}

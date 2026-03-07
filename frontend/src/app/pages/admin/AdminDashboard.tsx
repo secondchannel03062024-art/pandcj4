@@ -1,5 +1,5 @@
 import { Outlet, useNavigate, useLocation } from 'react-router';
-import { LayoutDashboard, Package, ShoppingCart, Tag, Image, LogOut, FolderTree, User } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingCart, Tag, Image, LogOut, FolderTree, User, FileText } from 'lucide-react';
 import { useAdmin } from '../../context/AdminContext';
 
 const menuItems = [
@@ -8,7 +8,8 @@ const menuItems = [
   { icon: Package, label: 'Products', path: '/admin/products' },
   { icon: FolderTree, label: 'Categories', path: '/admin/categories' },
   { icon: Tag, label: 'Coupons', path: '/admin/coupons' },
-  { icon: Image, label: 'Banners', path: '/admin/banners' }
+  { icon: Image, label: 'Banners', path: '/admin/banners' },
+  { icon: FileText, label: 'Guidelines', path: '/admin/guidelines' }
 ];
 
 export default function AdminDashboard() {
