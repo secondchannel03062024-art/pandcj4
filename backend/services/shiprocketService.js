@@ -2,7 +2,7 @@ const axios = require('axios');
 
 // Shiprocket API configuration
 const SHIPROCKET_API_BASE_URL = 'https://apiv2.shiprocket.in/v1/external';
-const SHIPROCKET_API_TOKEN = process.env.SHIPROCKET_API_TOKEN;
+const SHIPROCKET_API_KEY = process.env.SHIPROCKET_API_KEY;
 
 // Default shipping rates if Shiprocket is unavailable
 const DEFAULT_SHIPPING_COSTS = {
@@ -13,7 +13,7 @@ const DEFAULT_SHIPPING_COSTS = {
 
 // Shiprocket API headers
 const getHeaders = () => ({
-  'Authorization': `Bearer ${SHIPROCKET_API_TOKEN}`,
+  'Authorization': `Bearer ${SHIPROCKET_API_KEY}`,
   'Content-Type': 'application/json',
 });
 
@@ -32,7 +32,7 @@ const checkServiceability = async (pincode) => {
     }
 
     // Try to use Shiprocket API if token is available
-    if (SHIPROCKET_API_TOKEN) {
+    if (SHIPROCKET_API_KEY) {
       const response = await axios.get(
         `${SHIPROCKET_API_BASE_URL}/courier/serviceability/`,
         {
@@ -54,7 +54,7 @@ const checkServiceability = async (pincode) => {
         message: couriers.length > 0 ? 'Location is serviceable' : 'Location is not serviceable',
       };
     } else {
-      console.warn('[Shipping] ⚠️ SHIPROCKET_API_TOKEN not set - skipping API check');
+      console.warn('[Shipping] ⚠️ SHIPROCKET_API_KEY not set - skipping API check');
     }
 
     // Fallback: Assume all Indian pincodes are serviceable
@@ -95,7 +95,7 @@ const calculateShippingCharges = async (pincode, weight = 0.5, amount = 0) => {
     }
 
     // Try Shiprocket API if available
-    if (SHIPROCKET_API_TOKEN) {
+    if (SHIPROCKET_API_KEY) {
       const response = await axios.get(
         `${SHIPROCKET_API_BASE_URL}/courier/serviceability/`,
         {
@@ -130,7 +130,7 @@ const calculateShippingCharges = async (pincode, weight = 0.5, amount = 0) => {
         };
       }
     } else {
-      console.warn('[Shipping] ⚠️ SHIPROCKET_API_TOKEN not set - using fallback pricing');
+      console.warn('[Shipping] ⚠️ SHIPROCKET_API_KEY not set - using fallback pricing');
     }
 
     // Fallback: Use default pricing based on pincode pattern
