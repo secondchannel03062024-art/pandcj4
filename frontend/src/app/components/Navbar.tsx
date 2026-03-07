@@ -65,8 +65,8 @@ export function Navbar({ }: NavbarProps) {
             <div className="hidden md:flex items-center gap-4">
               {isLoaded && user ? (
                 <>
-                  <Link to="/profile" className="hover:opacity-70 transition-opacity flex items-center">
-                    <span className="text-xs md:text-sm font-semibold tracking-tight text-magenta-600 hover:text-magenta-700">{user.firstName || user.emailAddresses[0]?.emailAddress}</span>
+                  <Link to={`/${(user.firstName || '').toLowerCase()}/profile`} className="hover:opacity-70 transition-opacity flex items-center">
+                    <span className="text-xs md:text-sm font-semibold tracking-tight text-aura-600 hover:text-aura-700">{user.firstName || user.emailAddresses[0]?.emailAddress}</span>
                   </Link>
                   <button
                     onClick={async () => {
@@ -89,7 +89,7 @@ export function Navbar({ }: NavbarProps) {
             <div className="md:hidden flex items-center gap-3">
               {isLoaded && user ? (
                 <>
-                  <Link to="/profile" className="hover:opacity-70 transition-opacity flex items-center">
+                  <Link to={`/${(user.firstName || '').toLowerCase()}/profile`} className="hover:opacity-70 transition-opacity flex items-center">
                     <User size={20} className="text-gray-700" />
                   </Link>
                   <button
@@ -187,7 +187,7 @@ export function Navbar({ }: NavbarProps) {
                 </Link>
 
                 <Link
-                  to="/profile"
+                  to={user ? `/${(user.firstName || '').toLowerCase()}/profile` : '/sign-in'}
                   onClick={() => setIsMenuOpen(false)}
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 text-gray-700 hover:text-gray-900 transition-colors"
                 >

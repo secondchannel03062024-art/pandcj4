@@ -140,7 +140,7 @@ export function Sidebar() {
     { icon: ShoppingBag, label: 'Shop All', href: '/shop' },
     { icon: ShoppingCart, label: 'Cart', href: '/cart' },
     { icon: Heart, label: 'Wishlist', href: '/wishlist' },
-    { icon: User, label: 'Profile', href: '/profile' },
+    { icon: User, label: 'Profile', href: '/profile/me' },
   ];
 
   return (

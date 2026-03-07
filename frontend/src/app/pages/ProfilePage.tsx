@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { Edit2, MapPin, Phone, Mail, LogOut, ChevronRight, Package, Heart, Settings } from 'lucide-react';
 import { gsap } from 'gsap';
 import { useUser, useClerk } from '@clerk/clerk-react';
@@ -8,6 +8,7 @@ import { NoiseButton } from '@/components/ui/noise-button';
 
 export default function ProfilePage() {
   const navigate = useNavigate();
+  const { username } = useParams<{ username?: string }>();
   const { user, isLoaded } = useUser();
   const { signOut } = useClerk();
   const { orders, wishlist } = useApp();
@@ -28,7 +29,23 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    if (!isLoaded || !user) {
+    if (!isLoaded) return;
+
+    // If username is provided in URL, check if it matches current user
+    if (username && user) {
+      const currentUsername = (user.firstName || '').toLowerCase();
+      const urlUsername = username.toLowerCase();
+      
+      // If viewing someone else's profile
+      if (currentUsername !== urlUsername) {
+        // For now, redirect to their own profile
+        // In the future, you could show a public profile view
+        navigate(`/${currentUsername}/profile`);
+        return;
+      }
+    }
+
+    if (!user) {
       if (isLoaded) {
         navigate('/sign-in');
       }
@@ -52,7 +69,7 @@ export default function ProfilePage() {
     }, profileRef);
 
     return () => ctx.revert();
-  }, [isLoaded, user]);
+  }, [isLoaded, user, username, navigate]);
 
   const userEmail = user?.emailAddresses[0]?.emailAddress;
   const userOrders = orders.filter(

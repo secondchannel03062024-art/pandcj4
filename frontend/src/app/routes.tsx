@@ -53,6 +53,7 @@ export const router = createBrowserRouter([
           { path: "order-confirmation/:orderId", Component: OrderConfirmationPage },
           { path: "orders", Component: MyOrdersPage },
           { path: "order/:orderId", Component: OrderDetailPage },
+          { path: ":username/profile", Component: ProfilePage },
           { path: "profile", Component: ProfilePage },
           { path: "sign-in", Component: SignInPage },
           { path: "sign-up", Component: SignUpPage },
