@@ -31,7 +31,7 @@ export default function CheckoutPage() {
     address: '',
     city: '',
     state: '',
-    zipCode: '712103',
+    zipCode: '',
     country: 'India'
   });
 
