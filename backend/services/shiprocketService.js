@@ -37,7 +37,7 @@ const checkServiceability = async (pincode) => {
         `${SHIPROCKET_API_BASE_URL}/courier/serviceability/`,
         {
           params: {
-            pickup_postcode: '400001', // Default pickup location
+            pickup_postcode: '712103', // Warehouse location
             delivery_postcode: pincode,
             weight: 0.5,
             cod: 0,
@@ -53,6 +53,8 @@ const checkServiceability = async (pincode) => {
         couriers,
         message: couriers.length > 0 ? 'Location is serviceable' : 'Location is not serviceable',
       };
+    } else {
+      console.warn('[Shipping] ⚠️ SHIPROCKET_API_TOKEN not set - skipping API check');
     }
 
     // Fallback: Assume all Indian pincodes are serviceable
@@ -98,7 +100,7 @@ const calculateShippingCharges = async (pincode, weight = 0.5, amount = 0) => {
         `${SHIPROCKET_API_BASE_URL}/courier/serviceability/`,
         {
           params: {
-            pickup_postcode: '400001',
+            pickup_postcode: '712103', // Warehouse location
             delivery_postcode: pincode,
             weight,
             cod: amount > 0 ? 1 : 0,
@@ -114,6 +116,7 @@ const calculateShippingCharges = async (pincode, weight = 0.5, amount = 0) => {
           (prev.rate || Infinity) < (current.rate || Infinity) ? prev : current
         );
 
+        console.log(`[Shipping] Shiprocket API - Calculated ₹${cheapestCourier.rate} for ${pincode}`);
         return {
           cost: Math.ceil(cheapestCourier.rate || DEFAULT_SHIPPING_COSTS.nonMetro),
           available: true,
@@ -126,6 +129,8 @@ const calculateShippingCharges = async (pincode, weight = 0.5, amount = 0) => {
           })),
         };
       }
+    } else {
+      console.warn('[Shipping] ⚠️ SHIPROCKET_API_TOKEN not set - using fallback pricing');
     }
 
     // Fallback: Use default pricing based on pincode pattern
@@ -138,7 +143,7 @@ const calculateShippingCharges = async (pincode, weight = 0.5, amount = 0) => {
       courier: 'Standard Courier',
       deliveryDays: '5-7',
       fallbackCost: cost,
-      message: 'Using standard shipping rates',
+      message: `Using distance-based shipping rates (Fallback - ${cost === 40 ? 'Local' : cost === 50 ? 'Regional' : cost === 75 ? 'Metro' : cost === 85 ? 'Tier-2' : cost === 150 ? 'North-East' : cost === 120 ? 'Remote' : 'Standard'})`,
     };
   } catch (error) {
     console.error('[Shipping] Calculate error:', error.message);
@@ -149,7 +154,7 @@ const calculateShippingCharges = async (pincode, weight = 0.5, amount = 0) => {
       cost: fallbackCost,
       available: true,
       fallbackCost,
-      message: 'Shipping calculation not available',
+      message: 'Shipping calculation error - using backup rates',
       error: error.message,
     };
   }
@@ -184,26 +189,51 @@ const validatePincode = (pincode) => {
 /**
  * Get fallback shipping cost based on pincode pattern
  * Used when Shiprocket API is unavailable
+ * Warehouse location: Mumbai (400001)
  * @param {string} pincode - Destination pincode
  * @returns {number} Shipping cost in rupees
  */
 const getFallbackShippingCost = (pincode) => {
-  // Metro areas (Mumbai: 400xxx, Delhi: 110xxx, Bangalore: 560xxx)
-  const metroPatterns = ['400', '110', '560', '700', '411', '452', '201'];
   const pincodeStr = String(pincode).substring(0, 3);
-
-  if (metroPatterns.includes(pincodeStr)) {
-    return DEFAULT_SHIPPING_COSTS.metro;
+  
+  // Zone 1: Same city - Mumbai metro area
+  const zone1Patterns = ['400', '401', '402', '410'];
+  if (zone1Patterns.includes(pincodeStr)) {
+    return 40; // Same city
   }
 
-  // North-East India patterns (higher shipping cost)
+  // Zone 2: Adjacent metros & nearby states (short distance)
+  const zone2Patterns = ['411', '412', '413', '414', '415', '416', '421', '440', '470']; // Pune, nearby areas
+  if (zone2Patterns.includes(pincodeStr)) {
+    return 50;
+  }
+
+  // Zone 3: Major metros (medium distance from warehouse)
+  const zone3Patterns = ['110', '560', '700', '380', '362', '390']; // Delhi, Bangalore, Kolkata, Ahmedabad, Surat, Vadodara
+  if (zone3Patterns.includes(pincodeStr)) {
+    return 75;
+  }
+
+  // Zone 4: Tier-2 cities & states (medium-long distance)
+  const zone4Patterns = ['201', '202', '395', '301', '302', '303', '452']; // Noida, Ghaziabad, Rajkot, Indore, Jaipur, Nashik
+  if (zone4Patterns.includes(pincodeStr)) {
+    return 85;
+  }
+
+  // Zone 5: North-East India (longest distance, remote areas)
   const northEastPatterns = ['794', '788', '797', '798', '799', '713', '761'];
   if (northEastPatterns.includes(pincodeStr)) {
-    return DEFAULT_SHIPPING_COSTS.northEast;
+    return 150;
   }
 
-  // Default non-metro rate
-  return DEFAULT_SHIPPING_COSTS.nonMetro;
+  // Zone 6: Remote/hilly areas
+  const remotePatterns = ['176', '177', '178', '175', '174', '171', '170']; // Himachal Pradesh
+  if (remotePatterns.includes(pincodeStr)) {
+    return 120;
+  }
+
+  // Default: All other areas (rest of India)
+  return 80;
 };
 
 module.exports = {
