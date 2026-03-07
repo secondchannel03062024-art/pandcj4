@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, useSearchParams } from 'react-router';
 import { ProductCard } from '../components/ProductCard';
 import { useApp } from '../context/AppContext';
-import { CATEGORIES } from '../types';
 import { ChevronDown } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -18,7 +17,7 @@ export default function ShopPage() {
   const [priceRange, setPriceRange] = useState([0, 5000]);
   const [sortBy, setSortBy] = useState('featured');
   
-  const { addToCart, wishlist, toggleWishlist, products } = useApp();
+  const { addToCart, wishlist, toggleWishlist, products, categories } = useApp();
   const pageRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -70,7 +69,7 @@ export default function ShopPage() {
     }
   });
 
-  const currentCategory = CATEGORIES.find(cat => cat.id === selectedCategory);
+  const currentCategory = categories.find(cat => cat.slug === selectedCategory);
 
   return (
     <div ref={pageRef} className="min-h-screen">
@@ -136,27 +135,27 @@ export default function ShopPage() {
                 >
                   All Fabrics
                 </button>
-                {CATEGORIES.map(cat => (
-                  <div key={cat.id}>
+                {categories.filter(cat => cat.isActive).map(cat => (
+                  <div key={cat._id}>
                     <button
                       onClick={() => {
-                        setSelectedCategory(cat.id);
+                        setSelectedCategory(cat.slug);
                         setSelectedSubCategory('');
                       }}
                       className={`w-full text-left px-4 py-2 rounded-lg transition-colors ${
-                        selectedCategory === cat.id ? 'bg-black text-white' : 'hover:bg-gray-100'
+                        selectedCategory === cat.slug ? 'bg-black text-white' : 'hover:bg-gray-100'
                       }`}
                     >
                       {cat.name}
                     </button>
-                    {selectedCategory === cat.id && (
+                    {selectedCategory === cat.slug && (
                       <div className="ml-4 mt-2 space-y-1">
-                        {cat.subCategories.map(sub => (
+                        {cat.subCategories?.map((sub: any) => (
                           <button
-                            key={sub.id}
-                            onClick={() => setSelectedSubCategory(sub.id)}
+                            key={sub.slug}
+                            onClick={() => setSelectedSubCategory(sub.slug)}
                             className={`w-full text-left px-4 py-2 rounded-lg text-sm transition-colors ${
-                              selectedSubCategory === sub.id ? 'bg-gray-200' : 'hover:bg-gray-100'
+                              selectedSubCategory === sub.slug ? 'bg-gray-200' : 'hover:bg-gray-100'
                             }`}
                           >
                             {sub.name}
