@@ -17,6 +17,9 @@ export default function CartPage() {
   const total = subtotal + shipping + tax;
 
   useEffect(() => {
+    // Only animate if there are items
+    if (cartItems.length === 0) return;
+
     const ctx = gsap.context(() => {
       gsap.from('.cart-item', {
         x: -50,
