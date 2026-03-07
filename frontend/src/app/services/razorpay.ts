@@ -180,7 +180,11 @@ export interface BackendPaymentOptions {
 }
 
 // Backend API base URL
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || (
+  typeof window !== 'undefined' && window.location.hostname === 'localhost'
+    ? 'http://localhost:5000'
+    : 'https://auraclothings.qzz.io'
+);
 
 // Create order via backend and open Razorpay checkout
 export const initiateBackendRazorpayPayment = async (
