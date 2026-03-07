@@ -454,7 +454,7 @@ function Card5() {
     <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-name="Card">
       <Group1 />
       <p className="col-1 font-['Inter:Medium',sans-serif] font-medium leading-[32px] ml-0 mt-[386px] not-italic relative row-1 text-[#121212] text-[24px] tracking-[-1px]">Casual Shoe</p>
-      <p className="col-1 font-['Inter:Regular',sans-serif] font-normal leading-[28px] ml-0 mt-[422px] not-italic opacity-80 relative row-1 text-[#121212] text-[20px] tracking-[-1px]">$225</p>
+      <p className="col-1 font-['Inter:Regular',sans-serif] font-normal leading-[28px] ml-0 mt-[422px] not-italic opacity-80 relative row-1 text-[#121212] text-[20px] tracking-[-1px]">₹22500</p>
     </div>
   );
 }
@@ -483,7 +483,7 @@ function Card6() {
     <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-name="Card">
       <Group4 />
       <p className="col-1 font-['Inter:Medium',sans-serif] font-medium leading-[32px] ml-0 mt-[386px] not-italic relative row-1 text-[#121212] text-[24px] tracking-[-1px]">Skateboard Shoe</p>
-      <p className="col-1 font-['Inter:Regular',sans-serif] font-normal leading-[28px] ml-0 mt-[422px] not-italic opacity-80 relative row-1 text-[#121212] text-[20px] tracking-[-1px]">$125</p>
+      <p className="col-1 font-['Inter:Regular',sans-serif] font-normal leading-[28px] ml-0 mt-[422px] not-italic opacity-80 relative row-1 text-[#121212] text-[20px] tracking-[-1px]">₹12500</p>
     </div>
   );
 }
@@ -512,7 +512,7 @@ function Card7() {
     <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-name="Card">
       <Group5 />
       <p className="col-1 font-['Inter:Medium',sans-serif] font-medium leading-[32px] ml-0 mt-[386px] not-italic relative row-1 text-[#121212] text-[24px] tracking-[-1px]">Skateboard Shoe</p>
-      <p className="col-1 font-['Inter:Regular',sans-serif] font-normal leading-[28px] ml-0 mt-[422px] not-italic opacity-80 relative row-1 text-[#121212] text-[20px] tracking-[-1px]">$125</p>
+      <p className="col-1 font-['Inter:Regular',sans-serif] font-normal leading-[28px] ml-0 mt-[422px] not-italic opacity-80 relative row-1 text-[#121212] text-[20px] tracking-[-1px]">₹12500</p>
     </div>
   );
 }
@@ -551,7 +551,7 @@ function Card8() {
     <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-name="Card">
       <Group6 />
       <p className="col-1 font-['Inter:Medium',sans-serif] font-medium leading-[32px] ml-0 mt-[386px] not-italic relative row-1 text-[#121212] text-[24px] tracking-[-1px]">Skateboard Shoe</p>
-      <p className="col-1 font-['Inter:Regular',sans-serif] font-normal leading-[28px] ml-0 mt-[422px] not-italic opacity-80 relative row-1 text-[#121212] text-[20px] tracking-[-1px]">$125</p>
+      <p className="col-1 font-['Inter:Regular',sans-serif] font-normal leading-[28px] ml-0 mt-[422px] not-italic opacity-80 relative row-1 text-[#121212] text-[20px] tracking-[-1px]">₹12500</p>
     </div>
   );
 }
@@ -580,7 +580,7 @@ function Card9() {
     <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-name="Card">
       <Group3 />
       <p className="col-1 font-['Inter:Medium',sans-serif] font-medium leading-[32px] ml-0 mt-[386px] not-italic relative row-1 text-[#121212] text-[24px] tracking-[-1px]">Basket Shoe</p>
-      <p className="col-1 font-['Inter:Regular',sans-serif] font-normal leading-[28px] ml-0 mt-[422px] not-italic opacity-80 relative row-1 text-[#121212] text-[20px] tracking-[-1px]">$125</p>
+      <p className="col-1 font-['Inter:Regular',sans-serif] font-normal leading-[28px] ml-0 mt-[422px] not-italic opacity-80 relative row-1 text-[#121212] text-[20px] tracking-[-1px]">₹12500</p>
     </div>
   );
 }
@@ -609,7 +609,7 @@ function Card10() {
     <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0" data-name="Card">
       <Group2 />
       <p className="col-1 font-['Inter:Medium',sans-serif] font-medium leading-[32px] ml-0 mt-[386px] not-italic relative row-1 text-[#121212] text-[24px] tracking-[-1px]">Sportwear Shoe</p>
-      <p className="col-1 font-['Inter:Regular',sans-serif] font-normal leading-[28px] ml-0 mt-[422px] not-italic opacity-80 relative row-1 text-[#121212] text-[20px] tracking-[-1px]">$159</p>
+      <p className="col-1 font-['Inter:Regular',sans-serif] font-normal leading-[28px] ml-0 mt-[422px] not-italic opacity-80 relative row-1 text-[#121212] text-[20px] tracking-[-1px]">₹12500</p>
     </div>
   );
 }

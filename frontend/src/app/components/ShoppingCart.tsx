@@ -74,7 +74,7 @@ export function ShoppingCart({ isOpen, onClose, items, onUpdateQuantity, onRemov
                   />
                   <div className="flex-1">
                     <h3 className="font-medium mb-1">{item.name}</h3>
-                    <p className="text-sm opacity-70 mb-2">${item.price}</p>
+                    <p className="text-sm opacity-70 mb-2">₹{item.price}</p>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => onUpdateQuantity(item.id, Math.max(5, item.cartQuantity - 1))}

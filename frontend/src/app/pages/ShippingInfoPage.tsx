@@ -52,9 +52,9 @@ export default function ShippingInfoPage() {
               </thead>
               <tbody>
                 {[
-                  { method: 'Standard Shipping', domestic: '₹99', international: '$15' },
-                  { method: 'Express Shipping', domestic: '₹199', international: '$30' },
-                  { method: 'Free on Orders Above', domestic: '₹1000+', international: '$100+' }
+                  { method: 'Standard Shipping', domestic: '₹99', international: '₹1000' },
+                  { method: 'Express Shipping', domestic: '₹199', international: '₹2000' },
+                  { method: 'Free on Orders Above', domestic: '₹1000+', international: '₹10000+' }
                 ].map((row, i) => (
                   <tr key={i} className="border-b border-gray-200">
                     <td className="py-3 px-4">{row.method}</td>

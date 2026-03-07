@@ -11,7 +11,7 @@ export default function ProductDetailPage() {
   const { products, addToCart, wishlist, toggleWishlist } = useApp();
   
   const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(5); // Minimum 5 meters
+  const [quantity, setQuantity] = useState(1); // Minimum 1
   const [addedToCart, setAddedToCart] = useState(false);
   const [showZoom, setShowZoom] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
