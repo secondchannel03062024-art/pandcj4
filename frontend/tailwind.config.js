@@ -86,7 +86,11 @@ export default {
       },
       fontFamily: {
         garamond: ["'Garamond', serif"],
+        'dm-serif': ["'DM Serif Text', serif"],
+        'noto-serif': ["'Noto Serif', serif"],
         montserrat: ["'Montserrat', sans-serif"],
+        audiowide: ["'Audiowide', sans-serif"],
+        heebo: ["'Heebo', sans-serif"],
       },
       backgroundImage: {
         'gradient-auth': 'linear-gradient(135deg, #22c55e 0%, #ff9966 100%)',
