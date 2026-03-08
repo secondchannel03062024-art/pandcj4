@@ -35,6 +35,7 @@ const categoryRoutes = require('./routes/categories');
 const userRoutes = require('./routes/users');
 const paymentRoutes = require('./routes/payments');
 const shippingRoutes = require('./routes/shipping');
+const ratingRoutes = require('./routes/ratings');
 const adminAuthRoutes = require('./routes/adminAuth');
 
 // Public routes
@@ -46,6 +47,7 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/shipping', shippingRoutes);
+app.use('/api/ratings', ratingRoutes);
 
 // Admin Authentication Routes (public for login, verify, logout)
 app.use('/api/admin/auth', adminAuthRoutes);
