@@ -14,7 +14,7 @@ export default function ProductDetailPage() {
   const { products, addToCart, wishlist, toggleWishlist } = useApp();
   
   const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(5); // Minimum 5 meters
+  const [quantity, setQuantity] = useState(1); // Minimum 1 
   const [addedToCart, setAddedToCart] = useState(false);
   const [showZoom, setShowZoom] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
@@ -175,7 +175,7 @@ export default function ProductDetailPage() {
 
             <div className="flex items-center gap-4 text-sm">
               <span className={product.quantity > 0 ? 'text-green-600' : 'text-red-600'}>
-                {product.quantity > 0 ? `${product.quantity} meters in stock` : 'Out of stock'}
+                {product.quantity > 0 ? `${product.quantity}  in stock` : 'Out of stock'}
               </span>
             </div>
 
@@ -185,7 +185,7 @@ export default function ProductDetailPage() {
 
             {/* Quantity */}
             <div>
-              <label className="block text-sm font-medium mb-2">Quantity ( in Meters )</label>
+              <label className="block text-sm font-medium mb-2">Quantity</label>
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => setQuantity(Math.max(5, quantity - 1))}
