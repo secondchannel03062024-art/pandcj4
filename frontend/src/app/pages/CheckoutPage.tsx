@@ -174,7 +174,7 @@ export default function CheckoutPage() {
         customerEmail: formData.email,
         customerPhone: formData.phone,
         items: cartItems.map(item => ({
-          productId: item._id,
+          productId: item.id,
           productName: item.name,
           sku: item.sku,
           quantity: item.cartQuantity,
@@ -207,7 +207,7 @@ export default function CheckoutPage() {
           
           setIsProcessing(false);
         },
-        onFailure: (error) => {
+        onFailure: async (error) => {
           console.error('Payment failed:', error);
           
           // Check if it's a configuration error
@@ -223,7 +223,7 @@ export default function CheckoutPage() {
             
             if (shouldContinue) {
               // Demo mode - create order without payment via backend
-              const demoOrder = createOrder({
+              const demoOrder = await createOrder({
                 customerName: `${formData.firstName} ${formData.lastName}`,
                 customerEmail: formData.email,
                 customerPhone: formData.phone,
@@ -235,7 +235,7 @@ export default function CheckoutPage() {
                   country: formData.country
                 },
                 items: cartItems.map(item => ({
-                  productId: item._id,
+                  productId: item.id,
                   productName: item.name,
                   sku: item.sku,
                   quantity: item.cartQuantity,
@@ -499,7 +499,7 @@ export default function CheckoutPage() {
                 {couponError && <p className="text-red-500 text-sm">{couponError}</p>}
                 {appliedCoupon && (
                   <p className="text-green-500 text-sm">
-                    Coupon applied: {appliedCoupon.code} - ${appliedCoupon.discount.toFixed(2)} discount
+                    Coupon applied: {appliedCoupon.code} - ₹{appliedCoupon.discount.toFixed(2)} discount
                   </p>
                 )}
               </div>
@@ -535,7 +535,7 @@ export default function CheckoutPage() {
                     </div>
                     <div className="flex-1">
                       <p className="font-medium">{item.name}</p>
-                      <p className="text-sm opacity-70">Qty: {item.cartQuantity}</p>
+                      <p className="text-sm opacity-70">Qty (m): {item.cartQuantity}</p>
                     </div>
                     <p className="font-medium">₹{(item.price * item.cartQuantity).toFixed(2)}</p>
                   </div>
@@ -545,23 +545,23 @@ export default function CheckoutPage() {
               <div className="border-t pt-4 space-y-3">
                 <div className="flex justify-between">
                   <span className="opacity-70">Subtotal</span>
-                  <span className="font-medium">${subtotal.toFixed(2)}</span>
+                  <span className="font-medium">₹{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="opacity-70">Shipping</span>
-                  <span className="font-medium">${shipping.toFixed(2)}</span>
+                  <span className="font-medium">₹{shipping.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="opacity-70">Discount</span>
-                  <span className="font-medium">-${discount.toFixed(2)}</span>
+                  <span className="font-medium">-₹{discount.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="opacity-70">Tax</span>
-                  <span className="font-medium">${tax.toFixed(2)}</span>
+                  <span className="font-medium">₹{tax.toFixed(2)}</span>
                 </div>
                 <div className="border-t pt-3 flex justify-between text-xl font-bold">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>₹{total.toFixed(2)}</span>
                 </div>
               </div>
             </div>
